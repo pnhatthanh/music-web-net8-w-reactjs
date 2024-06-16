@@ -87,3 +87,12 @@ ALTER TABLE Songs
 ADD COLUMN CategoryID INT,
 ADD COLUMN SongImagePath VARCHAR(255),
 ADD CONSTRAINT FK_CategoryID FOREIGN KEY (CategoryID) REFERENCES Categories(idCategory);
+
+Alter table artists
+drop column AudioFilePath;
+
+alter table songs
+drop column Genre;alter table songs
+drop column Genre;
+
+
