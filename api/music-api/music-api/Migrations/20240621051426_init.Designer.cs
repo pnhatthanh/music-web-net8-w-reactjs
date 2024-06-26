@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using music_api.Data;
 
@@ -11,9 +12,11 @@ using music_api.Data;
 namespace music_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240621051426_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,8 +30,8 @@ namespace music_api.Migrations
                     b.Property<int>("PlayListsPlayListId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SongsSongId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("SongsSongId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("PlayListsPlayListId", "SongsSongId");
 
@@ -39,8 +42,8 @@ namespace music_api.Migrations
 
             modelBuilder.Entity("SongUser", b =>
                 {
-                    b.Property<Guid>("SongsSongId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("SongsSongId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("UsersUserId")
                         .HasColumnType("bigint");
@@ -54,9 +57,11 @@ namespace music_api.Migrations
 
             modelBuilder.Entity("music_api.Models.Album", b =>
                 {
-                    b.Property<Guid>("AlbumId")
+                    b.Property<long>("AlbumId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AlbumId"));
 
                     b.Property<string>("AlbumName")
                         .IsRequired()
@@ -64,10 +69,6 @@ namespace music_api.Migrations
 
                     b.Property<long>("ArtistId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -169,12 +170,14 @@ namespace music_api.Migrations
 
             modelBuilder.Entity("music_api.Models.Song", b =>
                 {
-                    b.Property<Guid>("SongId")
+                    b.Property<long>("SongId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("AlbumId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SongId"));
+
+                    b.Property<long?>("AlbumId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ArtistId")
                         .HasColumnType("bigint");
@@ -182,17 +185,13 @@ namespace music_api.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Duration")
+                    b.Property<int>("ListenCount")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SongImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SongLyrics")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -302,9 +301,7 @@ namespace music_api.Migrations
                 {
                     b.HasOne("music_api.Models.Album", "Album")
                         .WithMany("Songs")
-                        .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AlbumId");
 
                     b.HasOne("music_api.Models.Artist", "artist")
                         .WithMany()
@@ -313,7 +310,7 @@ namespace music_api.Migrations
                         .IsRequired();
 
                     b.HasOne("music_api.Models.Category", "category")
-                        .WithMany("song")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -339,11 +336,6 @@ namespace music_api.Migrations
             modelBuilder.Entity("music_api.Models.Album", b =>
                 {
                     b.Navigation("Songs");
-                });
-
-            modelBuilder.Entity("music_api.Models.Category", b =>
-                {
-                    b.Navigation("song");
                 });
 
             modelBuilder.Entity("music_api.Models.User", b =>

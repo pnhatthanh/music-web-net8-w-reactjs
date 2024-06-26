@@ -19,6 +19,7 @@ namespace music_api.Services
         {
             _context = context;
             _mapper = mapper;
+            _fileHelper = fileHelper; 
         }
         public async Task<Song> CreatSong(SongDTO songDTO)
         {
