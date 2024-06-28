@@ -22,7 +22,7 @@ namespace music_api.Models
         [ForeignKey("CategoryId")]
         public Category? category{ get; set; }
 
-        public long ArtistId{ get; set; }
+        public Guid ArtistId{ get; set; }
          [ForeignKey("ArtistId")]
         public Artist? artist{ get; set; }
 

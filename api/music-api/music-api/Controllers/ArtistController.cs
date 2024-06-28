@@ -71,7 +71,8 @@ namespace music_api.Controllers
         ///     }
 
         [HttpPost]
-        public async Task<IActionResult> AddArtist([FromBody] ArtistDTO request) {
+        
+        public async Task<IActionResult> AddArtist([FromForm] ArtistDTO request) {
             if(!ModelState.IsValid)
             {
                 return BadRequest(new { status = false,

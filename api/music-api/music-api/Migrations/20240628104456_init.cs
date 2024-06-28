@@ -15,12 +15,13 @@ namespace music_api.Migrations
                 name: "artists",
                 columns: table => new
                 {
-                    ArtistId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ArtistName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearOfBirth = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Flowers = table.Column<int>(type: "int", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,12 +58,12 @@ namespace music_api.Migrations
                 name: "albums",
                 columns: table => new
                 {
-                    AlbumId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ArtistId = table.Column<long>(type: "bigint", nullable: false),
+                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AlbumName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,16 +103,16 @@ namespace music_api.Migrations
                 name: "songs",
                 columns: table => new
                 {
-                    SongId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SongId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SongName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SongPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SongImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ListenCount = table.Column<int>(type: "int", nullable: false),
+                    SongLyrics = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ArtistId = table.Column<long>(type: "bigint", nullable: false),
-                    AlbumId = table.Column<long>(type: "bigint", nullable: true)
+                    ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -159,7 +160,7 @@ namespace music_api.Migrations
                 name: "SongUser",
                 columns: table => new
                 {
-                    SongsSongId = table.Column<long>(type: "bigint", nullable: false),
+                    SongsSongId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsersUserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -184,7 +185,7 @@ namespace music_api.Migrations
                 columns: table => new
                 {
                     PlayListsPlayListId = table.Column<int>(type: "int", nullable: false),
-                    SongsSongId = table.Column<long>(type: "bigint", nullable: false)
+                    SongsSongId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,16 +205,6 @@ namespace music_api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayListSong_SongsSongId",
-                table: "PlayListSong",
-                column: "SongsSongId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SongUser_UsersUserId",
-                table: "SongUser",
-                column: "UsersUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_albums_ArtistId",
                 table: "albums",
                 column: "ArtistId");
@@ -222,6 +213,11 @@ namespace music_api.Migrations
                 name: "IX_playlists_UserId",
                 table: "playlists",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayListSong_SongsSongId",
+                table: "PlayListSong",
+                column: "SongsSongId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_songs_AlbumId",
@@ -237,6 +233,11 @@ namespace music_api.Migrations
                 name: "IX_songs_CategoryId",
                 table: "songs",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SongUser_UsersUserId",
+                table: "SongUser",
+                column: "UsersUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_RoleId",

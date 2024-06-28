@@ -30,7 +30,7 @@
             }
 
             //Change file name and add to folder image
-            var uploadFolderPath = Path.Combine(_environment.WebRootPath, "upload\\image");
+            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image");
             if(!Directory.Exists(uploadFolderPath))
             {
                 Directory.CreateDirectory(uploadFolderPath);

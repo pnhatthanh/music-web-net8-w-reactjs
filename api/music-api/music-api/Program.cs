@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using music_api.Data;
+using music_api.Helpers;
 using music_api.Services;
 using music_api.Services.IRepositories;
 
@@ -12,8 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ISongRepository,SongRepository>();
-builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
-builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<AlbumRepository>();
+builder.Services.AddScoped<IArtistRepository,ArtistRepository>();
+builder.Services.AddTransient<FileHelper>();
 
 
 
@@ -29,8 +31,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();

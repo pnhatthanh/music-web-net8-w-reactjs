@@ -11,7 +11,7 @@ namespace music_api.Models
     {
         [Key]
         public Guid AlbumId { get; set; }= Guid.NewGuid();
-        public long ArtistId { get; set; }
+        public Guid ArtistId { get; set; }
         [ForeignKey("ArtistId")]
         public Artist? Artist { get; set; }
         public string AlbumName { get; set; }="";
