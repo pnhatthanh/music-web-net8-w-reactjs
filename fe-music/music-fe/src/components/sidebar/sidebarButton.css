@@ -1,0 +1,27 @@
+a{
+    text-decoration: none !important;
+}
+
+
+.btn-body{
+    text-align: center;
+    color: #F8D9C0;
+    padding: 10px 8px;
+    border-radius: 20px;
+    margin: 5px 0px;
+    transition: all 0.2s ease;
+}
+
+.btn-body:hover{
+    color: white;
+}
+.btn-body.active{
+    background-color: rgb(244, 187, 146);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-title{
+    margin: 0;
+    font-weight: 600;
+}
