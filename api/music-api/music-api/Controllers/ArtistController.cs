@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using music_api.DTOs;
-using music_api.Models;
-using music_api.Services.IRepositories;
+using MusicApi.Data.DTOs;
+using MusicApi.Service.Services.ArtistService;
 
-namespace music_api.Controllers
+namespace MusicApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
     public class ArtistController : ControllerBase
     {
-        private readonly IArtistRepository _artistRepository;
-        public ArtistController(IArtistRepository artistRepository) {
-            _artistRepository = artistRepository;
+        private readonly IArtistService _artistService;
+        public ArtistController(IArtistService artistService) {
+            _artistService = artistService;
         }
 
         /// <summary>
@@ -26,7 +25,7 @@ namespace music_api.Controllers
         {
             try
             {
-                var artists = await _artistRepository.GetAllArtists();
+                var artists = await _artistService.GetAllArtists();
                 return artists.Any() ?
                         Ok(new { status = true, message = "Get data succesfully", data = artists })
                         : NoContent();
@@ -49,7 +48,7 @@ namespace music_api.Controllers
         {
             try
             {
-                var artist =await _artistRepository.GetArtistById(id);
+                var artist =await _artistService.GetArtistById(id);
                 return Ok(new { status = true, message = "Get data succesfully", data = artist });
             }catch (Exception ex)
             {
@@ -81,7 +80,7 @@ namespace music_api.Controllers
             }
             try
             {
-                var artist =await _artistRepository.AddArtist(request);
+                var artist =await _artistService.AddArtist(request);
                 return Ok(new { status = true, message = "Create successfully", data = artist });
             }catch(Exception ex)
             {
