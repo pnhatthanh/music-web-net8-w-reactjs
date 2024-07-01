@@ -44,7 +44,7 @@ namespace MusicApi.Service.Services.AlbumService
             return album;
         }
 
-        public async Task<Album> GetAlbumById(long id)
+        public async Task<Album> GetAlbumById(Guid id)
         {
             var album = await _context.albums.FindAsync(id);
             if (album == null)

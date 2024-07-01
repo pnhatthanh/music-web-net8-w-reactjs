@@ -632,7 +632,6 @@
       },
       "MusicApi.Service/1.0.0": {
         "dependencies": {
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "MusicApi.Data": "1.0.0",
           "MusicApi.Helper": "1.0.0"
         },
