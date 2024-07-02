@@ -30,12 +30,8 @@ D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.IdentityModel.Lo
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.OpenApi.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\System.Drawing.Common.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
@@ -76,4 +72,3 @@ D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\refint\MusicApi.WebApi.dll
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.pdb
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.genruntimeconfig.cache
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\ref\MusicApi.WebApi.dll
-D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.MvcApplicationPartsAssemblyInfo.cs

@@ -22,6 +22,6 @@ namespace MusicApi.Data.Models
         public Role? Role{ get; set; }
 
         public List<PlayList> PlayLists{ get; set; } = new List<PlayList>();
-        public List<Song> Songs{ get;}=[];
+        public List<Song> Songs{ get; set; } =new List<Song>();
     }
 }

@@ -48,7 +48,7 @@ namespace MusicApi.Controllers
         ///     
         /// }
         [HttpPost("add")]
-        public async Task<IActionResult> AddAlbum([FromForm] AlbumDTO albumDTO)
+        public async Task<IActionResult> CreatAlbum([FromForm] AlbumDTO albumDTO)
         {
             if(!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace MusicApi.Controllers
             }
             try
             {
-                var album=_albumService.CreatAlbum(albumDTO);
+                var album=await _albumService.CreatAlbum(albumDTO);
                 return Ok(new { status = true, message = "Create data successfully", data = album });
             }catch (Exception ex)
             {
@@ -91,6 +91,71 @@ namespace MusicApi.Controllers
                 {
                     status = false,
                     message = ex.Message,
+                });
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAlbum(Guid id)
+        {
+            try
+            {
+                await _albumService.DeleteAlbum(id);
+                return Ok(new { status = true, message = "Delete data successfully" });
+            }
+            catch(Exception ex)
+            {
+                return Ok(new { status = false, message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAlbum([FromRoute] Guid id, [FromBody] AlbumDTO albumDTO)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    status = false,
+                    error = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
+                });
+            }
+            try
+            {
+                var album = await _albumService.UpdateAlbum(id, albumDTO);
+                return Ok(new
+                {
+                    status=true,
+                    message="Update successfully",
+                    data=album
+                });
+            }catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new
+                {
+                    status = false,
+                    message = ex.Message
+                });
+            }
+        }
+        [HttpPut("{albumId}/{songId}")]
+        public async Task<IActionResult> AddSongToAlbum([FromRoute] Guid albumId, [FromRoute] Guid songId)
+        {
+            try
+            {
+                await _albumService.AddSongToAlbum(albumId,songId);
+                return Ok(new { status = true, message = "Add song to album successfully" });
+            }catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new
+                {
+                    status = false,
+                    message = ex.Message
                 });
             }
         }

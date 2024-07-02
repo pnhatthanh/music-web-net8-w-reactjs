@@ -11,13 +11,11 @@ namespace MusicApi.Data.Models
     {
         [Key]
         public Guid AlbumId { get; set; }= Guid.NewGuid();
-        public Guid ArtistId { get; set; }
-        [ForeignKey("ArtistId")]
-        public Artist? Artist { get; set; }
         public string AlbumName { get; set; }="";
-        public int ReleaseYear{ get; set; }
         public string ImagePath { get; set; }="";
         public string Description { get; set; } = "";
+
+        public DateTime CreatedTime { get; set; }=DateTime.Now;
 
         public List<Song> Songs { get; set; } = new List<Song>();
     }

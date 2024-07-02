@@ -26,12 +26,11 @@ namespace MusicApi.Data.Models
          [ForeignKey("ArtistId")]
         public Artist? artist{ get; set; }
 
-        public List<PlayList> PlayLists{ get;}=[];
+        public List<PlayList> PlayLists{ get; set; } =new List<PlayList>();
 
-        public List<User> Users{ get;}=[];
+        public List<User> Users{ get; set; } =new List<User>();
 
-        public Guid? AlbumId{ get; set; }
-        [ForeignKey("AlbumId")]
-        public Album? Album  { get; set; }
+        public List<Album> Albums { get; set; } = new List<Album>();
+
     }
 }

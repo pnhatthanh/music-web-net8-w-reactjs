@@ -26,13 +26,13 @@ namespace MusicApi.Service.Services.AlbumService
             _context.albums.Add(album);
             albumDTO.SongIDs.ForEach(async songID =>
             {
-                await AddSongToAlbum(songID, album);
+                await AddSongToAlbum(album.AlbumId,songID);
             });
             await _context.SaveChangesAsync();
             return album;
         }
 
-        public async Task<Album> DeleteAlbum(long id)
+        public async Task<Album> DeleteAlbum(Guid id)
         {
             var album = await _context.albums.FindAsync(id);
             if (album == null)
@@ -46,7 +46,9 @@ namespace MusicApi.Service.Services.AlbumService
 
         public async Task<Album> GetAlbumById(Guid id)
         {
-            var album = await _context.albums.FindAsync(id);
+            var album = await _context.albums
+                .Include(a => a.Songs)
+                .FirstOrDefaultAsync(a=>a.AlbumId==id);
             if (album == null)
             {
                 throw new Exception("Not found");
@@ -71,14 +73,15 @@ namespace MusicApi.Service.Services.AlbumService
             return album;
         }
 
-        public async Task AddSongToAlbum(Guid songId, Album album)
+        public async Task AddSongToAlbum(Guid idAlbum, Guid idSong)
         {
-            Song? song = await _context.songs.FindAsync(songId);
+            Album album = await GetAlbumById(idAlbum);
+            Song? song = await _context.songs.FindAsync();
             if (song == null)
             {
                 throw new Exception("Not found song");
             }
-            song.AlbumId = album.AlbumId;
+            album.Songs.Add(song);
             await _context.SaveChangesAsync();
         }
     }

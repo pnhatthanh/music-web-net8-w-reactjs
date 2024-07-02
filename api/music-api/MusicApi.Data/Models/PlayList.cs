@@ -17,6 +17,6 @@ namespace MusicApi.Data.Models
         [ForeignKey("UserId")]
         public User? User { get; set; }
        
-       public List<Song> Songs{ get;}=[];
+       public List<Song> Songs{ get; set; } =new List<Song>();
     }
 }
