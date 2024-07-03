@@ -2,6 +2,7 @@
 using MusicApi.Helper.Helpers;
 using MusicApi.Service.Services.AlbumService;
 using MusicApi.Service.Services.ArtistService;
+using MusicApi.Service.Services.PlayListService;
 using MusicApi.Service.Services.SongService;
 
 
@@ -14,6 +15,7 @@ namespace MusicApi.Service
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<ISongService, SongService>();
             services.AddScoped<IArtistService, ArtistService>();
+            services.AddScoped<IPlayListService, PlayListService>();
             services.AddScoped<FileHelper>();
             return services;
         }

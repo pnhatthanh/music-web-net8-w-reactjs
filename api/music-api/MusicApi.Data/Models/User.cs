@@ -11,7 +11,7 @@ namespace MusicApi.Data.Models
     {
         [Key]
         [Required]
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public string UserName { get; set; }="";
         public string? Password { get; set; }="";
         public string? ProviderName{ get; set; }="";

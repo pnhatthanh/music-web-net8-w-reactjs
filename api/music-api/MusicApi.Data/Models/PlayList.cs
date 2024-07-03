@@ -10,7 +10,7 @@ namespace MusicApi.Data.Models
     public class PlayList
     {
         [Key]
-        public int PlayListId { get; set; }
+        public Guid PlayListId { get; set; }=Guid.NewGuid();
         public string PlayListName { get; set; }="";
 
         public long UserId { get; set; }
