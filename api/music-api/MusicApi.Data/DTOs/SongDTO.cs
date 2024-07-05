@@ -14,6 +14,7 @@ namespace MusicApi.Data.DTOs
         public int Duration { get; set; }
         public string SongLyrics { get; set; } = "";
         public DateTime ReleaseDate { get; set; } = DateTime.Now;
-        public Guid AlbumId { get; set; }
+        public Guid ArtistId {  get; set; }
+        public int CategoryId { get; set; }
     }
 }

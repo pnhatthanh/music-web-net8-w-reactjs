@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
+using MusicApi.Helper.Helpers;
 using MusicApi.Service.Services.AlbumService;
 
 namespace MusicApi.Controllers
@@ -10,9 +11,11 @@ namespace MusicApi.Controllers
     public class AlbumController : ControllerBase
     {
         private readonly IAlbumService _albumService;
-        public AlbumController(IAlbumService albumService)
+        private readonly FileHelper _fileHelper;
+        public AlbumController(IAlbumService albumService, FileHelper fileHelper)
         {
             this._albumService = albumService;
+            _fileHelper = fileHelper;
         }
 
         /// <summary>
@@ -158,6 +161,17 @@ namespace MusicApi.Controllers
                     message = ex.Message
                 });
             }
+        }
+
+        [HttpGet("image/{imageName}")]
+        public async Task<IActionResult> GetArtistImage(string imageName)
+        {
+            var resource = await _fileHelper.GetFileImage(imageName);
+            if (resource == null)
+            {
+                return NotFound();
+            }
+            return File(resource, "image/jpeg");
         }
     }
 }

@@ -22,8 +22,8 @@ namespace MusicApi.Data.Models
         [ForeignKey("CategoryId")]
         public Category? category{ get; set; }
 
-        public Guid ArtistId{ get; set; }
-         [ForeignKey("ArtistId")]
+        public Guid ArtistId { get; set; }
+        [ForeignKey("ArtistId")]
         public Artist? artist{ get; set; }
 
         public List<PlayList> PlayLists{ get; set; } =new List<PlayList>();

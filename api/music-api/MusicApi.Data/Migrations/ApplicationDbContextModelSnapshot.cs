@@ -123,8 +123,8 @@ namespace MusicApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PlayListId");
 
@@ -195,11 +195,9 @@ namespace MusicApi.Data.Migrations
 
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
-                    b.Property<long>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -244,8 +242,8 @@ namespace MusicApi.Data.Migrations
                     b.Property<Guid>("SongsSongId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("UsersUserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UsersUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("SongsSongId", "UsersUserId");
 

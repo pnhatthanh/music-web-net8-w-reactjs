@@ -20,12 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="upload\image\" />
+    <ProjectReference Include="..\MusicApi.Data\MusicApi.Data.csproj" />
+    <ProjectReference Include="..\MusicApi.Service\MusicApi.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MusicApi.Data\MusicApi.Data.csproj" />
-    <ProjectReference Include="..\MusicApi.Service\MusicApi.Service.csproj" />
+    <Folder Include="upload\" />
   </ItemGroup>
 
 </Project>

@@ -104,8 +104,7 @@ namespace MusicApi.Data.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    UserId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProviderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -151,10 +150,9 @@ namespace MusicApi.Data.Migrations
                 name: "playlists",
                 columns: table => new
                 {
-                    PlayListId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PlayListId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PlayListName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,7 +170,7 @@ namespace MusicApi.Data.Migrations
                 columns: table => new
                 {
                     SongsSongId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersUserId = table.Column<long>(type: "bigint", nullable: false)
+                    UsersUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,7 +193,7 @@ namespace MusicApi.Data.Migrations
                 name: "PlayListSong",
                 columns: table => new
                 {
-                    PlayListsPlayListId = table.Column<int>(type: "int", nullable: false),
+                    PlayListsPlayListId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SongsSongId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

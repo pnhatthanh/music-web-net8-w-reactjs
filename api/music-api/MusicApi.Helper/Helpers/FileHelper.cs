@@ -37,7 +37,7 @@ namespace MusicApi.Helper.Helpers
             {
                 await fileImage.CopyToAsync(stream);
             }
-            return filePath;
+            return fileName;
         }
 
         public async Task<string> UploadFileAudio(IFormFile fileAudio)

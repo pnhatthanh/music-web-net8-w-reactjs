@@ -12,7 +12,7 @@ using MusicApi.Data.Data;
 namespace MusicApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240702175400_init")]
+    [Migration("20240705080949_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -118,18 +118,16 @@ namespace MusicApi.Data.Migrations
 
             modelBuilder.Entity("MusicApi.Data.Models.PlayList", b =>
                 {
-                    b.Property<int>("PlayListId")
+                    b.Property<Guid>("PlayListId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayListId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PlayListName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PlayListId");
 
@@ -200,11 +198,9 @@ namespace MusicApi.Data.Migrations
 
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
-                    b.Property<long>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -231,8 +227,8 @@ namespace MusicApi.Data.Migrations
 
             modelBuilder.Entity("PlayListSong", b =>
                 {
-                    b.Property<int>("PlayListsPlayListId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlayListsPlayListId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SongsSongId")
                         .HasColumnType("uniqueidentifier");
@@ -249,8 +245,8 @@ namespace MusicApi.Data.Migrations
                     b.Property<Guid>("SongsSongId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("UsersUserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UsersUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("SongsSongId", "UsersUserId");
 
@@ -288,7 +284,7 @@ namespace MusicApi.Data.Migrations
             modelBuilder.Entity("MusicApi.Data.Models.Song", b =>
                 {
                     b.HasOne("MusicApi.Data.Models.Artist", "artist")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -343,6 +339,11 @@ namespace MusicApi.Data.Migrations
                         .HasForeignKey("UsersUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MusicApi.Data.Models.Artist", b =>
+                {
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("MusicApi.Data.Models.Category", b =>
