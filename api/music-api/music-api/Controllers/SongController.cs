@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
+using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
 using MusicApi.Service.Services.SongService;
 

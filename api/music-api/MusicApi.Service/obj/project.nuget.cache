@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "62Ml7DVmE2te1eCUuU8VpIsPEMMAZXse7kOGB0hwK7TvvrnLRDNWVmaVoPNNQ4NESqCAAmvcKJZ+MpDq/ITEuw==",
+  "dgSpecHash": "xkVi99r21a+q+lDMC03eak3hci6kdwZhQaKCM/qAbuuHZte2SmuKigUOv3bAYWv/ghcjUAf0HSACjUvxcvucxg==",
   "success": true,
   "projectFilePath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.http\\2.2.2\\microsoft.aspnetcore.http.2.2.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
