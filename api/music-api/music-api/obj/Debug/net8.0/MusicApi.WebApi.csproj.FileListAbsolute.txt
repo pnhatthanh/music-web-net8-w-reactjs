@@ -72,3 +72,5 @@ D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\refint\MusicApi.WebApi.dll
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.pdb
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.genruntimeconfig.cache
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\ref\MusicApi.WebApi.dll
+D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

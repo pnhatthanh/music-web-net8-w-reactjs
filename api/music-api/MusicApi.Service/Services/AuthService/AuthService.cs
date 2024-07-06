@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
+using MusicApi.Data.Migrations;
 using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
 using System;
@@ -28,16 +29,9 @@ namespace MusicApi.Service.Services.AuthService
             if(!BCrypt.Net.BCrypt.Verify(req.Password, user.Password)){
                 throw new Exception("Incorrect username or password");
             }
-            Token refereshToken = new Token()
-            {
-                RefereshToken = _jwtHelper.GenerateRefereshToken(),
-                CreatedAt=long.Parse(DateTime.UtcNow.ToString()),
-                ExpirationTime=long.Parse(DateTime.UtcNow.AddDays(10).ToString()),
-                isRevoked=false,
-                user = user,
-            };
+            Token refereshToken = _jwtHelper.GenerateRefereshToken(user.UserId);
             var accessToken = _jwtHelper.GenerateAccessToken(user);
-            //add token to database
+            _context.tokens.Add(refereshToken);
             await _context.SaveChangesAsync();
             return new TokenDTO
             {
@@ -45,15 +39,39 @@ namespace MusicApi.Service.Services.AuthService
                 RefereshToken=refereshToken.RefereshToken
             };
         }
-
-        public Task Logout()
+        public async Task Logout(TokenDTO token)
         {
-            throw new NotImplementedException();
+            var refereshToken =await _context.tokens.FirstOrDefaultAsync(t => t.RefereshToken == token.RefereshToken);
+            if (refereshToken == null)
+            {
+                throw new Exception("Invalid token");
+            }
+            _context.tokens.Remove(refereshToken);
+            await _context.SaveChangesAsync();
         }
-
-        public Task<UserDTO> Register()
+        public async Task<TokenDTO> VerifyAndGenerateToken(string refereshToken)
         {
-            throw new NotImplementedException();
+            var token = await _context.tokens
+                .Include(u=>u.User)
+                .FirstOrDefaultAsync(t => t.RefereshToken == refereshToken);
+            if(token == null)
+            {
+                throw new Exception("Token invalid");
+            }
+            if (token.IsRevoked == true || token.ExpirationTime < long.Parse(DateTime.UtcNow.ToString()))
+            {
+                throw new Exception("Token is expired");
+            }
+            _context.tokens.Remove(token);
+            Token newRefereshToken = _jwtHelper.GenerateRefereshToken(token.userId);
+            var accessToken = _jwtHelper.GenerateAccessToken(token.User!);
+            _context.tokens.Add(newRefereshToken);
+            await _context.SaveChangesAsync();
+            return new TokenDTO
+            {
+                AccessToken = accessToken,
+                RefereshToken = newRefereshToken.RefereshToken
+            };
         }
     }
 }

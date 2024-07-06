@@ -193,6 +193,34 @@ namespace MusicApi.Data.Migrations
                     b.ToTable("songs");
                 });
 
+            modelBuilder.Entity("MusicApi.Data.Models.Token", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ExpirationTime")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RefereshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("tokens");
+                });
+
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -297,6 +325,15 @@ namespace MusicApi.Data.Migrations
                     b.Navigation("category");
                 });
 
+            modelBuilder.Entity("MusicApi.Data.Models.Token", b =>
+                {
+                    b.HasOne("MusicApi.Data.Models.User", null)
+                        .WithMany("tokens")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
                     b.HasOne("MusicApi.Data.Models.Role", "Role")
@@ -351,6 +388,8 @@ namespace MusicApi.Data.Migrations
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
                     b.Navigation("PlayLists");
+
+                    b.Navigation("tokens");
                 });
 #pragma warning restore 612, 618
         }

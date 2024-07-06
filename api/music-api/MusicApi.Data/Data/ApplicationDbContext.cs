@@ -15,5 +15,6 @@ namespace MusicApi.Data.Data
         public DbSet<Role> roles { get; set; }
         public DbSet<Song> songs { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<Token> tokens { get; set; } 
     }
 }

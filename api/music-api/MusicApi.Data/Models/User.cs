@@ -23,5 +23,7 @@ namespace MusicApi.Data.Models
 
         public List<PlayList> PlayLists{ get; set; } = new List<PlayList>();
         public List<Song> Songs{ get; set; } =new List<Song>();
+
+        public List<Token> tokens { get; set; }=new List<Token>();
     }
 }

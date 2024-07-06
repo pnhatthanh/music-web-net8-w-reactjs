@@ -10,7 +10,8 @@ namespace MusicApi.Service.Services.AuthService
     public interface IAuthService
     {
         Task<TokenDTO> Login(LoginDTO req);
-        Task<UserDTO> Register();
-        Task Logout();
+        Task Logout(TokenDTO tokenDTO);
+
+        Task<TokenDTO> VerifyAndGenerateToken(string refereshToken);
     }
 }

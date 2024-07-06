@@ -44,9 +44,16 @@ namespace MusicApi.Helper.Helpers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string GenerateRefereshToken()
-        {
-            return Guid.NewGuid().ToString().Substring(0,64);
+        public Token GenerateRefereshToken(Guid userId)
+        { 
+            return new Token()
+            {
+                RefereshToken = Guid.NewGuid().ToString().Substring(0, 64),
+                CreatedAt = long.Parse(DateTime.UtcNow.ToString()),
+                ExpirationTime = long.Parse(DateTime.UtcNow.AddMinutes(10).ToString()),
+                IsRevoked = false,
+                userId = userId,
+            };
         }
     }
 }
