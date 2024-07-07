@@ -4,6 +4,6 @@ namespace MusicApi.Service.Services.UserService
 {
     public interface IUserService
     {
-        Task<UserDTO> CreateAccount(UserDTO userDTO);
+        Task<UserDTO> CreateAccount(RegisterDTO registerDTO);
     }
 }

@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MusicApi.Data.DTOs;
+using MusicApi.Service.Services.AuthService;
+
+namespace music_api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly IAuthService _authService;
+        public AuthController(IAuthService authService)
+        {
+            this._authService = authService;
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO req)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    status = false,
+                    message = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
+                });
+            }
+            try
+            {
+                var token = await _authService.Login(req);
+                return Ok(new
+                {
+                    status = true,
+                    message = "Login successfully",
+                    data = token
+                });
+            }catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new
+                {
+                    status=false, message=ex.Message
+                });
+            } 
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(TokenDTO tokenDTO)
+        {
+            try
+            {
+                await _authService.Logout(tokenDTO);
+                return Ok( new
+                {
+                    status = true, message = "Logout successfully"
+                });
+            }catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    status = false, message = ex.Message
+                });
+            }
+        }
+        [HttpPost("referesh")]
+        public async Task<IActionResult> RefereshAccout([FromBody] string refereshToken)
+        {
+            try
+            {
+                var token = await _authService.VerifyAndGenerateToken(refereshToken);
+                return Ok(new
+                {
+                    status = true, message = "Referesh successfully", data = token
+                });
+            }catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    status = false, message = ex.Message
+                });
+            }
+        }
+    }
+}
