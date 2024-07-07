@@ -74,7 +74,7 @@ namespace MusicApi.Service.Services.PlayListService
 
         public async Task<List<PlayList>> GetPlayListsOfUser(Guid userId)
         {
-            return await _context.playlists.ToListAsync();
+            return await _context.playlists.Where(p=>p.UserId==userId).ToListAsync();
         }
 
         public async Task<PlayList> UpdatePlayList(Guid id, PlayListDTO playListDTO)

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MusicApi.Data.Migrations;
 using MusicApi.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,7 @@ namespace MusicApi.Helper.Helpers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, user.Role!.RoleName),
                 new Claim(JwtRegisteredClaimNames.Sub,_config.GetSection("Jwt:Subject").Value ?? 
                     throw new InvalidOperationException("Occur error internal")),

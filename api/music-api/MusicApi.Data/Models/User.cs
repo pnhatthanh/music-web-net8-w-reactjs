@@ -19,7 +19,7 @@ namespace MusicApi.Data.Models
 
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
-        public Role? Role{ get; set; }
+        public virtual Role? Role{ get; set; }
 
         public List<PlayList> PlayLists{ get; set; } = new List<PlayList>();
         public List<Song> Songs{ get; set; } =new List<Song>();
