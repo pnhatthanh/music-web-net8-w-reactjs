@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import icons from '../ultis/icon'
 
 const { FaHeart, GiNextButton, FaPlay, IoPlaySkipBack, IoMdPause, LiaRandomSolid, FaVolumeHigh, IoRepeat }=icons
 
 export default function Player() {
+    const audio=new Audio();
+    audio.src="";
+    console.log(audio)
+    audio.play();
+
+    const [statePlay,settPlay]=useState(false)
+
+    const handelPlay = ()=>{
+        settPlay(prev=>!prev)
+    }
+
   return (
     <div className='flex h-full bg-teal-900 '>
         <div className='mx-6 h-full w-[25%] flex-auto flex gap-4 items-center text-white '>
@@ -26,11 +37,14 @@ export default function Player() {
                 <span>00:00</span>
             </div>
             <div className='flex justify-center items-center gap-10 text-white'>
-                <IoRepeat size={30}/>
-                <IoPlaySkipBack size={30}/>
-                <IoMdPause size={30}/>
-                <GiNextButton size={30}/>
-                <LiaRandomSolid size={30}/>
+                <span className='cursor-pointer'><IoRepeat size={30}/></span>
+                <span className='cursor-pointer'><IoPlaySkipBack size={30}/></span>
+                
+                <span onClick={handelPlay} className='cursor-pointer transition-all'> 
+                    {statePlay ? <FaPlay size={30}/> : <IoMdPause size={30}/>}
+                </span>
+                <span className='cursor-pointer'><GiNextButton size={30}/></span>
+                <span className='cursor-pointer'><LiaRandomSolid size={30}/></span>
             </div>
         </div>
         <div className='w-[25%] flex-auto text-white h-full flex items-center justify-center gap-2'>

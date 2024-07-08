@@ -12,7 +12,7 @@ export default function Public() {
           <div className='flex-auto'> 
             <Outlet/>
           </div>
-          <div className='w-[330px]  flex-none'>
+          <div className='w-[300px]  flex-none'>
             <SideBarRight/>
           </div>
       </div>
