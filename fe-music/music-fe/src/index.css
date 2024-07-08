@@ -1,4 +1,6 @@
-@import url( ./shared/globalStyle.css);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
