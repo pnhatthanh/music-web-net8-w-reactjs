@@ -6,15 +6,23 @@ const { FaHeart, IoPlaySkipForward, IoPlay, IoPlaySkipBack, IoMdPause, LiaRandom
 export default function Player() {
     const audio=useRef(new Audio())
     const [statePause,settPlay]=useState(true)
+    const [currentTime, setCurrentTime]=useState(0);
+
     useEffect(()=>{
         audio.current.src='https://cdn.pixabay.com/audio/2022/11/11/audio_84306ee149.mp3'
         audio.current.load();
+        const updateTime = () => setCurrentTime(audio.current.currentTime);
+        audio.current.addEventListener('timeupdate', updateTime);
+        return () => audio.current.removeEventListener('timeupdate', updateTime);
     },[]);
+
     const handelPlay = ()=>
         settPlay(prev=>{
             prev==true ? audio.current.play() :  audio.current.pause();
+            
             return !prev;
         })
+    
   return (
     <div className='flex h-full bg-teal-900 '>
         <div className='mx-6 h-full w-[25%] flex-auto flex gap-4 items-center text-white '>
@@ -28,7 +36,7 @@ export default function Player() {
         </div>
         <div className='w-[50%] h-full flex-auto flex flex-col justify-center gap-2'>
             <div className='flex justify-center gap-2 text-slate-300'>
-                <span>{audio.current.currentTime}</span>
+                <span>{currentTime}</span>
                 <input
                         type="range"
                         className='w-[70%] '
