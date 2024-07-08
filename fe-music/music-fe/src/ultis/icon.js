@@ -3,13 +3,13 @@ import { MdOutlineLibraryMusic } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { MdAlbum } from "react-icons/md";
-import { GiNextButton } from "react-icons/gi";
-import { FaPlay } from "react-icons/fa";
 import { IoPlaySkipBack } from "react-icons/io5";
 import { IoMdPause } from "react-icons/io";
 import { LiaRandomSolid } from "react-icons/lia";
 import { FaVolumeHigh } from "react-icons/fa6";
 import { IoRepeat } from "react-icons/io5";
+import { IoPlaySkipForward } from "react-icons/io5";
+import { IoPlay } from "react-icons/io5";
 
 
 const icons={
@@ -18,9 +18,9 @@ const icons={
     FaUserFriends,
     FaHeart,
     MdAlbum, 
-    GiNextButton,
-    FaPlay,
     IoPlaySkipBack,
+    IoPlay,
+    IoPlaySkipForward,
     IoMdPause,
     LiaRandomSolid,
     FaVolumeHigh,
