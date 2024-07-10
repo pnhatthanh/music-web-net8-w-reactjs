@@ -1,6 +1,7 @@
 const paths={
     PUBLIC: "/*",
     HOME: "",
-    LOGIN: "login"
+    ALBUM: "album",
+    ALBUM_TITLE_ID: 'album/:title/:id'
 }
 export default paths

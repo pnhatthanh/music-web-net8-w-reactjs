@@ -10,8 +10,6 @@ import { FaVolumeHigh } from "react-icons/fa6";
 import { IoRepeat } from "react-icons/io5";
 import { IoPlaySkipForward } from "react-icons/io5";
 import { IoPlay } from "react-icons/io5";
-
-
 const icons={
     FaHome,
     MdOutlineLibraryMusic,
@@ -24,6 +22,6 @@ const icons={
     IoMdPause,
     LiaRandomSolid,
     FaVolumeHigh,
-    IoRepeat
+    IoRepeat,
 }
 export default icons;
