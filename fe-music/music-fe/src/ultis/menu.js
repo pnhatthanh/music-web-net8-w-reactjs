@@ -24,7 +24,7 @@ export const sidebarMenu=[
     },
     {
         path: 'my-playlist',
-        text: 'Playlists',
+        text: 'My Playlists',
         icon: <MdOutlineLibraryMusic size={24}/>
     },
 ]
