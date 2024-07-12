@@ -1,13 +1,15 @@
 import React from 'react'
 import Carousel from '../components/Carousel'
 import SongItem from '../components/SongItem'
+import AlbumItem from '../components/AlbumItem'
+import ArtistItem from '../components/ArtistItem'
 
 export default function Home() {
   return (
-    <div>
+    <div className='px-2'>
       <Carousel/>
       <h3 className='text-xl font-bold text-white pt-2'>Discover</h3>
-      <div className='grid grid-cols-4 grid-rows-2'>
+      <div className='grid grid-cols-4 grid-rows-2 mt-2'>
         <SongItem 
           thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
           title="Shape of you"
@@ -51,21 +53,46 @@ export default function Home() {
 
       </div>
       <h3 className='text-xl font-bold text-white pt-2'>Recommended album</h3>
-      <div>
-      <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
-        <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
+      <div className='grid grid-cols-4 grid-rows-1 gap-x-3 mt-2'>
+         <AlbumItem 
+            thumbnail="https://bazaarvietnam.vn/wp-content/uploads/2023/03/Album-moi-cua-MCK.jpg"
+            title="99%"
+            artists="RPT MCK"
+          />
+          <AlbumItem 
+            thumbnail="https://bazaarvietnam.vn/wp-content/uploads/2023/03/Album-moi-cua-MCK.jpg"
+            title="99%"
+            artists="RPT MCK"
+          />
+          <AlbumItem 
+            thumbnail="https://bazaarvietnam.vn/wp-content/uploads/2023/03/Album-moi-cua-MCK.jpg"
+            title="99%"
+            artists="RPT MCK"
+          />
+          <AlbumItem 
+            thumbnail="https://bazaarvietnam.vn/wp-content/uploads/2023/03/Album-moi-cua-MCK.jpg"
+            title="99%"
+            artists="RPT MCK"
+          />
       </div>
       <h3 className='text-xl font-bold text-white pt-2'>Best of artists</h3>
-      <div>
-
+      <div className='grid grid-cols-4 grid-rows-1 gap-x-4 mt-2'>
+        <ArtistItem
+          thumbnail="https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg"
+            name="Son Tung MTP"
+        />
+        <ArtistItem
+          thumbnail="https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg"
+            name="Son Tung MTP"
+        />
+        <ArtistItem
+          thumbnail="https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg"
+            name="Son Tung MTP"
+        />
+        <ArtistItem
+          thumbnail="https://i1.sndcdn.com/artworks-i0nLuYBs0dR2nsn4-AkxVlg-t500x500.jpg"
+            name="Son Tung MTP"
+        />
       </div>
     </div>
   )
