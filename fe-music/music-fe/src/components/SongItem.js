@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 
  function SongItem(props) {
   return (
-    <div className='flex items-center rounded-xl px-2 py-2 gap-3 h-full w-full'>
+    <div className='flex items-center rounded-xl px-2 py-2 gap-3 h-full w-full cursor-pointer hover:bg-teal-900 '>
         <img className='h-[60px] w-[60px] object-cover rounded-lg' src={props.thumbnail} alt="Imgae Song"/>
         <div>
             <h3 className='font-medium text-base text-slate-300 '>{props.title}</h3>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home, AlbumDetail, Public, Album} from './screens/';
+import {Home, AlbumDetail, Public, Album, Artist} from './screens/';
 import {Routes, Route} from 'react-router-dom';
 import paths from './ultis/path';
 export default function App() {
@@ -10,6 +10,7 @@ export default function App() {
           <Route path={paths.HOME} element={<Home/>}/>
           <Route path={paths.ALBUM_TITLE_ID} element={<AlbumDetail />}/>
           <Route path={paths.ALBUM} element= {<Album />}/>
+          <Route path={paths.ARTIST} element= {<Artist/>}/>
         </Route>
       </Routes>
     </div>

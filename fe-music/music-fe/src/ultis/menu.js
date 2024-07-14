@@ -8,7 +8,7 @@ export const sidebarMenu=[
         icon: <FaHome size={24}/>
     },
     {
-        path: 'album',
+        path: 'albums',
         text: 'Album',
         icon: <MdAlbum size={24}/>
     },
