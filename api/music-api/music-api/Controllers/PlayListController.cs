@@ -49,7 +49,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpPut("add/song")]
-        public async Task<IActionResult> AddSongToPlayList([FromBody] Guid idPlayList, [FromBody] Guid idSong)
+        public async Task<IActionResult> AddSongToPlayList( Guid idPlayList, Guid idSong)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpPut("remove/song")]
-        public async Task<IActionResult> RemoveSongFromPlayList([FromBody] Guid idPlayList, [FromBody] Guid idSong)
+        public async Task<IActionResult> RemoveSongFromPlayList( Guid idPlayList, Guid idSong)
         {
             try
             {

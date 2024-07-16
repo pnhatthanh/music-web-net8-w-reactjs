@@ -1,44 +1,101 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 
 namespace MusicApi.Helper.Helpers
 {
     public class FileHelper
     {
-        public async Task<string> UploadFileImage(IFormFile fileImage)
+        //Upload file in sql server
+        private readonly SqlConnection _connection;
+        public FileHelper()
         {
-            //Check file empty
-            if(fileImage.Length == 0)
+            _connection = new SqlConnection("Server=ADMIN;Database=MusicFile;Trusted_Connection=True;TrustServerCertificate=True");
+        }
+        public async Task<string> UploadFileImage(IFormFile file)
+        {
+            if (file.Length == 0)
             {
                 throw new ArgumentException("File image cannot empty");
             }
             //Check size < 2MB
-            if(fileImage.Length > 2*1024*1024)
+            if (file.Length > 2 * 1024 * 1024)
             {
                 throw new ArgumentException("File is too large. Maximum allowed size is 2Mb");
             }
-
             //Check extension
             var validExtension = new[] { ".png", ".jpg" };
-            var fileExtension=Path.GetExtension(fileImage.FileName).ToLowerInvariant();
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!Array.Exists(validExtension, extention => extention == fileExtension))
             {
                 throw new ArgumentException("Invalid file extension. Only .png, .jpg are allowed");
             }
-
-            //Change file name and add to folder image
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image");
-            if(!Directory.Exists(uploadFolderPath))
+            var fileName = Guid.NewGuid().ToString() + fileExtension;
+            await _connection.OpenAsync();
+            var command = new SqlCommand("INSERT INTO MusicImage (NameImage, FileImage) " +
+                "VALUES (@FileName, @MusicFile)", _connection);
+            command.Parameters.AddWithValue("@FileName", fileName);
+            command.Parameters.AddWithValue("@MusicFile", await ConvertToByteArrayAsync(file));
+            try
             {
-                Directory.CreateDirectory(uploadFolderPath);
+                await command.ExecuteNonQueryAsync();
             }
-            var fileName=Guid.NewGuid().ToString()+fileExtension;
-            var filePath=Path.Combine(uploadFolderPath, fileName);
-            using (var stream= new FileStream(filePath, FileMode.Create))
+            catch (Exception)
             {
-                await fileImage.CopyToAsync(stream);
+                _connection.Close();
+                throw;
             }
+            _connection.Close();
             return fileName;
         }
+
+        private async Task<byte[]> ConvertToByteArrayAsync(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+
+
+
+        //Upload file in directory
+
+        //public async Task<string> UploadFileImage(IFormFile fileImage)
+        //{
+        //    //Check file empty
+        //    if(fileImage.Length == 0)
+        //    {
+        //        throw new ArgumentException("File image cannot empty");
+        //    }
+        //    //Check size < 2MB
+        //    if(fileImage.Length > 2*1024*1024)
+        //    {
+        //        throw new ArgumentException("File is too large. Maximum allowed size is 2Mb");
+        //    }
+
+        //    //Check extension
+        //    var validExtension = new[] { ".png", ".jpg" };
+        //    var fileExtension=Path.GetExtension(fileImage.FileName).ToLowerInvariant();
+        //    if (!Array.Exists(validExtension, extention => extention == fileExtension))
+        //    {
+        //        throw new ArgumentException("Invalid file extension. Only .png, .jpg are allowed");
+        //    }
+
+        //    //Change file name and add to folder image
+        //    var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image");
+        //    if(!Directory.Exists(uploadFolderPath))
+        //    {
+        //        Directory.CreateDirectory(uploadFolderPath);
+        //    }
+        //    var fileName=Guid.NewGuid().ToString()+fileExtension;
+        //    var filePath=Path.Combine(uploadFolderPath, fileName);
+        //    using (var stream= new FileStream(filePath, FileMode.Create))
+        //    {
+        //        await fileImage.CopyToAsync(stream);
+        //    }
+        //    return fileName;
+        //}
 
         public async Task<string> UploadFileAudio(IFormFile fileAudio)
         {

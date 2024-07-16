@@ -21,6 +21,7 @@ namespace MusicApi.Service
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService,AuthService>();
             services.AddScoped<FileHelper>();
+            services.AddScoped<JwtTokenHelper>();
             return services;
         }
     }

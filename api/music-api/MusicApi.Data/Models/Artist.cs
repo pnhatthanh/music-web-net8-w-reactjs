@@ -15,7 +15,7 @@ namespace MusicApi.Data.Models
         public string Country{ get; set; }="";
         public int YearOfBirth{ get; set; }
         public string ImagePath{ get; set; }="";
-        public int Flowers { get; set; } = 0;
+        public int Followers { get; set; } = 0;
         public string About { get; set; } = "";
         public List<Song> Songs { get; set; } = new List<Song>();   
     }

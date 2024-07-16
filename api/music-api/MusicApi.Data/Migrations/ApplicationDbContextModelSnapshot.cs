@@ -81,7 +81,7 @@ namespace MusicApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Flowers")
+                    b.Property<int>("Followers")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
@@ -228,6 +228,7 @@ namespace MusicApi.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderId")
@@ -327,11 +328,13 @@ namespace MusicApi.Data.Migrations
 
             modelBuilder.Entity("MusicApi.Data.Models.Token", b =>
                 {
-                    b.HasOne("MusicApi.Data.Models.User", null)
+                    b.HasOne("MusicApi.Data.Models.User", "User")
                         .WithMany("tokens")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>

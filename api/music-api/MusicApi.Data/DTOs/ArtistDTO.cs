@@ -13,7 +13,7 @@ namespace MusicApi.Data.DTOs
         public int YearOfBirth { get; set; }
         [Required(ErrorMessage ="Image's artist cannot empty")]
         public IFormFile Image { get; set; }
-        public int Flowers { get; set; } = 0;
+        public int Followers { get; set; } = 0;
         public string About { get; set; } = "";
     }
 }
