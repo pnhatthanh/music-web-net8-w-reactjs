@@ -22,7 +22,7 @@ namespace MusicApi.Service.Services.ArtistService
         public async Task<Artist> AddArtist(ArtistDTO artistDTO)
         {
             Artist artist = _mapper.Map<Artist>(artistDTO);
-            artist.ImagePath = await _fileHelper.UploadFileImage(artistDTO.Image);
+            artist.ImagePath = await _fileHelper.UploadFileImage(artistDTO.Image!);
             _context.artists.Add(artist);
             await _context.SaveChangesAsync();
             return artist;

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MusicApi.Data.Data;
+using MusicApi.Helper.Helpers;
 using MusicApi.Service;
 using System.Text;
 
@@ -12,9 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
+builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
+builder.Services.AddMusicService();
 var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuer = true,
@@ -41,7 +41,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddMusicService();
+
 
 var app = builder.Build();
 

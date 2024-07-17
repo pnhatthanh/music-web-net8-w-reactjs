@@ -31,7 +31,7 @@ namespace MusicApi.Helper.Helpers
             }
             var fileName = Guid.NewGuid().ToString() + fileExtension;
             await _connection.OpenAsync();
-            var command = new SqlCommand("INSERT INTO MusicImage (NameImage, FileImage) " +
+            var command = new SqlCommand("INSERT INTO Images(NameImage, FileImage) " +
                 "VALUES (@FileName, @MusicFile)", _connection);
             command.Parameters.AddWithValue("@FileName", fileName);
             command.Parameters.AddWithValue("@MusicFile", await ConvertToByteArrayAsync(file));
@@ -46,6 +46,30 @@ namespace MusicApi.Helper.Helpers
             }
             _connection.Close();
             return fileName;
+        }
+
+        public async Task<byte[]> GetFileImage(string fileName)
+        {
+            
+            SqlCommand command = new SqlCommand("SELECT FileImage FROM Images WHERE NameImage = @FileName", _connection);
+            command.Parameters.AddWithValue("@FileName", fileName);
+            try
+            {
+                await _connection.OpenAsync();
+                var reader = await command.ExecuteReaderAsync();
+                if (await reader.ReadAsync() == true)
+                {
+                    return (byte[])reader["FileImage"];
+                }
+                else
+                {
+                    throw new Exception("Not found");
+                }
+            }catch(Exception)
+            {
+                _connection?.Close();
+                throw;
+            }
         }
 
         private async Task<byte[]> ConvertToByteArrayAsync(IFormFile file)
@@ -134,11 +158,11 @@ namespace MusicApi.Helper.Helpers
             return fileName;
         }
 
-        public async Task<byte[]> GetFileImage(string fileName)
-        {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image", fileName);
-            return await File.ReadAllBytesAsync(filePath);
-        }
+        //public async Task<byte[]> GetFileImage(string fileName)
+        //{
+        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image", fileName);
+        //    return await File.ReadAllBytesAsync(filePath);
+        //}
         public async Task<byte[]> GetFileAudio(string fileName)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio", fileName);
