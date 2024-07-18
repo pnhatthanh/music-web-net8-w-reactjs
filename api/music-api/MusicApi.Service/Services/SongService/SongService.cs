@@ -37,7 +37,7 @@ namespace MusicApi.Service.Services.SongService
             {
                 throw new ArgumentException("Not found song");
             }
-            _fileHelper.DeleteImageFile(song.SongImagePath);
+            await _fileHelper.DeleteImageFile(song.SongImagePath);
             _fileHelper.DeleteAudioFile(song.SongPath);
             _context.songs.Remove(song);
             await _context.SaveChangesAsync();

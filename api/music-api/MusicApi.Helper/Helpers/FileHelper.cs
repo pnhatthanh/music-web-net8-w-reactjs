@@ -17,8 +17,8 @@ namespace MusicApi.Helper.Helpers
             {
                 throw new ArgumentException("File image cannot empty");
             }
-            //Check size < 2MB
-            if (file.Length > 2 * 1024 * 1024)
+            //Check size < 10MB
+            if (file.Length > 10 * 1024 * 1024)
             {
                 throw new ArgumentException("File is too large. Maximum allowed size is 2Mb");
             }
@@ -57,17 +57,113 @@ namespace MusicApi.Helper.Helpers
             {
                 await _connection.OpenAsync();
                 var reader = await command.ExecuteReaderAsync();
-                if (await reader.ReadAsync() == true)
-                {
-                    return (byte[])reader["FileImage"];
-                }
-                else
+                if (!await reader.ReadAsync())
                 {
                     throw new Exception("Not found");
                 }
-            }catch(Exception)
+                var result = (byte[])reader["FileImage"];
+                _connection.Close();
+                return result;
+            }
+            catch(Exception)
             {
                 _connection?.Close();
+                throw;
+            }
+        }
+
+        public async Task DeleteImageFile(string fileName)
+        {
+            await _connection.OpenAsync();
+            SqlCommand command = new SqlCommand("DELETE FROM Images WHERE NameImage=@FileName", _connection);
+            command.Parameters.AddWithValue("@FileName", fileName);
+            try
+            {
+                await command.ExecuteNonQueryAsync();
+                _connection.Close();
+            }catch (Exception)
+            {
+                _connection.Close();
+                throw;
+            }
+        }
+
+        public async Task<string> UploadFileAudio(IFormFile fileAudio)
+        {
+            //Check file empty
+            if (fileAudio.Length == 0)
+            {
+                throw new ArgumentException("File audio cannot empty");
+            }
+            //Check size file <20MB
+            if (fileAudio.Length > 20 * 1024 * 1024)
+            {
+                throw new ArgumentException("File is too large. Maximum allowed size is 20Mb");
+            }
+            //Check extension 
+            var validExtension = new[] { ".mp3", ".wav" };
+            var fileExtension = Path.GetExtension(fileAudio.FileName).ToLowerInvariant();
+            if (!Array.Exists(validExtension, extention => extention == fileExtension))
+            {
+                throw new ArgumentException("Invalid file extension. Only .mp3, .wav are allowed");
+            }
+            var fileName = Guid.NewGuid().ToString() + fileExtension;
+            await _connection.OpenAsync();
+            SqlCommand command = new SqlCommand("INSERT INTO Audios(NameAudio, FileAudio)" +
+                "VALUES(@NameFile,@FileAudio)", _connection);
+            command.Parameters.AddWithValue("@NameFile", fileName);
+            command.Parameters.AddWithValue("@FileAudio",await ConvertToByteArrayAsync(fileAudio));
+            try
+            {
+                await command.ExecuteNonQueryAsync();
+            }catch(Exception)
+            {
+                _connection.Close();
+                throw;
+            }
+            _connection.Close();
+            return fileName;
+        }
+
+        public async Task<byte[]> GetFileAudio(string fileName)
+        {
+            if (fileName == null)
+            {
+                throw new Exception("File audio not found");
+            }
+            await _connection.OpenAsync();
+            SqlCommand command = new SqlCommand("SELECT FileAudio FROM Audios WHERE NameAudio=@NameFile", _connection);
+            command.Parameters.AddWithValue("@NameFile", fileName);
+            try
+            {
+                var reader =await command.ExecuteReaderAsync();
+                if(!await reader.ReadAsync())
+                {
+                    throw new Exception("Not found");
+                }
+                var result= (byte[])reader["FileAudio"];
+                _connection.Close();
+                return result;
+            }catch(Exception)
+            {
+                _connection.Close();
+                throw;
+            }
+        }
+
+        public async Task DeleteAudioFile(string fileName)
+        {
+            await _connection.OpenAsync();
+            SqlCommand command = new SqlCommand("DELETE FROM Audios WHERE NameAudio=@FileName", _connection);
+            command.Parameters.AddWithValue("@FileName", fileName);
+            try
+            {
+                await command.ExecuteNonQueryAsync();
+                _connection.Close();
+            }
+            catch (Exception)
+            {
+                _connection.Close();
                 throw;
             }
         }
@@ -121,64 +217,64 @@ namespace MusicApi.Helper.Helpers
         //    return fileName;
         //}
 
-        public async Task<string> UploadFileAudio(IFormFile fileAudio)
-        {
-            //Check file empty
-            if (fileAudio.Length == 0)
-            {
-                throw new ArgumentException("File image cannot empty");
-            }
+        //public async Task<string> UploadFileAudio(IFormFile fileAudio)
+        //{
+        //    //Check file empty
+        //    if (fileAudio.Length == 0)
+        //    {
+        //        throw new ArgumentException("File image cannot empty");
+        //    }
 
-            //Check size file <20MB
-            if (fileAudio.Length > 20 * 1024 * 1024)
-            {
-                throw new ArgumentException("File is too large. Maximum allowed size is 20Mb");
-            }
+        //    //Check size file <20MB
+        //    if (fileAudio.Length > 20 * 1024 * 1024)
+        //    {
+        //        throw new ArgumentException("File is too large. Maximum allowed size is 20Mb");
+        //    }
 
-            //Check extension 
-            var validExtension = new[] { ".mp3", ".wav" };
-            var fileExtension = Path.GetExtension(fileAudio.FileName).ToLowerInvariant();
-            if (!Array.Exists(validExtension, extention => extention == fileExtension))
-            {
-                throw new ArgumentException("Invalid file extension. Only .mp3, .wav are allowed");
-            }
+        //    //Check extension 
+        //    var validExtension = new[] { ".mp3", ".wav" };
+        //    var fileExtension = Path.GetExtension(fileAudio.FileName).ToLowerInvariant();
+        //    if (!Array.Exists(validExtension, extention => extention == fileExtension))
+        //    {
+        //        throw new ArgumentException("Invalid file extension. Only .mp3, .wav are allowed");
+        //    }
 
-            //Change file name and add to folder audio
-            var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio");
-            if (!Directory.Exists(uploadFolderPath))
-            {
-                Directory.CreateDirectory(uploadFolderPath);
-            }
-            var fileName = Guid.NewGuid().ToString() + fileExtension;
-            var filePath = Path.Combine(uploadFolderPath, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await fileAudio.CopyToAsync(stream);
-            }
-            return fileName;
-        }
+        //    //Change file name and add to folder audio
+        //    var uploadFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio");
+        //    if (!Directory.Exists(uploadFolderPath))
+        //    {
+        //        Directory.CreateDirectory(uploadFolderPath);
+        //    }
+        //    var fileName = Guid.NewGuid().ToString() + fileExtension;
+        //    var filePath = Path.Combine(uploadFolderPath, fileName);
+        //    using (var stream = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        await fileAudio.CopyToAsync(stream);
+        //    }
+        //    return fileName;
+        //}
 
         //public async Task<byte[]> GetFileImage(string fileName)
         //{
         //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image", fileName);
         //    return await File.ReadAllBytesAsync(filePath);
         //}
-        public async Task<byte[]> GetFileAudio(string fileName)
-        {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio", fileName);
-            return await File.ReadAllBytesAsync(filePath);
-        }
+        //public async Task<byte[]> GetFileAudio(string fileName)
+        //{
+        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio", fileName);
+        //    return await File.ReadAllBytesAsync(filePath);
+        //}
 
-        public void DeleteImageFile(string fileName)
-        {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image", fileName);
-            File.Delete(filePath);
-        }
+        //public void DeleteImageFile(string fileName)
+        //{
+        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\image", fileName);
+        //    File.Delete(filePath);
+        //}
 
-        public void DeleteAudioFile(string fileName)
-        {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio", fileName);
-            File.Delete(filePath);
-        }
+        //public void DeleteAudioFile(string fileName)
+        //{
+        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "upload\\audio", fileName);
+        //    File.Delete(filePath);
+        //}
     }
 }
