@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MusicApi.Infracstructure.Repositories.IRepository
 {
-    interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T> where T : class
     {
         public Task<IEnumerable<T>> GetAll();
         public Task AddAsynch(T entity);
@@ -17,5 +17,7 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
         public Task UpdateAsynch(T entity);
         public Task Delete(T @object);
         public Task DeleteMany(Expression<Func<T, bool>> where);
+        public Task<IEnumerable<T>> GetAllWithIncludes(Expression<Func<T, object>> includes);
+        public Task<T?> FirstOrDefaultWithIncludes(Expression<Func<T, bool>> where, Expression<Func<T, object>> includes);
     }
 }

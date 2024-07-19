@@ -56,6 +56,26 @@ namespace MusicApi.Infracstructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        
+        public async Task<IEnumerable<T>> GetAllWithIncludes(Expression<Func<T, object>> includes)
+        {
+            var query=_dbSet.AsQueryable().ApplyIncludes(includes);
+            return await query.ToListAsync();
+        }
+        public async Task<T?> FirstOrDefaultWithIncludes(Expression<Func<T,bool>> where, Expression<Func<T, object>> includes)
+        {
+            IQueryable<T> query =_dbSet.AsQueryable().ApplyIncludes(includes);
+            return await query.FirstOrDefaultAsync(where);
+        }
+    }
+    internal static class RepositoryExtensions
+    {
+        public static IQueryable<T> ApplyIncludes<T>(this IQueryable<T> query, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+            return query;
+        }
     }
 }

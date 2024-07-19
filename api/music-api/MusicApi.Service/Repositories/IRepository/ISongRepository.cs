@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MusicApi.Infracstructure.Repositories.IRepository
 {
-    internal interface ISongRepository : IBaseRepository<Song>
+     public interface ISongRepository : IBaseRepository<Song>
     {
     }
 }

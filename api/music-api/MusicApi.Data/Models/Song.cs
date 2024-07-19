@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MusicApi.Data.Models
@@ -20,16 +21,17 @@ namespace MusicApi.Data.Models
 
         public int CategoryId{ get; set; }
         [ForeignKey("CategoryId")]
+        [JsonIgnore]
         public Category? category{ get; set; }
 
         public Guid ArtistId { get; set; }
         [ForeignKey("ArtistId")]
-        public Artist? artist{ get; set; }
-
+        public virtual Artist? artist{ get; set; }
+        [JsonIgnore]
         public List<PlayList> PlayLists{ get; set; } =new List<PlayList>();
-
+        [JsonIgnore]
         public List<User> Users{ get; set; } =new List<User>();
-
+        [JsonIgnore]
         public List<Album> Albums { get; set; } = new List<Album>();
 
     }

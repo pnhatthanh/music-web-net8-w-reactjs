@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
 namespace MusicApi.Data.DTOs
@@ -12,6 +13,7 @@ namespace MusicApi.Data.DTOs
         public string Country { get; set; } = "";
         public int YearOfBirth { get; set; }
         [Required(ErrorMessage ="Image's artist cannot empty")]
+        [JsonIgnore]
         public IFormFile? Image { get; set; }
         public int Followers { get; set; } = 0;
         public string About { get; set; } = "";

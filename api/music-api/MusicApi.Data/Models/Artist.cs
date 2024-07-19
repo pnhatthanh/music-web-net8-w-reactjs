@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MusicApi.Data.Models
@@ -17,6 +18,7 @@ namespace MusicApi.Data.Models
         public string ImagePath{ get; set; }="";
         public int Followers { get; set; } = 0;
         public string About { get; set; } = "";
-        public List<Song>? Songs { get; set; }  
+        [JsonIgnore]
+        public virtual List<Song>? Songs { get; set; }  
     }
 }

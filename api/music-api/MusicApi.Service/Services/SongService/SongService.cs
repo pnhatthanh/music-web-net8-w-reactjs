@@ -23,8 +23,8 @@ namespace MusicApi.Infracstructure.Services.SongService
         public async Task<Song> CreatSong(SongDTO songDTO)
         {
             Song song = _mapper.Map<Song>(songDTO);
-            song.SongImagePath = await _fileHelper.UploadFileImage(songDTO.ImageFile);
-            song.SongPath = await _fileHelper.UploadFileAudio(songDTO.AudioFile);
+            song.SongImagePath = await _fileHelper.UploadFileImage(songDTO.ImageFile!);
+            song.SongPath = await _fileHelper.UploadFileAudio(songDTO.AudioFile!);
             await _songRepository.AddAsynch(song);
             return song;
         }
@@ -41,13 +41,13 @@ namespace MusicApi.Infracstructure.Services.SongService
 
         public async Task<IEnumerable<Song>> GetAllSongs()
         {
-            return await _songRepository.GetAll();
+            return await _songRepository.GetAllWithIncludes(s => s.artist!);
         }
 
         public async Task<Song> GetSongById(Guid id)
         {
-            var song = await _songRepository.GetByIdAsynch(id);
-            return song ?? throw new ArgumentException("Not found song");
+            return await _songRepository.FirstOrDefaultWithIncludes(s=>s.SongId==id, s => s.artist!)
+                ?? throw new ArgumentException("Not found song");
         }
         public async Task<Song> UpdateSong(Guid id, SongDTO songDTO)
         {
