@@ -1139,7 +1139,7 @@
           "bin/placeholder/MusicApi.Helper.dll": {}
         }
       },
-      "MusicApi.Service/1.0.0": {
+      "MusicApi.Infracstructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -1148,10 +1148,10 @@
           "MusicApi.Helper": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/MusicApi.Service.dll": {}
+          "bin/placeholder/MusicApi.Infracstructure.dll": {}
         },
         "runtime": {
-          "bin/placeholder/MusicApi.Service.dll": {}
+          "bin/placeholder/MusicApi.Infracstructure.dll": {}
         }
       }
     }
@@ -2911,10 +2911,10 @@
       "path": "../MusicApi.Helper/MusicApi.Helper.csproj",
       "msbuildProject": "../MusicApi.Helper/MusicApi.Helper.csproj"
     },
-    "MusicApi.Service/1.0.0": {
+    "MusicApi.Infracstructure/1.0.0": {
       "type": "project",
-      "path": "../MusicApi.Service/MusicApi.Service.csproj",
-      "msbuildProject": "../MusicApi.Service/MusicApi.Service.csproj"
+      "path": "../MusicApi.Service/MusicApi.Infracstructure.csproj",
+      "msbuildProject": "../MusicApi.Service/MusicApi.Infracstructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -2922,7 +2922,7 @@
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.6",
       "MusicApi.Data >= 1.0.0",
-      "MusicApi.Service >= 1.0.0"
+      "MusicApi.Infracstructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2955,8 +2955,8 @@
             "D:\\Music-web\\api\\music-api\\MusicApi.Data\\MusicApi.Data.csproj": {
               "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Data\\MusicApi.Data.csproj"
             },
-            "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj": {
-              "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj"
+            "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj": {
+              "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj"
             }
           }
         }

@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApi.WebApi", "music-api\MusicApi.WebApi.csproj", "{8EAF4854-45C1-4EA8-BF9C-88A93ED2D7E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApi.Data", "MusicApi.Data\MusicApi.Data.csproj", "{08DAEF11-CDE7-44A4-AFBD-CA71B63A9FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApi.Data", "MusicApi.Data\MusicApi.Data.csproj", "{08DAEF11-CDE7-44A4-AFBD-CA71B63A9FA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApi.Service", "MusicApi.Service\MusicApi.Service.csproj", "{68C31DB2-8B01-4B8B-BEB5-FFBA1A5AE235}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApi.Infracstructure", "MusicApi.Service\MusicApi.Infracstructure.csproj", "{68C31DB2-8B01-4B8B-BEB5-FFBA1A5AE235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApi.Helper", "MusicApi.Helper\MusicApi.Helper.csproj", "{9D371A3C-568B-49AE-932C-D2D33017E8E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApi.Helper", "MusicApi.Helper\MusicApi.Helper.csproj", "{9D371A3C-568B-49AE-932C-D2D33017E8E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MusicApi.Helper.Helpers;
-using MusicApi.Service.Services.AlbumService;
-using MusicApi.Service.Services.ArtistService;
-using MusicApi.Service.Services.AuthService;
-using MusicApi.Service.Services.PlayListService;
-using MusicApi.Service.Services.SongService;
-using MusicApi.Service.Services.UserService;
+using MusicApi.Infracstructure.Services.AlbumService;
+using MusicApi.Infracstructure.Services.ArtistService;
+using MusicApi.Infracstructure.Services.AuthService;
+using MusicApi.Infracstructure.Services.PlayListService;
+using MusicApi.Infracstructure.Services.SongService;
+using MusicApi.Infracstructure.Services.UserService;
 
 
 namespace MusicApi.Service
 {
-    public static class ServiceCollection
+    public static class ServiceDependencies
     {
         public static IServiceCollection AddMusicService(this IServiceCollection services)
         {
@@ -20,8 +19,6 @@ namespace MusicApi.Service
             services.AddScoped<IPlayListService, PlayListService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService,AuthService>();
-            services.AddScoped<FileHelper>();
-            services.AddScoped<JwtTokenHelper>();
             return services;
         }
     }

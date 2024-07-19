@@ -4,19 +4,19 @@ using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
+using MusicApi.Infracstructure.Repositories;
+using MusicApi.Infracstructure.Repositories.IRepository;
 
-namespace MusicApi.Service.Services.SongService
+namespace MusicApi.Infracstructure.Services.SongService
 {
     public class SongService : ISongService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISongRepository _songRepository;
         private readonly IMapper _mapper;
         private readonly FileHelper _fileHelper;
-        public SongService(ApplicationDbContext context,
-            FileHelper fileHelper,
-            IMapper mapper)
+        public SongService(ApplicationDbContext context, FileHelper fileHelper, IMapper mapper)
         {
-            _context = context;
+            _songRepository=new SongRepository(context);
             _mapper = mapper;
             _fileHelper = fileHelper;
         }
@@ -25,55 +25,44 @@ namespace MusicApi.Service.Services.SongService
             Song song = _mapper.Map<Song>(songDTO);
             song.SongImagePath = await _fileHelper.UploadFileImage(songDTO.ImageFile);
             song.SongPath = await _fileHelper.UploadFileAudio(songDTO.AudioFile);
-            await _context.songs.AddAsync(song);
-            await _context.SaveChangesAsync();
+            await _songRepository.AddAsynch(song);
             return song;
         }
 
         public async Task<Song> DeleteSong(Guid id)
         {
-            var song = _context.songs.Find(id);
-            if (song == null)
-            {
-                throw new ArgumentException("Not found song");
-            }
+            var song = await _songRepository.GetByIdAsynch(id) 
+                ?? throw new ArgumentException("Not found song");
             await _fileHelper.DeleteImageFile(song.SongImagePath);
-            _fileHelper.DeleteAudioFile(song.SongPath);
-            _context.songs.Remove(song);
-            await _context.SaveChangesAsync();
+            await _fileHelper.DeleteAudioFile(song.SongPath);
+            await _songRepository.Delete(song);
             return song;
         }
 
-        public Task<List<Song>> GetAllSongs()
+        public async Task<IEnumerable<Song>> GetAllSongs()
         {
-            return _context.songs.ToListAsync();
+            return await _songRepository.GetAll();
         }
 
         public async Task<Song> GetSongById(Guid id)
         {
-            var song = await _context.songs.FindAsync(id);
-            if (song == null)
-            {
-                throw new ArgumentException("Not found song");
-            }
-            return song;
+            var song = await _songRepository.GetByIdAsynch(id);
+            return song ?? throw new ArgumentException("Not found song");
         }
-
         public async Task<Song> UpdateSong(Guid id, SongDTO songDTO)
         {
-            Song? song = _context.songs.Find(id);
-            if (song == null)
-            {
-                throw new ArgumentException("Not found song");
-            }
+            Song song = await _songRepository.GetByIdAsynch(id) 
+                ?? throw new ArgumentException("Not found song");
+
             _mapper.Map(songDTO, song);
             string imagePath = song.SongImagePath;
             string audioPath = song.SongPath;
-            song.SongImagePath = await _fileHelper.UploadFileImage(songDTO.ImageFile);
-            song.SongPath = await _fileHelper.UploadFileAudio(songDTO.AudioFile);
-            _fileHelper.DeleteImageFile(imagePath);
-            _fileHelper.DeleteAudioFile(audioPath);
-            await _context.SaveChangesAsync();
+            song.SongImagePath = await _fileHelper.UploadFileImage(songDTO.ImageFile!);
+            song.SongPath = await _fileHelper.UploadFileAudio(songDTO.AudioFile!);
+            await _fileHelper.DeleteImageFile(imagePath);
+            await _fileHelper.DeleteAudioFile(audioPath);
+
+            await _songRepository.UpdateAsynch(song);
             return song;
         }
     }

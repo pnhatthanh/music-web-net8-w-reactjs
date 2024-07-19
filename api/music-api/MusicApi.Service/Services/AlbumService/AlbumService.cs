@@ -5,7 +5,7 @@ using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
 
-namespace MusicApi.Service.Services.AlbumService
+namespace MusicApi.Infracstructure.Services.AlbumService
 {
     public class AlbumService : IAlbumService
     {
@@ -24,9 +24,14 @@ namespace MusicApi.Service.Services.AlbumService
             Album album = _mapper.Map<Album>(albumDTO);
             album.ImagePath = await _fileHelper.UploadFileImage(albumDTO.ImageFile);
             _context.albums.Add(album);
-            albumDTO.SongIDs.ForEach(async songID =>
+            albumDTO.SongIDs.ForEach(songID =>
             {
-                await AddSongToAlbum(album.AlbumId,songID);
+                Song? song = _context.songs.Find(songID);
+                if (song == null)
+                {
+                    throw new Exception("Not found song");
+                }
+                album.Songs.Add(song);
             });
             await _context.SaveChangesAsync();
             return album;
@@ -76,7 +81,7 @@ namespace MusicApi.Service.Services.AlbumService
         public async Task AddSongToAlbum(Guid idAlbum, Guid idSong)
         {
             Album album = await GetAlbumById(idAlbum);
-            Song? song = await _context.songs.FindAsync();
+            Song? song = await _context.songs.FindAsync(idSong);
             if (song == null)
             {
                 throw new Exception("Not found song");

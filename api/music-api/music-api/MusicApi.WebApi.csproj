@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicApi.Data\MusicApi.Data.csproj" />
-    <ProjectReference Include="..\MusicApi.Service\MusicApi.Service.csproj" />
+    <ProjectReference Include="..\MusicApi.Service\MusicApi.Infracstructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

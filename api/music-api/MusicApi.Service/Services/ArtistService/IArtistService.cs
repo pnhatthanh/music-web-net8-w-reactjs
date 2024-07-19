@@ -1,7 +1,7 @@
 ﻿using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 
-namespace MusicApi.Service.Services.ArtistService
+namespace MusicApi.Infracstructure.Services.ArtistService
 {
     public interface IArtistService
     {

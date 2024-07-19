@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
-using MusicApi.Service.Services.UserService;
+using MusicApi.Infracstructure.Services.UserService;
 using System.Security.Claims;
 
 namespace MusicApi.Controllers

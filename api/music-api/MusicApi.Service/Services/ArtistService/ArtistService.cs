@@ -5,7 +5,7 @@ using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
 
-namespace MusicApi.Service.Services.ArtistService
+namespace MusicApi.Infracstructure.Services.ArtistService
 {
     public class ArtistService : IArtistService
     {
@@ -47,7 +47,8 @@ namespace MusicApi.Service.Services.ArtistService
 
         public async Task<Artist> GetArtistById(Guid id)
         {
-            Artist? artist = await _context.artists.FindAsync(id);
+            Artist? artist = await _context.artists.Include(a=>a.Songs)
+                .FirstOrDefaultAsync(a=>a.ArtistId==id);
             if (artist == null)
             {
                 throw new ArgumentException("Not found artist");

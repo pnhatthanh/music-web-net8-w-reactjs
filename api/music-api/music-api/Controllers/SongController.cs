@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Helper.Helpers;
-using MusicApi.Service.Services.SongService;
-
+using MusicApi.Infracstructure.Services.SongService;
 namespace MusicApi.Controllers
 {
     [Route("api/v1/[controller]")]

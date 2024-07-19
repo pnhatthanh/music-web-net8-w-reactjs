@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
-using MusicApi.Service.Services.ArtistService;
+using MusicApi.Infracstructure.Services.ArtistService;
 using System;
 
 namespace MusicApi.Controllers

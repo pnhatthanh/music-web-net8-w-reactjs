@@ -1,7 +1,7 @@
 ﻿using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 
-namespace MusicApi.Service.Services.PlayListService
+namespace MusicApi.Infracstructure.Services.PlayListService
 {
     public interface IPlayListService
     {

@@ -1,7 +1,7 @@
 ﻿using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 
-namespace MusicApi.Service.Services.AlbumService
+namespace MusicApi.Infracstructure.Services.AlbumService
 {
     public interface IAlbumService
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApi.Service.Services.AuthService
+namespace MusicApi.Infracstructure.Services.AuthService
 {
     public interface IAuthService
     {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApi.Service.Services.PlayListService
+namespace MusicApi.Infracstructure.Services.PlayListService
 {
     public class PlayListService : IPlayListService
     {

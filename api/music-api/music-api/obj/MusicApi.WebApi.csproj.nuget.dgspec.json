@@ -31,8 +31,8 @@
               "D:\\Music-web\\api\\music-api\\MusicApi.Data\\MusicApi.Data.csproj": {
                 "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Data\\MusicApi.Data.csproj"
               },
-              "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj": {
-                "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj"
+              "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj": {
+                "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj"
               }
             }
           }
@@ -229,12 +229,12 @@
         }
       }
     },
-    "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj": {
+    "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj",
-        "projectName": "MusicApi.Service",
-        "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Service.csproj",
+        "projectUniqueName": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj",
+        "projectName": "MusicApi.Infracstructure",
+        "projectPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\MusicApi.Infracstructure.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
         "outputPath": "D:\\Music-web\\api\\music-api\\MusicApi.Service\\obj\\",
         "projectStyle": "PackageReference",

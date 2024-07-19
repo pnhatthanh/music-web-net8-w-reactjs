@@ -54,9 +54,7 @@ D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\runtimes\win\lib\net6.0\Sy
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Data.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Helper.dll
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Service.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Data.pdb
-D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Service.pdb
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Helper.pdb
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\staticwebassets.build.json
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\staticwebassets.development.json
@@ -74,3 +72,5 @@ D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\MusicApi.WebApi.genruntime
 D:\Music-web\api\music-api\music-api\obj\Debug\net8.0\ref\MusicApi.WebApi.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Infracstructure.dll
+D:\Music-web\api\music-api\music-api\bin\Debug\net8.0\MusicApi.Infracstructure.pdb
