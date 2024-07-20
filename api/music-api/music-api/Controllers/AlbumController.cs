@@ -97,6 +97,23 @@ namespace MusicApi.Controllers
                 });
             }
         }
+        [HttpGet("songs/{id}")]
+        public async Task<IActionResult> GetAllSong(Guid id)
+        {
+            try
+            {
+                var songs = await _albumService.GetAllSongOfAlbum(id);
+                return Ok(new { status = true, message = "Get data successfully", data = songs });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new
+                {
+                    status = false,
+                    message = ex.Message,
+                });
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -164,7 +181,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpGet("image/{imageName}")]
-        public async Task<IActionResult> GetArtistImage(string imageName)
+        public async Task<IActionResult> GetAlbumImage(string imageName)
         {
             var resource = await _fileHelper.GetFileImage(imageName);
             if (resource == null)

@@ -3,18 +3,25 @@ using Microsoft.EntityFrameworkCore;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 using MusicApi.Helper.Helpers;
+using MusicApi.Infracstructure.Repositories;
+using MusicApi.Infracstructure.Repositories.IRepository;
 
 namespace MusicApi.Infracstructure.Services.AlbumService
 {
     public class AlbumService : IAlbumService
     {
-        public readonly ApplicationDbContext _context;
+        public readonly IAlbumRepository _albumRepository;
+        public readonly ISongRepository _songRepository;
+        public readonly IAlbumSongRepository _albumSongRepository;
         public readonly IMapper _mapper;
         private readonly FileHelper _fileHelper;
-        public AlbumService(ApplicationDbContext context, IMapper mapper, FileHelper fileHelper)
+        public AlbumService(ApplicationDbContext context,IMapper mapper, FileHelper fileHelper)
         {
-            _context = context;
+            _albumRepository = new AlbumRepository(context);
+            _songRepository = new SongRepository(context);
+            _albumSongRepository = new AlbumSongRepository(context);
             _mapper = mapper;
             _fileHelper = fileHelper;
         }
@@ -23,71 +30,71 @@ namespace MusicApi.Infracstructure.Services.AlbumService
         {
             Album album = _mapper.Map<Album>(albumDTO);
             album.ImagePath = await _fileHelper.UploadFileImage(albumDTO.ImageFile);
-            _context.albums.Add(album);
             albumDTO.SongIDs.ForEach(songID =>
             {
-                Song? song = _context.songs.Find(songID);
-                if (song == null)
+                Song song =_songRepository.GetById(songID)
+                    ?? throw new Exception($"Song with ID {songID} not found");
+                var albumSong = new AlbumSong
                 {
-                    throw new Exception("Not found song");
-                }
-                album.Songs.Add(song);
+                    AlbumId = album.AlbumId,
+                    SongId = song.SongId
+                };
+                album.AlbumSongs.Add(albumSong);
             });
-            await _context.SaveChangesAsync();
+            await _albumRepository.AddAsynch(album);
             return album;
         }
-
+        public async Task AddSongToAlbum(Guid idAlbum, Guid idSong)
+        {
+            Album album=await _albumRepository.FirstOrDefaultWithIncludes(album=>album.AlbumId==idAlbum,album=>album.AlbumSongs)
+                ?? throw new Exception($"Album with ID {idAlbum} not found");
+            Song song = await _songRepository.GetByIdAsynch(idSong)
+                ?? throw new Exception($"Song with ID{idSong} not found");
+            if(album.AlbumSongs.Any(a=>a.SongId==song.SongId))
+            {
+                throw new Exception("Song already added to album");
+            }
+            album.AlbumSongs.Add(new AlbumSong
+            {
+                AlbumId=album.AlbumId,
+                SongId=song.SongId
+            });
+            await _albumRepository.UpdateAsynch(album);
+        }
         public async Task<Album> DeleteAlbum(Guid id)
         {
-            var album = await _context.albums.FindAsync(id);
-            if (album == null)
-            {
-                throw new Exception("Not found");
-            }
-            _context.albums.Remove(album);
-            await _context.SaveChangesAsync();
+            var album = await _albumRepository.GetByIdAsynch(id) 
+                ?? throw new Exception("Not found");
+            await _albumRepository.Delete(album);
             return album;
         }
 
         public async Task<Album> GetAlbumById(Guid id)
         {
-            var album = await _context.albums
-                .Include(a => a.Songs)
-                .FirstOrDefaultAsync(a=>a.AlbumId==id);
-            if (album == null)
-            {
-                throw new Exception("Not found");
-            }
+            var album = await _albumRepository.FirstOrDefaultAsynch(a => a.AlbumId == id)
+                ?? throw new Exception("Not found");
             return album;
         }
-
-        public async Task<List<Album>> GetAllAlbums()
+        public async Task<IEnumerable<SongResponse>> GetAllSongOfAlbum(Guid id)
         {
-            return await _context.albums.ToListAsync();
+            var album = await _albumSongRepository.GetSongs(id)
+                      ?? throw new Exception("Not found");
+            return _mapper.Map<IEnumerable<SongResponse>>(album);
+        }
+        public async Task<IEnumerable<Album>> GetAllAlbums()
+        {
+            return await _albumRepository.GetAll();
         }
 
         public async Task<Album> UpdateAlbum(Guid id, AlbumDTO albumDTO)
         {
-            var album = _context.albums.Find(id);
-            if (album == null)
-            {
-                throw new ArgumentException("Not found album");
-            }
+            var album = await _albumRepository.GetByIdAsynch(id) 
+                ?? throw new ArgumentException("Not found album");
             _mapper.Map(albumDTO, album);
-            await _context.SaveChangesAsync();
+            await _albumRepository.UpdateAsynch(album);
             return album;
         }
 
-        public async Task AddSongToAlbum(Guid idAlbum, Guid idSong)
-        {
-            Album album = await GetAlbumById(idAlbum);
-            Song? song = await _context.songs.FindAsync(idSong);
-            if (song == null)
-            {
-                throw new Exception("Not found song");
-            }
-            album.Songs.Add(song);
-            await _context.SaveChangesAsync();
-        }
+        
     }
 }

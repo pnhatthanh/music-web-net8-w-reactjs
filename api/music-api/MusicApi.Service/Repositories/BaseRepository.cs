@@ -14,13 +14,13 @@ namespace MusicApi.Infracstructure.Repositories
 {
     public abstract class BaseRepository<T> :IBaseRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly ApplicationDbContext _context;
+        protected readonly DbSet<T> _dbSet;
         protected BaseRepository(ApplicationDbContext context){
             _context = context;
             _dbSet=_context.Set<T>();
         }
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _dbSet.ToListAsync();
         }
@@ -30,6 +30,7 @@ namespace MusicApi.Infracstructure.Repositories
             await _context.SaveChangesAsync();
         }
         public virtual async Task<T?> GetByIdAsynch(object id) => await _dbSet.FindAsync(id);
+        public T? GetById(object id) =>  _dbSet.Find(id);
         public virtual async Task<T?> FirstOrDefaultAsynch(Expression<Func<T,bool>> where)
             => await _dbSet.FirstOrDefaultAsync(where);
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where) 
@@ -55,17 +56,23 @@ namespace MusicApi.Infracstructure.Repositories
             }
             await _context.SaveChangesAsync();
         }
+        public async Task<bool> Any(Expression<Func<T, bool>> where)
+        {
+            return await _dbSet.AnyAsync(where);
+        }
 
-        public async Task<IEnumerable<T>> GetAllWithIncludes(Expression<Func<T, object>> includes)
+        public virtual async Task<IEnumerable<T>> GetAllWithIncludes(Expression<Func<T, object>> includes)
         {
             var query=_dbSet.AsQueryable().ApplyIncludes(includes);
             return await query.ToListAsync();
         }
-        public async Task<T?> FirstOrDefaultWithIncludes(Expression<Func<T,bool>> where, Expression<Func<T, object>> includes)
+        public virtual async Task<T?> FirstOrDefaultWithIncludes(Expression<Func<T,bool>> where, Expression<Func<T, object>> includes)
         {
             IQueryable<T> query =_dbSet.AsQueryable().ApplyIncludes(includes);
             return await query.FirstOrDefaultAsync(where);
         }
+
+        
     }
     internal static class RepositoryExtensions
     {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 using MusicApi.Helper.Helpers;
 using MusicApi.Infracstructure.Repositories;
 using MusicApi.Infracstructure.Repositories.IRepository;
@@ -39,9 +40,9 @@ namespace MusicApi.Infracstructure.Services.SongService
             return song;
         }
 
-        public async Task<IEnumerable<Song>> GetAllSongs()
+        public async Task<IEnumerable<SongResponse>> GetAllSongs()
         {
-            return await _songRepository.GetAllWithIncludes(s => s.artist!);
+            return _mapper.Map<IEnumerable<SongResponse>>(await _songRepository.GetAllWithIncludes(s => s.artist!));
         }
 
         public async Task<Song> GetSongById(Guid id)

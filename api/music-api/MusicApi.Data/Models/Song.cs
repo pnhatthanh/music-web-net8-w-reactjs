@@ -30,9 +30,9 @@ namespace MusicApi.Data.Models
         [JsonIgnore]
         public List<PlayList> PlayLists{ get; set; } =new List<PlayList>();
         [JsonIgnore]
-        public List<User> Users{ get; set; } =new List<User>();
+        public List<UserFavourite> UserFavourite { get; set; } = new List<UserFavourite>();
         [JsonIgnore]
-        public List<Album> Albums { get; set; } = new List<Album>();
+        public List<AlbumSong> AlbumSongs { get; set; } = new List<AlbumSong>();
 
     }
 }

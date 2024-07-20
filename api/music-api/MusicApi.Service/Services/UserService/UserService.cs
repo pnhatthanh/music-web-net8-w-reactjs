@@ -49,21 +49,21 @@ namespace MusicApi.Infracstructure.Services.UserService
             {
                 throw new Exception("Song not found");
             }
-            var user=await _context.users.Include(u=>u.Songs)
+            var user=await _context.users/*.Include(u=>u.Songs)*/
                 .FirstOrDefaultAsync(u=>u.UserId == userId);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            user.Songs.Add(song);
+            //user.Songs.Add(song);
             await _context.SaveChangesAsync();
             return song;
         }
 
         public async Task<List<Song>> GetFavouriteSongs(Guid userId)
         {
-            return await _context.songs.
-                Where(s=>s.Users.Any(u=>u.UserId==userId)).ToListAsync();
+            return await _context.songs
+                /*Where(s=>s.Users.Any(u=>u.UserId==userId))*/.ToListAsync();
         }
 
         public async Task RemoveSongFromFavourite(Guid idSong, Guid userId)
@@ -73,13 +73,13 @@ namespace MusicApi.Infracstructure.Services.UserService
             {
                 throw new Exception("Song not found");
             }
-            var user = await _context.users.Include(u => u.Songs)
+            var user = await _context.users/*.Include(u => u.Songs)*/
                 .FirstOrDefaultAsync(u => u.UserId == userId);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            user.Songs.Remove(song);
+            //user.Songs.Remove(song);
             await _context.SaveChangesAsync();
         }
 

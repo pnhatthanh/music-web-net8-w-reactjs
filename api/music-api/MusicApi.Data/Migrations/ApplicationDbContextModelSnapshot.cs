@@ -22,21 +22,6 @@ namespace MusicApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AlbumSong", b =>
-                {
-                    b.Property<Guid>("AlbumsAlbumId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SongsSongId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AlbumsAlbumId", "SongsSongId");
-
-                    b.HasIndex("SongsSongId");
-
-                    b.ToTable("AlbumSong");
-                });
-
             modelBuilder.Entity("MusicApi.Data.Models.Album", b =>
                 {
                     b.Property<Guid>("AlbumId")
@@ -61,6 +46,21 @@ namespace MusicApi.Data.Migrations
                     b.HasKey("AlbumId");
 
                     b.ToTable("albums");
+                });
+
+            modelBuilder.Entity("MusicApi.Data.Models.AlbumSong", b =>
+                {
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SongId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AlbumId", "SongId");
+
+                    b.HasIndex("SongId");
+
+                    b.ToTable("albumSong");
                 });
 
             modelBuilder.Entity("MusicApi.Data.Models.Artist", b =>
@@ -251,6 +251,21 @@ namespace MusicApi.Data.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("MusicApi.Data.Models.UserFavourite", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SongId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "SongId");
+
+                    b.HasIndex("SongId");
+
+                    b.ToTable("userFavourites");
+                });
+
             modelBuilder.Entity("PlayListSong", b =>
                 {
                     b.Property<Guid>("PlayListsPlayListId")
@@ -266,34 +281,23 @@ namespace MusicApi.Data.Migrations
                     b.ToTable("PlayListSong");
                 });
 
-            modelBuilder.Entity("SongUser", b =>
+            modelBuilder.Entity("MusicApi.Data.Models.AlbumSong", b =>
                 {
-                    b.Property<Guid>("SongsSongId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SongsSongId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("SongUser");
-                });
-
-            modelBuilder.Entity("AlbumSong", b =>
-                {
-                    b.HasOne("MusicApi.Data.Models.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AlbumsAlbumId")
+                    b.HasOne("MusicApi.Data.Models.Album", "Album")
+                        .WithMany("AlbumSongs")
+                        .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MusicApi.Data.Models.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsSongId")
+                    b.HasOne("MusicApi.Data.Models.Song", "Song")
+                        .WithMany("AlbumSongs")
+                        .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Song");
                 });
 
             modelBuilder.Entity("MusicApi.Data.Models.PlayList", b =>
@@ -348,6 +352,25 @@ namespace MusicApi.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("MusicApi.Data.Models.UserFavourite", b =>
+                {
+                    b.HasOne("MusicApi.Data.Models.Song", "Song")
+                        .WithMany("UserFavourite")
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicApi.Data.Models.User", "User")
+                        .WithMany("UserFavourite")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Song");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PlayListSong", b =>
                 {
                     b.HasOne("MusicApi.Data.Models.PlayList", null)
@@ -363,19 +386,9 @@ namespace MusicApi.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SongUser", b =>
+            modelBuilder.Entity("MusicApi.Data.Models.Album", b =>
                 {
-                    b.HasOne("MusicApi.Data.Models.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsSongId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicApi.Data.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("AlbumSongs");
                 });
 
             modelBuilder.Entity("MusicApi.Data.Models.Artist", b =>
@@ -388,9 +401,18 @@ namespace MusicApi.Data.Migrations
                     b.Navigation("song");
                 });
 
+            modelBuilder.Entity("MusicApi.Data.Models.Song", b =>
+                {
+                    b.Navigation("AlbumSongs");
+
+                    b.Navigation("UserFavourite");
+                });
+
             modelBuilder.Entity("MusicApi.Data.Models.User", b =>
                 {
                     b.Navigation("PlayLists");
+
+                    b.Navigation("UserFavourite");
 
                     b.Navigation("tokens");
                 });

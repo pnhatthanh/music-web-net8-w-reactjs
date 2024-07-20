@@ -22,7 +22,7 @@ namespace MusicApi.Data.Models
         public virtual Role? Role{ get; set; }
 
         public List<PlayList> PlayLists{ get; set; } = new List<PlayList>();
-        public List<Song> Songs{ get; set; } =new List<Song>();
+        public List<UserFavourite> UserFavourite{ get; set; } =new List<UserFavourite>();
 
         public List<Token> tokens { get; set; }=new List<Token>();
     }
