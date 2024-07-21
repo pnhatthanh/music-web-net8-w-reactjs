@@ -12,7 +12,7 @@ namespace MusicApi.Data.Models
         [Key]
         public Guid PlayListId { get; set; }=Guid.NewGuid();
         public string PlayListName { get; set; }="";
-
+        public int NumberOfSong { get; set; } = 0;
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public User? User { get; set; }

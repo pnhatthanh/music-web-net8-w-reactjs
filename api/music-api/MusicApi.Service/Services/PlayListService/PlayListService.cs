@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 using MusicApi.Infracstructure.Repositories;
 using MusicApi.Infracstructure.Repositories.IRepository;
 using System;
@@ -49,6 +50,7 @@ namespace MusicApi.Infracstructure.Services.PlayListService
                 throw new Exception("Song already added to playlist");
             }
             playList.Songs.Add(song);
+            playList.NumberOfSong++;
             await _playListRepository.UpdateAsynch(playList);
         }
 
@@ -60,9 +62,11 @@ namespace MusicApi.Infracstructure.Services.PlayListService
             return playList;
         }
 
-        public async Task GetSongs(Guid playlistId)
+        public async Task<IEnumerable<SongResponse>> GetSongs(Guid playlistId)
         {
-
+            var songs = await _playListRepository.GetSong(playlistId)
+                        ?? throw new Exception("Playlist not found");
+            return _mapper.Map<IEnumerable<SongResponse>>(songs);
         }
 
         public async Task<PlayList> GetPlayListById(Guid id)
@@ -94,7 +98,12 @@ namespace MusicApi.Infracstructure.Services.PlayListService
                 .FirstOrDefaultWithIncludes(p => p.PlayListId == idPlayList, p => p.Songs)
                 ?? throw new Exception("Playlist not found");
             playList.Songs.Remove(song);
+            playList.NumberOfSong--;
             await _playListRepository.UpdateAsynch(playList);
+        }
+        public async Task<bool> IsExist(Guid playlistId)
+        {
+            return await _playListRepository.Any(p=>p.PlayListId == playlistId);
         }
     }
 }

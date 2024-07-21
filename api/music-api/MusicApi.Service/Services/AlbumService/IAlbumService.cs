@@ -14,5 +14,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
         Task<IEnumerable<SongResponse>> GetAllSongOfAlbum(Guid id);
         Task AddSongToAlbum(Guid idAlbum, Guid idSong);
 
+        Task<bool> IsExist(Guid idAlbum);
+
     }
 }

@@ -22,16 +22,18 @@ namespace MusicApi.Infracstructure.Services.AuthService
         }
         public async Task<TokenDTO> Login(LoginDTO req)
         {
-            var user = await _context.users.FirstOrDefaultAsync(u => u.UserName == req.Email);
-            if (user == null) {
+            var user = await _context.users.Include(u => u.Role)
+                       .FirstOrDefaultAsync(u => u.UserName == req.Email);
+            if(user==null)
+            {
                 throw new Exception("Incorrect username or password");
             }
-            if(!BCrypt.Net.BCrypt.Verify(req.Password,user.Password)){
+            if (!BCrypt.Net.BCrypt.Verify(req.Password,user.Password)){
                 throw new Exception("Incorrect username or password");
             }
-            Token refereshToken = _jwtHelper.GenerateRefereshToken(user.UserId);
             var accessToken = _jwtHelper.GenerateAccessToken(user);
-            _context.tokens.Add(refereshToken);
+            Token refereshToken = _jwtHelper.GenerateRefereshToken(user.UserId);
+            
             await _context.SaveChangesAsync();
             return new TokenDTO
             {

@@ -25,16 +25,13 @@ namespace MusicApi.Helper.Helpers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, user.Role!.RoleName),
                 new Claim(JwtRegisteredClaimNames.Sub,_config.GetSection("Jwt:Subject").Value ?? 
                     throw new InvalidOperationException("Occur error internal")),
             };
-            var key = new SymmetricSecurityKey
-                (Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value ??
-                    throw new InvalidOperationException("Occur error internal")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value 
+                      ?? throw new InvalidOperationException("Occur error internal")));
             var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
             var token = new JwtSecurityToken(
                     issuer: _config.GetSection("Jwt:Issuer").Value,
                     audience: _config.GetSection("Jwt:Audience").Value,
@@ -51,9 +48,9 @@ namespace MusicApi.Helper.Helpers
         { 
             return new Token()
             {
-                RefereshToken = Guid.NewGuid().ToString().Substring(0, 64),
-                CreatedAt = long.Parse(DateTime.UtcNow.ToString()),
-                ExpirationTime = long.Parse(DateTime.UtcNow.AddMinutes(10).ToString()),
+                RefereshToken = Guid.NewGuid().ToString(),
+                CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                ExpirationTime = DateTimeOffset.Now.AddDays(7).ToUnixTimeSeconds(),
                 IsRevoked = false,
                 userId = userId,
             };

@@ -15,6 +15,7 @@ namespace MusicApi.Data.Models
         public string AlbumName { get; set; }="";
         public string ImagePath { get; set; }="";
         public string Description { get; set; } = "";
+        public int NumberOfSong { get; set; } = 0;
         public DateTime CreatedTime { get; set; }=DateTime.Now;
         [JsonIgnore]
         public List<AlbumSong> AlbumSongs { get; set; } = new List<AlbumSong>();

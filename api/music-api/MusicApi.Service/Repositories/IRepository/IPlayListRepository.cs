@@ -9,5 +9,6 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
 {
     public interface IPlayListRepository : IBaseRepository<PlayList>
     {
+        public Task<IEnumerable<Song>> GetSong(Guid playlistId);
     }
 }

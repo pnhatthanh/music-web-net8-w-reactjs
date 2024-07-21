@@ -88,6 +88,20 @@ namespace MusicApi.Controllers
             }
         }
 
+        [HttpGet("{id}/songs")]
+        public async Task<IActionResult> GetSongs(Guid id)
+        {
+            try
+            {
+                var songs = await _playListService.GetSongs(id);
+                return Ok(new{ status = true, message = "Get data successfully", data = songs });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPut("remove/song")]
         public async Task<IActionResult> RemoveSongFromPlayList( Guid idPlayList, Guid idSong)
         {

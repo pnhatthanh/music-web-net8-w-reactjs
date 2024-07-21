@@ -41,6 +41,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
                 };
                 album.AlbumSongs.Add(albumSong);
             });
+            album.NumberOfSong = albumDTO.SongIDs.Count;
             await _albumRepository.AddAsynch(album);
             return album;
         }
@@ -59,6 +60,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
                 AlbumId=album.AlbumId,
                 SongId=song.SongId
             });
+            album.NumberOfSong++;
             await _albumRepository.UpdateAsynch(album);
         }
         public async Task<Album> DeleteAlbum(Guid id)
@@ -78,7 +80,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
         public async Task<IEnumerable<SongResponse>> GetAllSongOfAlbum(Guid id)
         {
             var album = await _albumSongRepository.GetSongs(id)
-                      ?? throw new Exception("Not found");
+                      ?? throw new Exception("Album not found");
             return _mapper.Map<IEnumerable<SongResponse>>(album);
         }
         public async Task<IEnumerable<Album>> GetAllAlbums()
@@ -95,6 +97,9 @@ namespace MusicApi.Infracstructure.Services.AlbumService
             return album;
         }
 
-        
+        public async Task<bool> IsExist(Guid idAlbum)
+        {
+            return await _albumRepository.Any(a=>a.AlbumId==idAlbum);
+        }
     }
 }
