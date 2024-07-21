@@ -28,10 +28,10 @@ namespace MusicApi.Controllers
             }
             try
             {
-                var registerDto = await _userService.CreateAccount(registerDTO);
+                 await _userService.CreateAccount(registerDTO);
                 return Ok(new
                 {
-                    status = true, message = "Register successfully", data = registerDto
+                    status = true, message = "Register successfully"
                 });
             }catch (Exception ex)
             {

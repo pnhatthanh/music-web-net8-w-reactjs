@@ -3,18 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 using MusicApi.Helper.Helpers;
+using MusicApi.Infracstructure.Repositories;
+using MusicApi.Infracstructure.Repositories.IRepository;
 
 namespace MusicApi.Infracstructure.Services.ArtistService
 {
     public class ArtistService : IArtistService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IArtistRepository _artistRepository;
         private readonly FileHelper _fileHelper;
         private readonly IMapper _mapper;
         public ArtistService(ApplicationDbContext context, FileHelper fileHelper, IMapper mapper)
         {
-            _context = context;
+            _artistRepository=new ArtistRepository(context);
             _fileHelper = fileHelper;
             _mapper = mapper;
         }
@@ -23,48 +26,36 @@ namespace MusicApi.Infracstructure.Services.ArtistService
         {
             Artist artist = _mapper.Map<Artist>(artistDTO);
             artist.ImagePath = await _fileHelper.UploadFileImage(artistDTO.Image!);
-            _context.artists.Add(artist);
-            await _context.SaveChangesAsync();
+            await _artistRepository.AddAsynch(artist);
             return artist;
         }
 
         public async Task<Artist> DeleteArtist(Guid id)
         {
-            Artist? artist = _context.artists.Find(id);
-            if (artist == null)
-            {
-                throw new ArgumentException("Not found artist");
-            }
-            _context.artists.Remove(artist);
-            await _context.SaveChangesAsync();
+            Artist? artist =await _artistRepository.GetByIdAsynch(id)
+                ?? throw new ArgumentException("Not found artist");
+            await _artistRepository.Delete(artist);
             return artist;
         }
 
-        public async Task<List<Artist>> GetAllArtists()
+        public async Task<IEnumerable<ArtistResponse>> GetAllArtists()
         {
-            return await _context.artists.ToListAsync();
+            return _mapper.Map<IEnumerable<ArtistResponse>>(await _artistRepository.GetAll());
         }
 
         public async Task<Artist> GetArtistById(Guid id)
         {
-            Artist? artist = await _context.artists.Include(a=>a.Songs)
-                .FirstOrDefaultAsync(a=>a.ArtistId==id);
-            if (artist == null)
-            {
-                throw new ArgumentException("Not found artist");
-            }
+            Artist artist = await _artistRepository.FirstOrDefaultWithIncludes(a=>a.ArtistId==id,a=>a.Songs!)
+               ?? throw new ArgumentException("Not found artist");
             return artist;
         }
 
         public async Task<Artist> UpdateArtist(Guid id, ArtistDTO artistDTO)
         {
-            Artist? artist = await _context.artists.FindAsync(id);
-            if (artist == null)
-            {
-                throw new ArgumentException("Not found artist");
-            }
+            Artist? artist = await _artistRepository.GetByIdAsynch(id)
+                    ?? throw new ArgumentException("Not found artist");
             _mapper.Map(artistDTO, artist);
-            await _context.SaveChangesAsync();
+            await _artistRepository.UpdateAsynch(artist);
             return artist;
         }
     }

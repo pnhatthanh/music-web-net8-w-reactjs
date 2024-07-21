@@ -1,11 +1,12 @@
 ﻿using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 
 namespace MusicApi.Infracstructure.Services.ArtistService
 {
     public interface IArtistService
     {
-        Task<List<Artist>> GetAllArtists();
+        Task<IEnumerable<ArtistResponse>> GetAllArtists();
         Task<Artist> GetArtistById(Guid id);
         Task<Artist> AddArtist(ArtistDTO artistDTO);
         Task<Artist> DeleteArtist(Guid id);

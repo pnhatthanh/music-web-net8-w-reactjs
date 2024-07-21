@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Infracstructure.Repositories;
+using MusicApi.Infracstructure.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,11 @@ namespace MusicApi.Infracstructure.Services.PlayListService
 {
     public class PlayListService : IPlayListService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPlayListRepository _playListRepository;
         public readonly IMapper _mapper;
-        public PlayListService(ApplicationDbContext db, IMapper mapper)
+        public PlayListService(ApplicationDbContext context, IMapper mapper)
         {
-            _context = db;
+            _playListRepository = new PlayListRepository(context);
             _mapper = mapper;
         }
         public async Task<PlayList> AddPlayList(PlayListDTO playListDTO, Guid userId)

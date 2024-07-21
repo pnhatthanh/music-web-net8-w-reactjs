@@ -71,7 +71,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
 
         public async Task<Album> GetAlbumById(Guid id)
         {
-            var album = await _albumRepository.FirstOrDefaultAsynch(a => a.AlbumId == id)
+            var album = await _albumRepository.GetByIdAsynch(id)
                 ?? throw new Exception("Not found");
             return album;
         }
