@@ -14,7 +14,7 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
         public Task<T?> GetByIdAsynch(object id);
         public T? GetById(object id);
         public Task<T?> FirstOrDefaultAsynch(Expression<Func<T, bool>> where);
-        public IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+        public Task<IEnumerable<T>> GetMany(Expression<Func<T, bool>> where);
         public Task UpdateAsynch(T entity);
         public Task Delete(T @object);
         public Task DeleteMany(Expression<Func<T, bool>> where);

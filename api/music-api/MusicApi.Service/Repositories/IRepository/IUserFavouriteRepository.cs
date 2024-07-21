@@ -9,6 +9,6 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
 {
     public interface IUserFavouriteRepository : IBaseRepository<UserFavourite>
     {
-        Task<IEnumerable<Song>> GetSongs(Guid userId);
+        Task<IEnumerable<Song?>> GetSongs(Guid userId);
     }
 }

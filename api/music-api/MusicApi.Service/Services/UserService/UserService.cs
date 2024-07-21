@@ -30,7 +30,7 @@ namespace MusicApi.Infracstructure.Services.UserService
 
         public async Task CreateAccount(RegisterDTO registerDTO)
         {
-            if(registerDTO.Password != registerDTO.Password)
+            if(registerDTO.Password != registerDTO.ConfirmPassword)
             {
                 throw new Exception("Re-entered password does not match");
             }

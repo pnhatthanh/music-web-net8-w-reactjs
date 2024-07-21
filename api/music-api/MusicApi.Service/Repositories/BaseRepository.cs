@@ -33,8 +33,8 @@ namespace MusicApi.Infracstructure.Repositories
         public T? GetById(object id) =>  _dbSet.Find(id);
         public virtual async Task<T?> FirstOrDefaultAsynch(Expression<Func<T,bool>> where)
             => await _dbSet.FirstOrDefaultAsync(where);
-        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where) 
-            => _dbSet.Where(where);
+        public virtual async Task<IEnumerable<T>> GetMany(Expression<Func<T, bool>> where) 
+            =>await _dbSet.Where(where).ToListAsync();
 
         public virtual async Task UpdateAsynch(T entity)
         {

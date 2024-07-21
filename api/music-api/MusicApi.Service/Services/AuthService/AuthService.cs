@@ -26,7 +26,7 @@ namespace MusicApi.Infracstructure.Services.AuthService
             if (user == null) {
                 throw new Exception("Incorrect username or password");
             }
-            if(!BCrypt.Net.BCrypt.Verify(req.Password, user.Password)){
+            if(!BCrypt.Net.BCrypt.Verify(req.Password,user.Password)){
                 throw new Exception("Incorrect username or password");
             }
             Token refereshToken = _jwtHelper.GenerateRefereshToken(user.UserId);

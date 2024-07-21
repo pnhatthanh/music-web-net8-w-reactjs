@@ -9,7 +9,7 @@ namespace MusicApi.Data.DTOs
 {
     public class LoginDTO
     {
-        [EmailAddress(ErrorMessage ="Email invalid")]
+        //[EmailAddress(ErrorMessage ="Email invalid")]
         public string? Email {  get; set; }
         public string? Password { get; set; }
     }

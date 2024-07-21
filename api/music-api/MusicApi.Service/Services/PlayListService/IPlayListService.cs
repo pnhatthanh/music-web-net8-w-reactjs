@@ -5,7 +5,7 @@ namespace MusicApi.Infracstructure.Services.PlayListService
 {
     public interface IPlayListService
     {
-        Task<List<PlayList>> GetPlayListsOfUser(Guid userId);
+        Task<IEnumerable<PlayList>> GetPlayListsOfUser(Guid userId);
         Task<PlayList> GetPlayListById(Guid id);
         Task<PlayList> AddPlayList(PlayListDTO playListDTO, Guid userId);
         Task<PlayList> DeletePlayList(Guid id);
