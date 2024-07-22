@@ -12,23 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 #region DbContext
-
 builder.Services.AddDbContext<ApplicationDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 #endregion
 
-#region AddDependency
 
+#region AddDependency
 builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddMusicService();
 builder.Services.AddHelperService();
-
 #endregion
 
 
 #region Authentication
-
 var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuer = true,
@@ -51,6 +47,9 @@ builder.Services.AddAuthentication(options =>
             o.RequireHttpsMetadata = false;
             o.TokenValidationParameters=tokenValidationParameters;
         });
+#endregion
+
+#region AddAuthorization
 
 #endregion
 

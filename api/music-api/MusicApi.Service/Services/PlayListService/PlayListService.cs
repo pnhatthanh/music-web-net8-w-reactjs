@@ -33,6 +33,10 @@ namespace MusicApi.Infracstructure.Services.PlayListService
             var user= await _userRepository.GetByIdAsynch(userId)
                     ?? throw new Exception("User not found");
             PlayList playList =_mapper.Map<PlayList>(playListDTO);
+            if(await _playListRepository.Any(p=>p.PlayListName==playList.PlayListName))
+            {
+                throw new Exception("Name's playlist already exists");
+            }
             playList.UserId = userId;
             await _playListRepository.AddAsynch(playList);
             return playList;

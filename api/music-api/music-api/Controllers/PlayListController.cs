@@ -37,7 +37,7 @@ namespace MusicApi.Controllers
                 var playList = await _playListService.AddPlayList(playListDTO, Guid.Parse(username));
                 return Ok(new
                 {
-                    status=true, message="Create data successfully", data = playList
+                    status=true, message="Create data successfully"
                 });
             }catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace MusicApi.Controllers
             }
         }
 
-        [HttpPut("add/song")]
+        [HttpPut("song/{idPlayList}/{idSong}")]
         public async Task<IActionResult> AddSongToPlayList( Guid idPlayList, Guid idSong)
         {
             try
@@ -68,7 +68,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpGet("user")]
-        public async Task<IActionResult> GetPlayList() 
+        public async Task<IActionResult> GetAllPlayList() 
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -77,12 +77,31 @@ namespace MusicApi.Controllers
             }
             try
             {
-                var playLists = await _playListService.GetPlayListById(Guid.Parse(userId));
+                var playLists = await _playListService.GetPlayListsOfUser(Guid.Parse(userId));
                 return Ok(new
                 {
                     status=true, message="Get data successfully", data=playLists
                 });
             }catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPlayListById(Guid id)
+        {
+            try
+            {
+                var playLists = await _playListService.GetPlayListById(id);
+                return Ok(new
+                {
+                    status = true,
+                    message = "Get data successfully",
+                    data = playLists
+                });
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -102,7 +121,7 @@ namespace MusicApi.Controllers
             }
         }
 
-        [HttpPut("remove/song")]
+        [HttpPut("remove/song/{idPlayList}/{idSong}")]
         public async Task<IActionResult> RemoveSongFromPlayList( Guid idPlayList, Guid idSong)
         {
             try

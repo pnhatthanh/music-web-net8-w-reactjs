@@ -54,15 +54,17 @@ namespace MusicApi.Infracstructure.Services.AuthService
         }
         public async Task<TokenDTO> VerifyAndGenerateToken(string refereshToken)
         {
-            var token = await _tokenRepository.FirstOrDefaultWithIncludes(t => t.RefereshToken == refereshToken, t => t.User!) 
-                ?? throw new Exception("Token invalid");
+            var token = await _tokenRepository.FirstOrDefaultAsynch(t => t.RefereshToken == refereshToken) 
+                        ?? throw new Exception("Token invalid");
             if (token.IsRevoked == true || token.ExpirationTime < DateTimeOffset.Now.ToUnixTimeSeconds())
             {
                 throw new Exception("Token is expired");
             }
             await _tokenRepository.Delete(token);
-            Token newRefereshToken = _jwtHelper.GenerateRefereshToken(token.userId);
-            var accessToken = _jwtHelper.GenerateAccessToken(token.User!);
+            var user =await _userRepository.FirstOrDefaultWithIncludes(u => u.UserId == token.userId, u => u.Role!)
+                       ?? throw new Exception("User not found");
+            Token newRefereshToken = _jwtHelper.GenerateRefereshToken(user!.UserId);
+            var accessToken = _jwtHelper.GenerateAccessToken(user);
             await _tokenRepository.AddAsynch(newRefereshToken);
             return new TokenDTO
             {
