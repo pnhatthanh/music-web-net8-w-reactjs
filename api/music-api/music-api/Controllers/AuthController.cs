@@ -62,11 +62,11 @@ namespace music_api.Controllers
             }
         }
         [HttpPost("referesh")]
-        public async Task<IActionResult> RefereshAccout([FromBody] string refereshToken)
+        public async Task<IActionResult> RefereshAccout([FromBody] TokenDTO _token)
         {
             try
             {
-                var token = await _authService.VerifyAndGenerateToken(refereshToken);
+                var token = await _authService.VerifyAndGenerateToken(_token.RefereshToken!);
                 return Ok(new
                 {
                     status = true, message = "Referesh successfully", data = token

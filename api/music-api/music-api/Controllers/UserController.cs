@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Infracstructure.Services.UserService;
@@ -67,6 +68,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("favourite/add/song/{id}")]
+        [Authorize]
         public async Task<IActionResult> AddSongToFavourite([FromRoute] Guid id)
         {
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;

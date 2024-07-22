@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace MusicApi.Data.Models
         public long CreatedAt { get; set; }
         public bool IsRevoked {  get; set; }
         public Guid userId { get; set; }
-        public User? User { get; set; }
+        [ForeignKey("userId")]
+        public virtual User? User { get; set; }
     }
 }

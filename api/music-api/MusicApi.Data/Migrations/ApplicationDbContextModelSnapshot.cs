@@ -43,6 +43,9 @@ namespace MusicApi.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumberOfSong")
+                        .HasColumnType("int");
+
                     b.HasKey("AlbumId");
 
                     b.ToTable("albums");
@@ -118,6 +121,9 @@ namespace MusicApi.Data.Migrations
                     b.Property<Guid>("PlayListId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumberOfSong")
+                        .HasColumnType("int");
 
                     b.Property<string>("PlayListName")
                         .IsRequired()

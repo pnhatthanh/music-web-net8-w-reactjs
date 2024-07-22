@@ -24,7 +24,7 @@ namespace MusicApi.Helper.Helpers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, user.Role!.RoleName),
                 new Claim(JwtRegisteredClaimNames.Sub,_config.GetSection("Jwt:Subject").Value ?? 
                     throw new InvalidOperationException("Occur error internal")),
@@ -36,9 +36,8 @@ namespace MusicApi.Helper.Helpers
                     issuer: _config.GetSection("Jwt:Issuer").Value,
                     audience: _config.GetSection("Jwt:Audience").Value,
                     claims: claims,
-                    expires: DateTime.UtcNow.Add
-                        (TimeSpan.Parse(_config.GetSection("Jwt:ExpiredTime").Value ??
-                            throw new InvalidOperationException("Occur error internal"))),
+                    expires: DateTime.UtcNow.AddDays(Double.Parse(_config.GetSection("Jwt:ExpiredDayTime").Value 
+                            ?? throw new InvalidOperationException("Occur error internal"))),
                     signingCredentials: credential
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -50,7 +49,7 @@ namespace MusicApi.Helper.Helpers
             {
                 RefereshToken = Guid.NewGuid().ToString(),
                 CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                ExpirationTime = DateTimeOffset.Now.AddDays(7).ToUnixTimeSeconds(),
+                ExpirationTime = DateTimeOffset.Now.AddDays(30).ToUnixTimeSeconds(),
                 IsRevoked = false,
                 userId = userId,
             };
