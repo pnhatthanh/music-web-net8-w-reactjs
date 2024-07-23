@@ -12,10 +12,10 @@ namespace MusicApi.Controllers
     public class ArtistController : ControllerBase
     {
         private readonly IArtistService _artistService;
-        private readonly FileHelper _fileHelper;
-        public ArtistController(IArtistService artistService, FileHelper fileHelper) {
+        //private readonly FileHelper _fileHelper;
+        public ArtistController(IArtistService artistService/*, FileHelper fileHelper*/) {
             _artistService = artistService;
-            _fileHelper = fileHelper;
+            //_fileHelper = fileHelper;
         }
 
         /// <summary>
@@ -137,16 +137,16 @@ namespace MusicApi.Controllers
                     });
             }
         }
-        [HttpGet("image/{imageName}")]
-        public async Task<IActionResult> GetArtistImage(string imageName)
-        {
-            var resource = await _fileHelper.GetFileImage(imageName);
-            if (resource == null)
-            {
-                return NotFound();
-            }
-            return File(resource, "image/jpeg");
-        }
+        //[HttpGet("image/{imageName}")]
+        //public async Task<IActionResult> GetArtistImage(string imageName)
+        //{
+        //    var resource = await _fileHelper.GetFileImage(imageName);
+        //    if (resource == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return File(resource, "image/jpeg");
+        //}
 
     }
 }

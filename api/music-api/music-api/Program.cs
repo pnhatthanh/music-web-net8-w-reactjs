@@ -7,6 +7,8 @@ using MusicApi.Helper;
 using MusicApi.Service;
 using System.Text;
 using System.Text.Json.Serialization;
+using CloudinaryDotNet;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +24,6 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddMusicService();
 builder.Services.AddHelperService();
 #endregion
-
 
 #region Authentication
 var tokenValidationParameters = new TokenValidationParameters
@@ -52,6 +53,18 @@ builder.Services.AddAuthentication(options =>
 #region AddAuthorization
 
 #endregion
+
+#region Cloudinary
+Account account = new Account (
+    builder.Configuration.GetSection("Cloudinary:Cloudname").Value,
+    builder.Configuration.GetSection("Cloudinary:ApiKey").Value,
+    builder.Configuration.GetSection("Cloudinary:ApiSecret").Value
+);
+var cloudinary = new Cloudinary(account);
+builder.Services.AddSingleton(cloudinary);
+#endregion
+
+builder.Services.AddLogging();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

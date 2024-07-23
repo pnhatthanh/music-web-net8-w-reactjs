@@ -11,11 +11,11 @@ namespace MusicApi.Controllers
     public class SongController : ControllerBase
     {
         private readonly ISongService _songService;
-        private readonly FileHelper _fileHelper;
-        public SongController(ISongService songService, FileHelper fileHelper)
+        //private readonly FileHelper _fileHelper;
+        public SongController(ISongService songService/*, FileHelper fileHelper*/)
         {
             _songService = songService;
-            _fileHelper = fileHelper;  
+            //_fileHelper = fileHelper;  
         }
         [HttpGet]
         public async Task<IActionResult> GetAllSongs()
@@ -111,26 +111,26 @@ namespace MusicApi.Controllers
             }
         }
 
-        [HttpGet("image/{url}")]
-        public async Task<IActionResult> GetSongImage([FromRoute]  string url)
-        {
-            var resource =await _fileHelper.GetFileImage(url);
-            if(resource == null)
-            {
-                return NotFound();
-            }
-            return File(resource, "image/jpeg");
-        }
+        //[HttpGet("image/{url}")]
+        //public async Task<IActionResult> GetSongImage([FromRoute]  string url)
+        //{
+        //    var resource =await _fileHelper.GetFileImage(url);
+        //    if(resource == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return File(resource, "image/jpeg");
+        //}
 
-        [HttpGet("audio/{url}")]
-        public async Task<IActionResult> GetSongAudio([FromRoute] string url)
-        {
-            var resource = await _fileHelper.GetFileAudio(url);
-            if (resource == null)
-            {
-                return NotFound();
-            }
-            return File(resource, "audio/mpeg");
-        }
+        //[HttpGet("audio/{url}")]
+        //public async Task<IActionResult> GetSongAudio([FromRoute] string url)
+        //{
+        //    var resource = await _fileHelper.GetFileAudio(url);
+        //    if (resource == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return File(resource, "audio/mpeg");
+        //}
     }
 }

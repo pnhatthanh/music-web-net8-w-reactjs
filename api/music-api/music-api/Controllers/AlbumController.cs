@@ -11,11 +11,11 @@ namespace MusicApi.Controllers
     public class AlbumController : ControllerBase
     {
         private readonly IAlbumService _albumService;
-        private readonly FileHelper _fileHelper;
-        public AlbumController(IAlbumService albumService, FileHelper fileHelper)
+        //private readonly FileHelper _fileHelper;
+        public AlbumController(IAlbumService albumService/*, FileHelper fileHelper*/)
         {
             this._albumService = albumService;
-            _fileHelper = fileHelper;
+            //_fileHelper = fileHelper;
         }
 
         /// <summary>
@@ -180,15 +180,15 @@ namespace MusicApi.Controllers
             }
         }
 
-        [HttpGet("image/{imageName}")]
-        public async Task<IActionResult> GetAlbumImage(string imageName)
-        {
-            var resource = await _fileHelper.GetFileImage(imageName);
-            if (resource == null)
-            {
-                return NotFound();
-            }
-            return File(resource, "image/jpeg");
-        }
+        //[HttpGet("image/{imageName}")]
+        //public async Task<IActionResult> GetAlbumImage(string imageName)
+        //{
+        //    var resource = await _fileHelper.GetFileImage(imageName);
+        //    if (resource == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return File(resource, "image/jpeg");
+        //}
     }
 }
