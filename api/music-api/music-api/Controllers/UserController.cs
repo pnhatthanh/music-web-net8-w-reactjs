@@ -44,6 +44,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpGet("favourite/songs")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetFavourites()
         {
             var userId=User.Claims.First(c=>c.Type==ClaimTypes.NameIdentifier).Value;
@@ -68,7 +69,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("favourite/add/song/{id}")]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> AddSongToFavourite([FromRoute] Guid id)
         {
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -93,6 +94,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("favourite/remove/song/{id}")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> RemoveSongFromFavourite([FromRoute] Guid id)
         {
             var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;

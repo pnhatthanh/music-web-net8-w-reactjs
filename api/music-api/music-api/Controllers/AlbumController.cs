@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
@@ -70,6 +71,7 @@ namespace MusicApi.Controllers
         ///     
         /// }
         [HttpPost("add")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreatAlbum([FromForm] AlbumDTO albumDTO)
         {
             if(!ModelState.IsValid)
@@ -140,6 +142,7 @@ namespace MusicApi.Controllers
         /// <returns></returns>
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteAlbum(Guid id)
         {
             try
@@ -154,6 +157,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> UpdateAlbum([FromRoute] Guid id, [FromBody] AlbumDTO albumDTO)
         {
             if(!ModelState.IsValid)
@@ -183,6 +187,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("{albumId}/{songId}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> AddSongToAlbum([FromRoute] Guid albumId, [FromRoute] Guid songId)
         {
             try

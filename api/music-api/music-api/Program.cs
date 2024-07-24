@@ -51,7 +51,11 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 #region AddAuthorization
-
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    option.AddPolicy("User", policy => policy.RequireRole("User"));
+});
 #endregion
 
 #region Cloudinary

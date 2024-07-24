@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
@@ -51,6 +52,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSong([FromForm] SongDTO songDTO)
         {
             if (!ModelState.IsValid)
@@ -72,6 +74,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSong([FromRoute] Guid id)
         {
             try
@@ -88,6 +91,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromForm] SongDTO songDTO)
         {
             if (!ModelState.IsValid)

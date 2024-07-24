@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Infracstructure.Services.PlayListService;
@@ -8,6 +9,7 @@ namespace MusicApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User")]
     public class PlayListController : ControllerBase
     {
         private readonly IPlayListService _playListService;

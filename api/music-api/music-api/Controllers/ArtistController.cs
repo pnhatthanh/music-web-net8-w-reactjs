@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
@@ -89,6 +90,7 @@ namespace MusicApi.Controllers
         ///     }
 
         [HttpPost("add")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> AddArtist([FromForm] ArtistDTO request) {
             if(!ModelState.IsValid)
             {
@@ -115,6 +117,7 @@ namespace MusicApi.Controllers
         /// Sample request: Delete api/v1/artist/string
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteArtist([FromRoute] Guid id)
         {
             try
@@ -129,6 +132,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateArtist([FromRoute] Guid id, [FromBody] ArtistDTO request)
         {
             if (!ModelState.IsValid)
