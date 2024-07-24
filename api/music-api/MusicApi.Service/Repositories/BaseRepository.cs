@@ -24,6 +24,13 @@ namespace MusicApi.Infracstructure.Repositories
         {
             return await _dbSet.ToListAsync();
         }
+        public async Task<IEnumerable<T>> GetAllPaged(int page, int pageSize,params Expression<Func<T, object>>[] includes)
+        {
+            var query = _dbSet.AsQueryable().ApplyIncludes(includes);
+            return await query.Skip((page-1)*pageSize)
+                        .Take(pageSize)
+                        .ToListAsync();
+        }
         public virtual async Task AddAsynch(T entity)
         {
             _dbSet.Add(entity);
@@ -72,7 +79,6 @@ namespace MusicApi.Infracstructure.Repositories
             return await query.FirstOrDefaultAsync(where);
         }
 
-        
     }
     internal static class RepositoryExtensions
     {

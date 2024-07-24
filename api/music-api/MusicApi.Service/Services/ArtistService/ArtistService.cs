@@ -37,12 +37,16 @@ namespace MusicApi.Infracstructure.Services.ArtistService
             await _artistRepository.Delete(artist);
             return artist;
         }
-
         public async Task<IEnumerable<ArtistResponse>> GetAllArtists()
         {
             return _mapper.Map<IEnumerable<ArtistResponse>>(await _artistRepository.GetAll());
         }
-
+        public async Task<IEnumerable<ArtistResponse>> GetAllArtistsWithPaged(int page, int pageSize)
+        {
+            if(page <1) page = 1;
+            return _mapper.Map<IEnumerable<ArtistResponse>>
+                (await _artistRepository.GetAllPaged(page,pageSize));
+        }
         public async Task<Artist> GetArtistById(Guid id)
         {
             Artist artist = await _artistRepository.FirstOrDefaultWithIncludes(a=>a.ArtistId==id,a=>a.Songs!)

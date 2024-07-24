@@ -18,11 +18,11 @@ namespace MusicApi.Controllers
             //_fileHelper = fileHelper;  
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllSongs()
+        public async Task<IActionResult> GetAllSongs([FromQuery] int page,[FromQuery] int pageSize)
         {
             try
             {
-                var songs = await _songService.GetAllSongs();
+                var songs = await _songService.GetAllSongs(page,pageSize);
                 return songs.Any() ? Ok(new { status = true, message = "Get data successfully", data = songs })
                     : NoContent();
             } catch (Exception ex)

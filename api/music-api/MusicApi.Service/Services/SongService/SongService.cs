@@ -29,7 +29,6 @@ namespace MusicApi.Infracstructure.Services.SongService
             await _songRepository.AddAsynch(song);
             return song;
         }
-
         public async Task<Song> DeleteSong(Guid id)
         {
             var song = await _songRepository.GetByIdAsynch(id) 
@@ -40,9 +39,11 @@ namespace MusicApi.Infracstructure.Services.SongService
             return song;
         }
 
-        public async Task<IEnumerable<SongResponse>> GetAllSongs()
+        public async Task<IEnumerable<SongResponse>> GetAllSongs(int page, int pageSize)
         {
-            return _mapper.Map<IEnumerable<SongResponse>>(await _songRepository.GetAllWithIncludes(s => s.artist!));
+            if (page < 1) page = 1;
+            return _mapper.Map<IEnumerable<SongResponse>>
+                    (await _songRepository.GetAllPaged(page,pageSize,s => s.artist!));
         }
 
         public async Task<Song> GetSongById(Guid id)

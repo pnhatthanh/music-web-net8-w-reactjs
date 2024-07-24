@@ -40,6 +40,25 @@ namespace MusicApi.Controllers
                 });
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllAlbumWithPaged([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            try
+            {
+                var alnums = await _albumService.GetAllAlbumWithPaged(page,pageSize);
+                return alnums.Any() ?
+                    Ok(new { status = true, message = "Get Data successfully", data = alnums })
+                    : NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    status = false,
+                    message = ex.Message,
+                });
+            }
+        }
 
         /// <summary>
         /// 

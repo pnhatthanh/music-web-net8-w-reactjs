@@ -87,6 +87,11 @@ namespace MusicApi.Infracstructure.Services.AlbumService
         {
             return await _albumRepository.GetAll();
         }
+        public async Task<IEnumerable<Album>> GetAllAlbumWithPaged(int page, int pageSize)
+        {
+            if (page < 1) page = 1;
+            return await _albumRepository.GetAllPaged(page, pageSize);
+        }
 
         public async Task<Album> UpdateAlbum(Guid id, AlbumDTO albumDTO)
         {

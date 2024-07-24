@@ -39,6 +39,22 @@ namespace MusicApi.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetArtistsWithPaged([FromQuery]int page,[FromQuery]int pageSize)
+        {
+            try
+            {
+                var artists = await _artistService.GetAllArtistsWithPaged(page,pageSize);
+                return artists.Any() ?
+                        Ok(new { status = true, message = "Get data succesfully", data = artists })
+                        : NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { status = false, message = ex.Message });
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

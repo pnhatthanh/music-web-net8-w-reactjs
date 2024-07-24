@@ -64,6 +64,18 @@ var cloudinary = new Cloudinary(account);
 builder.Services.AddSingleton(cloudinary);
 #endregion
 
+#region CORS
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll", build =>
+    {
+        build.WithOrigins("http://localhost:3000")
+             .AllowAnyHeader()
+             .AllowAnyMethod();
+    });
+});
+#endregion
+
 builder.Services.AddLogging();
 
 builder.Services.AddControllers();
@@ -73,7 +85,7 @@ builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
