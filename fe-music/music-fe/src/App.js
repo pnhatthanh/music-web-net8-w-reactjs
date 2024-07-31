@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home, AlbumDetail, Public, Album, Artist} from './screens/';
+import {Home, AlbumDetail, Public, Album, Artist} from './pages/';
 import {Routes, Route} from 'react-router-dom';
 import paths from './ultis/path';
 export default function App() {
