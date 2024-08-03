@@ -20,7 +20,6 @@ export default function Home() {
         setSongs(songResponse.data?.data);
         setAlbums(albumResponse.data?.data); 
         setArtists(artistResponse.data?.data)
-        console.log(artistResponse.data.data)
       } catch (error) {
         console.error('Error fetching songs:', error);
       }
@@ -36,6 +35,7 @@ export default function Home() {
       {songs.map(song => (
           <SongItem
             key={song.songId}
+            songId={song.songId}
             thumbnail={song.songImagePath}
             title={song.songName}
             artist={song.artist.artistName}
@@ -44,7 +44,7 @@ export default function Home() {
       </div>
       <div className='flex justify-between items-end'>
           <h3 className='text-xl font-bold text-white pt-2'>Recommended album</h3>
-          <Link to='/album' className='mr-3 text-base text-slate-200 font-medium  hover:underline'>Show all</Link>
+          <Link to='/albums' className='mr-3 text-base text-slate-200 font-medium  hover:underline'>Show all</Link>
       </div>
       <div className='grid grid-cols-4 grid-rows-1 gap-x-3 mt-1 mb-4'>
       {
