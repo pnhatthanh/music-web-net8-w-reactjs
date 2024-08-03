@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import icons from '../ultis/icon'
 import * as apis from '../apis'
 import { addMusic } from '../store/musicStore'
+import { setPlay, setRecentSong } from '../actions/musicAction'
 
 
 const { FaHeart, IoPlaySkipForward, IoPlay, IoPlaySkipBack, IoMdPause, LiaRandomSolid, FaVolumeHigh, IoRepeat }=icons
 
 export default function Player() {
-    const songId=useSelector(state=>state.musicReducer.curSongId)
+    const {curSongId,isPlaying }=useSelector(state=>state.musicReducer)
+    const dispatch=useDispatch();
     const audio=useRef(new Audio())
     const song=useRef(null);
-    const [statePause,settPlay]=useState(true)
     const [duration, setDuration]=useState(1)
     const [currentTime, setCurrentTime]=useState(0);
     useEffect(()=>{
@@ -22,10 +23,12 @@ export default function Player() {
             }else{
                 const response=await apis.getSongById(id);
                 addMusic(id);
+                dispatch(setRecentSong())
                 song.current=response.data?.data
                 audio.current.src=song.current.songPath; 
             }
             audio.current.load();
+            isPlaying ? audio.current.play() : audio.current.pause()
             const updateTime = () => setCurrentTime(audio.current.currentTime);
             const updateDuration = () =>  setDuration(audio.current.duration)
             audio.current.addEventListener('timeupdate', updateTime);
@@ -35,14 +38,13 @@ export default function Player() {
                 audio.current.removeEventListener('loadedmetadata',updateDuration)
             }
         }
-        fetchSong(songId);
-    },[songId]);
+        fetchSong(curSongId);
+    },[curSongId]);
 
-    const handelPlay = ()=>
-        settPlay(prev=>{
-            prev === true ? audio.current.play() :  audio.current.pause();
-            return !prev;
-        })
+    const handelPlay = ()=>{
+        isPlaying ? audio.current.pause() : audio.current.play()
+        dispatch(setPlay(!isPlaying));
+    }
   return (
     <div className='flex h-full bg-teal-900 '>
         <div className='mx-6 h-full w-[25%] flex-auto flex gap-4 items-center text-white '>
@@ -72,7 +74,7 @@ export default function Player() {
                 <span className='cursor-pointer'><IoRepeat size={30}/></span>
                 <span className='cursor-pointer'><IoPlaySkipBack size={30}/></span>
                 <span onClick={handelPlay} className='cursor-pointer rounded-full bg-slate-400 p-2 transition-all'> 
-                    {statePause ? <IoPlay size={30}/> : <IoMdPause size={30}/>}
+                    {isPlaying ? <IoMdPause size={30}/>: <IoPlay size={30}/> }
                 </span>
                 <span className='cursor-pointer'><IoPlaySkipForward size={30}/></span>
                 <span className='cursor-pointer'><LiaRandomSolid size={30}/></span>
