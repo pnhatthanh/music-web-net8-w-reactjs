@@ -18,6 +18,7 @@ namespace MusicApi.Data.Models
         public string ImagePath{ get; set; }="";
         public int Followers { get; set; } = 0;
         public string About { get; set; } = "";
+        [JsonIgnore]
         public virtual List<Song>? Songs { get; set; }  
     }
 }

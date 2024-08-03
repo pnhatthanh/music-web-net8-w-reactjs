@@ -11,6 +11,7 @@ namespace MusicApi.Data.Response
         public Guid SongId { get; set; }
         public string SongName { get; set; } = "";
         public string SongImagePath { get; set; } = "";
+        public string SongPath { get; set; } = "";
         public ArtistResponse? artist { get; set; }
 
     }

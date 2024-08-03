@@ -41,7 +41,7 @@ namespace MusicApi.Controllers
                 });
             }
         }
-        [HttpGet]
+        [HttpGet("paged")]
         public async Task<IActionResult> GetAllAlbumWithPaged([FromQuery] int page, [FromQuery] int pageSize)
         {
             try

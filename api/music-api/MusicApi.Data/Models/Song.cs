@@ -26,7 +26,6 @@ namespace MusicApi.Data.Models
         [JsonIgnore]
         public Guid ArtistId { get; set; }
         [ForeignKey("ArtistId")]
-        [JsonIgnore]
         public virtual Artist? artist{ get; set; }
         [JsonIgnore]
         public List<PlayList> PlayLists{ get; set; } =new List<PlayList>();

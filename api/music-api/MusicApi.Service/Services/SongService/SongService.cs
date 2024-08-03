@@ -46,9 +46,15 @@ namespace MusicApi.Infracstructure.Services.SongService
                     (await _songRepository.GetAllPaged(page,pageSize,s => s.artist!));
         }
 
-        public async Task<Song> GetSongById(Guid id)
+        public async Task<IEnumerable<SongResponse>> GetQueue(Guid[] idSongs)
         {
-            return await _songRepository.FirstOrDefaultWithIncludes(s=>s.SongId==id, s => s.artist!)
+            var songs = await _songRepository.GetManyWithIncludes(s => idSongs.Contains(s.SongId), s => s.artist!);
+            return _mapper.Map<IEnumerable<SongResponse>>(songs);
+        }
+
+        public async Task<SongResponse> GetSongById(Guid id)
+        {
+            return _mapper.Map<SongResponse>(await _songRepository.FirstOrDefaultWithIncludes(s => s.SongId == id, s => s.artist!))
                 ?? throw new ArgumentException("Not found song");
         }
         public async Task<Song> UpdateSong(Guid id, SongDTO songDTO)

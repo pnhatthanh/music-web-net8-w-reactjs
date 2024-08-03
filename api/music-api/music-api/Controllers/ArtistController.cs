@@ -40,7 +40,7 @@ namespace MusicApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("paged")]
         public async Task<IActionResult> GetArtistsWithPaged([FromQuery]int page,[FromQuery]int pageSize)
         {
             try

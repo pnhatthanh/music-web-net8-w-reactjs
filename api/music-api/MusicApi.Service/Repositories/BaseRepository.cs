@@ -43,6 +43,10 @@ namespace MusicApi.Infracstructure.Repositories
         public virtual async Task<IEnumerable<T>> GetMany(Expression<Func<T, bool>> where) 
             =>await _dbSet.Where(where).ToListAsync();
 
+        public async Task<IEnumerable<T>> GetManyWithIncludes(Expression<Func<T, bool>> where, Expression<Func<T, object>> include)
+        {
+           return await _dbSet.Where(where).Include(include).ToListAsync();
+        }
         public virtual async Task UpdateAsynch(T entity)
         {
             _dbSet.Attach(entity);

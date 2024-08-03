@@ -51,6 +51,23 @@ namespace MusicApi.Controllers
                 });
             }
         }
+        [HttpPost("queue")]
+        public async Task<IActionResult> GetQueue([FromBody] IdSongDTO idSongDTO)
+        {
+            try
+            {
+                var songs =await _songService.GetQueue(idSongDTO.idSongs!);
+                return Ok(new { staus = true, message = "Get data successfully", data = songs });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    status = false,
+                    message = ex.Message,
+                });
+            }
+        }
         [HttpPost("add")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSong([FromForm] SongDTO songDTO)
