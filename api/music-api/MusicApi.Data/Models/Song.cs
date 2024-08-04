@@ -15,6 +15,7 @@ namespace MusicApi.Data.Models
         public string SongName { get; set;}="";
         public string SongPath{ get; set; }="";
         public string SongImagePath{ get; set; }="";
+        public int ListenCount {  get; set; }=0;
         public string SongLyrics { get; set; } = "";
         public int Duration{ get; set; }
         public DateTime ReleaseDate{ get; set; }=DateTime.Now;

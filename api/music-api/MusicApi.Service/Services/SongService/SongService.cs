@@ -46,10 +46,11 @@ namespace MusicApi.Infracstructure.Services.SongService
                     (await _songRepository.GetAllPaged(page,pageSize,s => s.artist!));
         }
 
-        public async Task<IEnumerable<SongResponse>> GetQueue(Guid[] idSongs)
+        public async Task<IEnumerable<SongResponse>> GetRecentLyPlay(Guid[] idSongs)
         {
             var songs = await _songRepository.GetManyWithIncludes(s => idSongs.Contains(s.SongId), s => s.artist!);
-            return _mapper.Map<IEnumerable<SongResponse>>(songs);
+            var sortedSong=songs.OrderBy(song => Array.IndexOf(idSongs, song.SongId)).ToList();
+            return _mapper.Map<IEnumerable<SongResponse>>(sortedSong);
         }
 
         public async Task<SongResponse> GetSongById(Guid id)

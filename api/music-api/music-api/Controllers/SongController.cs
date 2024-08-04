@@ -51,12 +51,12 @@ namespace MusicApi.Controllers
                 });
             }
         }
-        [HttpPost("queue")]
-        public async Task<IActionResult> GetQueue([FromBody] IdSongDTO idSongDTO)
+        [HttpPost("recently-play")]
+        public async Task<IActionResult> GetRecentLyPlay([FromBody] IdSongDTO idSongDTO)
         {
             try
             {
-                var songs =await _songService.GetQueue(idSongDTO.idSongs!);
+                var songs =await _songService.GetRecentLyPlay(idSongDTO.idSongs!);
                 return Ok(new { staus = true, message = "Get data successfully", data = songs });
             }
             catch (Exception ex)

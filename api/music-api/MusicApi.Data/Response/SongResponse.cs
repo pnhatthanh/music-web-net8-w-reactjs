@@ -12,6 +12,8 @@ namespace MusicApi.Data.Response
         public string SongName { get; set; } = "";
         public string SongImagePath { get; set; } = "";
         public string SongPath { get; set; } = "";
+        public int ListenCount { get; set; }
+        public int Duration { get; set; }
         public ArtistResponse? artist { get; set; }
 
     }
