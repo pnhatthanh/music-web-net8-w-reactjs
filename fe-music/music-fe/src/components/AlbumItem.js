@@ -1,9 +1,15 @@
 import React from 'react'
 import { IoPlay } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 export default function AlbumItem(props) {
+  const navigate=useNavigate();
+  const handleNavigation = () => {
+    navigate(`/albums/${props.title}/${props.id}`);
+  };
   return (
-    <div className='w-full relative p-3 h-[300px] rounded-lg transition-all cursor-pointer hover:bg-teal-900'>
+    <div className='w-full relative p-3 h-[300px] rounded-lg transition-all cursor-pointer hover:bg-teal-900'
+      onClick={handleNavigation}>
         <img className='w-full h-[220px] object-cover rounded-lg' src={props.thumbnail} alt='AlbumImage'/>
         <div className='px-1 mt-2'>
             <h3 className='text-xl font-semibold text-slate-200'>{props.title}</h3>

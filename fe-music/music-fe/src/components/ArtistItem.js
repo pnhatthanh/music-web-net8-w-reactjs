@@ -1,6 +1,8 @@
 import React from 'react'
 import { IoPlay } from "react-icons/io5";
 export default function ArtistItem(props) {
+  
+
   return (
     <div className='w-full relative p-3  rounded-lg transition-all cursor-pointer hover:bg-teal-900'>
         <img className='w-full object-cover rounded-full' src={props.thumbnail}/>

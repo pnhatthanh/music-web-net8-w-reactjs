@@ -51,6 +51,7 @@ export default function Home() {
         albums.map(album=>(
           <AlbumItem
             key={album.albumId}
+            id={album.albumId}
             thumbnail={album.imagePath}
             title={album.albumName}
           />

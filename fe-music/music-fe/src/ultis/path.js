@@ -3,7 +3,7 @@ const paths={
     HOME: "",
     ALBUM: "albums",
     ARTIST: "artists",
-    ALBUM_TITLE_ID: 'album/:title/:id',
+    ALBUM_TITLE_ID: 'albums/:title/:id',
     FAVOURITE: "my-favourite",
      PLAYLIST: "my-playlist",
     
