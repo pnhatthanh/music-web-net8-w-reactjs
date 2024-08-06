@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import SongItem from './SongItem';
-import * as apis from '../apis'
 import { useSelector } from 'react-redux';
 
 export default function SideBarRight() {
@@ -8,12 +7,9 @@ export default function SideBarRight() {
   const {recentSongs} = useSelector(state=>state.musicReducer)
   const [recentPlays, setRecentPlays]= useState([])
   useEffect(()=>{
-    const fetchData= async (IDs)=>{
-      console.log("fetch")
-      const response=await apis.getRecentlyPlay(IDs);
-      setRecentPlays(response.data?.data)
-    }
-      fetchData(recentSongs)
+    //fix cho nay
+    console.log("effect")
+    setRecentPlays(recentSongs)
   },[recentSongs])
 
   return (
@@ -39,7 +35,7 @@ export default function SideBarRight() {
                 songId={song.songId}
                 thumbnail={song.songImagePath}
                 title={song.songName}
-                artist={song.artist.artistName}
+                artist={song.artistName}
               />
             ))
           )

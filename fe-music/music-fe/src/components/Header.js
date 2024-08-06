@@ -3,10 +3,12 @@ import { IoNotifications } from "react-icons/io5";
 import { IoChevronBack } from "react-icons/io5";
 import { IoChevronForwardSharp } from "react-icons/io5";
 import Search from './Search';
+import { useParams } from 'react-router-dom';
 
 export default function Header() {
+  const {artist}=useParams();
   return (
-    <div className='h-[70px] flex py-[14px] justify-between items-center'>
+    <div className={`${artist ? "bg-slate-500 rounded-t-2xl" : ""} h-[70px] flex px-3 py-[14px] justify-between items-center`}>
         <div className='flex text-slate-800 gap-2'>
             <span className='p-1 rounded-full  bg-teal-700'><IoChevronBack size={24}/></span>
             <span className='p-1 rounded-full  bg-teal-700'><IoChevronForwardSharp size={24}/></span>

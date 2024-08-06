@@ -28,7 +28,7 @@ export default function Home() {
   }, []);
   
   return (
-    <div className='px-2'>
+    <div className='px-3'>
       <Carousel/>
       <h3 className='text-xl font-bold text-white pt-2'>Discover</h3>
       <div className='grid grid-cols-4 grid-rows-2 mt-1 mb-4'>
@@ -67,6 +67,7 @@ export default function Home() {
         artists.map(artist=>(
           <ArtistItem
             key={artist.artistId}
+            id={artist.artistId}
             thumbnail={artist.imagePath}
             name={artist.artistName}
           />

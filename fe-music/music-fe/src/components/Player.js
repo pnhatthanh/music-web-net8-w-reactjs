@@ -22,9 +22,15 @@ export default function Player() {
                 audio.current.src="https://cdn.pixabay.com/audio/2022/11/11/audio_84306ee149.mp3" 
             }else{
                 const response=await apis.getSongById(id);
-                addMusic(id);
-                dispatch(setRecentSong())
                 song.current=response.data?.data
+                const recentSong={
+                 songId: song.current.songId,
+                 songName: song.current.songName,
+                 songImagePath: song.current.songImagePath,
+                 artistName: song.current.artist.artistName
+                }
+                addMusic(recentSong);
+                dispatch(setRecentSong())
                 audio.current.src=song.current.songPath; 
             }
             audio.current.load();

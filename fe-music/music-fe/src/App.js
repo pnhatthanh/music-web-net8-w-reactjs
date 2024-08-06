@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home, AlbumDetail, Public, Album, Artist} from './pages/';
+import {Home, AlbumDetail, Public, Album, Artist, ArtistDetail} from './pages/';
 import {Routes, Route} from 'react-router-dom';
 import paths from './ultis/path';
 export default function App() {
@@ -11,6 +11,7 @@ export default function App() {
           <Route path={paths.ALBUM_TITLE_ID} element={<AlbumDetail />}/>
           <Route path={paths.ALBUM} element= {<Album />}/>
           <Route path={paths.ARTIST} element= {<Artist/>}/>
+          <Route path={paths.ARTIST_NAME_ID} element={<ArtistDetail/>}/>
         </Route>
       </Routes>
     </div>

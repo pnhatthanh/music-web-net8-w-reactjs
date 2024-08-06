@@ -10,6 +10,8 @@ import { FaVolumeHigh } from "react-icons/fa6";
 import { IoRepeat } from "react-icons/io5";
 import { IoPlaySkipForward } from "react-icons/io5";
 import { IoPlay } from "react-icons/io5";
+import { RiUserFollowFill } from "react-icons/ri";
+import { SlUserFollow } from "react-icons/sl";
 const icons={
     FaHome,
     MdOutlineLibraryMusic,
@@ -23,5 +25,7 @@ const icons={
     LiaRandomSolid,
     FaVolumeHigh,
     IoRepeat,
+    SlUserFollow,
+    RiUserFollowFill
 }
 export default icons;

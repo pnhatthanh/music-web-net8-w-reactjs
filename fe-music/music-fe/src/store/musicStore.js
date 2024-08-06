@@ -3,13 +3,13 @@ const getSongRecent=()=>{
     const songs=window.localStorage.getItem(SONG_RECENT);
     return songs ? JSON.parse(songs) : [] 
 }
-const addMusic=(idSong)=>{
+const addMusic=(song)=>{
     const songs=getSongRecent();
-    const index = songs.findIndex(s=>s===idSong)
+    const index = songs.findIndex(s=>s.songId===song.songId)
     if(index===-1){
         if(songs.length>10)
             songs.pop();
-        songs.unshift(idSong);
+        songs.unshift(song);
     }else{
         songs.unshift(...songs.splice(index, 1));
     }

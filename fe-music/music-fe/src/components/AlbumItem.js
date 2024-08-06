@@ -1,11 +1,12 @@
 import React from 'react'
 import { IoPlay } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import generateTitle from '../ultis/generateTitle';
 
 export default function AlbumItem(props) {
   const navigate=useNavigate();
   const handleNavigation = () => {
-    navigate(`/albums/${props.title}/${props.id}`);
+    navigate(`/albums/${generateTitle(props.title)}/${props.id}`);
   };
   return (
     <div className='w-full relative p-3 h-[300px] rounded-lg transition-all cursor-pointer hover:bg-teal-900'

@@ -1,7 +1,7 @@
 import actionTypes from "../actions/actionType";
 import { getFirtSong, getSongRecent } from "../store/musicStore";
 const initState={
-    curSongId: getFirtSong(),
+    curSongId: getFirtSong()?.songId,
     isPlaying: false,
     recentSongs: getSongRecent()
 };
