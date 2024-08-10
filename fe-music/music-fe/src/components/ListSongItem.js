@@ -17,7 +17,7 @@ export default function ListSongItem(props) {
             <span className="text-slate-400">{props.artist}</span>
           </div>
       </div>
-      <span className="w-1/3 flex items-center">{props.listenCount?.toLocaleString('en-US')}</span>
+      <span className={`w-1/3 ${props.listenCount ? 'flex': 'hi'} items-center `}>{props.listenCount?.toLocaleString('en-US')}</span>
       <span className="w-1/5 flex justify-center text-sm items-center">{moment.utc(props.duration*1000).format('mm:ss')}</span>
     </div>
   );

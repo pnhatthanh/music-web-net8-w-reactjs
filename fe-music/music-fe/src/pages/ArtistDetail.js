@@ -17,7 +17,6 @@ export default function ArtistDetail() {
   const {id}=useParams()
   useEffect(()=>{
     const fetchData=async (artistId)=>{
-      console.log("fetch")
       const artistResponse=await apis.getArtistById(artistId);
       const songsResponse=await apis.getAllSongOfArtist(1,6,artistId)
       const artistsResponse=await apis.getAllArtist();
@@ -71,11 +70,11 @@ export default function ArtistDetail() {
       <div className="px-3 mt-8">
         <h3 className="text-2xl text-white font-medium mb-3">About</h3>
         <div className="flex gap-x-5">
-          <img className="h-[300px] w-2/5 object-top rounded-md" src="https://vnn-imgs-f.vgcloud.vn/2019/02/22/09/img-3722.jpg" alt="Artist"/>
+          <img className="h-[300px] w-2/5 object-top rounded-md" src={artist.imagePath} alt="Artist"/>
           <div className="py-2">
             <p className="text-slate-300 line-clamp-[8]">{artist.about}</p>
             <button onClick={toggleModal} className="underline decoration-solid text-slate-100 hover:text-slate-300">Xem thêm</button>
-            <p className="mt-8 text-slate-200 text-lg flex items-center gap-1"><RiUserFollowFill size={20}/> 512.570 followers</p>
+            <p className="mt-8 text-slate-200 text-lg flex items-center gap-1"><RiUserFollowFill size={20}/>{artist.followers?.toLocaleString()} followers</p>
           </div>
         </div>
       </div>

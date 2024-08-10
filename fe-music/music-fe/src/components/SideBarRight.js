@@ -7,8 +7,6 @@ export default function SideBarRight() {
   const {recentSongs} = useSelector(state=>state.musicReducer)
   const [recentPlays, setRecentPlays]= useState([])
   useEffect(()=>{
-    //fix cho nay
-    console.log("effect")
     setRecentPlays(recentSongs)
   },[recentSongs])
 

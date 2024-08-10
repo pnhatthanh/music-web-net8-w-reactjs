@@ -13,14 +13,13 @@ export default function AlbumDetail() {
       const fetchData=async (id)=>{
         const albumResponse=await apis.getAlbumById(id)
         const songResponse=await apis.getSongFromAlbum(id)
-        console.log(songResponse)
         setAlbum(albumResponse.data?.data)
         setSongs(songResponse.data?.data)
       }
       fetchData(id);
     },[id])
   return (
-    <div className='flex gap-4 w-full items-start'>
+    <div className='flex gap-4 w-full items-start px-3'>
         <div className='flex-1 w-1/3 flex flex-col justify-center text-center text-slate-400'>
             <img className='w-full object-contain rounded-xl' src={album.imagePath} alt={album.albumName}/>
             <h3 className='text-slate-100 text-2xl font-semibold leading-loose'>{album.albumName}</h3>

@@ -14,9 +14,9 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const songResponse = await apis.getAllSong();
-        const albumResponse= await apis.getAllAlbum();
-        const artistResponse=await apis.getAllArtist();
+        const songResponse = await apis.getAllSong(1,8);
+        const albumResponse= await apis.getAllAlbum(1,4);
+        const artistResponse=await apis.getAllArtist(1,4);
         setSongs(songResponse.data?.data);
         setAlbums(albumResponse.data?.data); 
         setArtists(artistResponse.data?.data)
@@ -32,7 +32,8 @@ export default function Home() {
       <Carousel/>
       <h3 className='text-xl font-bold text-white pt-2'>Discover</h3>
       <div className='grid grid-cols-4 grid-rows-2 mt-1 mb-4'>
-      {songs.map(song => (
+      {
+        songs.map(song=>(
           <SongItem
             key={song.songId}
             songId={song.songId}
@@ -40,7 +41,8 @@ export default function Home() {
             title={song.songName}
             artist={song.artist.artistName}
           />
-        ))}
+        ))
+      }
       </div>
       <div className='flex justify-between items-end'>
           <h3 className='text-xl font-bold text-white pt-2'>Recommended album</h3>
