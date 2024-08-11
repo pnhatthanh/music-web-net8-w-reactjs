@@ -7,7 +7,7 @@ namespace MusicApi.Infracstructure.Services.AlbumService
     public interface IAlbumService
     {
         Task<IEnumerable<Album>> GetAllAlbums();
-        Task<IEnumerable<Album>> GetAllAlbumWithPaged(int page, int pageSize);
+        Task<IEnumerable<Album>> GetAllAlbumWithPaged(int? page, int? pageSize);
         Task<Album> GetAlbumById(Guid id);
         Task<Album> CreatAlbum(AlbumDTO albumDTO);
         Task<Album> DeleteAlbum(Guid id);

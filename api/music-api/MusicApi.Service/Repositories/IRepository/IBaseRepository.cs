@@ -10,7 +10,7 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
     public interface IBaseRepository<T> where T : class
     {
         public Task<IEnumerable<T>> GetAll();
-        public Task<IEnumerable<T>> GetAllPaged(int page, int pageSize,params Expression<Func<T, object>>[] includes);
+        public Task<IEnumerable<T>> GetAllPaged(int? page, int? pageSize,params Expression<Func<T, object>>[] includes);
         public Task AddAsynch(T entity);
         public Task<T?> GetByIdAsynch(object id);
         public T? GetById(object id);

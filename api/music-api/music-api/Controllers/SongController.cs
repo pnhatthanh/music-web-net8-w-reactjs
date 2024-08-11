@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
+using MusicApi.Data.Response;
 using MusicApi.Helper.Helpers;
+using MusicApi.Infracstructure.Services.ArtistService;
 using MusicApi.Infracstructure.Services.SongService;
 namespace MusicApi.Controllers
 {
@@ -12,14 +14,16 @@ namespace MusicApi.Controllers
     public class SongController : ControllerBase
     {
         private readonly ISongService _songService;
+        private readonly IArtistService _artistService;
         //private readonly FileHelper _fileHelper;
-        public SongController(ISongService songService/*, FileHelper fileHelper*/)
+        public SongController(ISongService songService, IArtistService artistService/*, FileHelper fileHelper*/)
         {
             _songService = songService;
+            _artistService = artistService;
             //_fileHelper = fileHelper;  
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllSongs([FromQuery] int page,[FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllSongs([FromQuery] int? page,[FromQuery] int? pageSize)
         {
             try
             {
@@ -60,6 +64,23 @@ namespace MusicApi.Controllers
                 return Ok(new { staus = true, message = "Get data successfully", data = songs });
             }
             catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    status = false,
+                    message = ex.Message,
+                });
+            }
+        }
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchSongOrArtist([FromQuery(Name ="title")] string title)
+        {
+            try
+            {
+                IEnumerable<SongResponse> songs = await _songService.GetSongByTitle(title);
+                IEnumerable<ArtistResponse> artists = await _artistService.GetArtistByName(title);
+                return Ok(new { staus = true, message = "Get data successfulle", data = new { songs, artists } });
+            }catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {

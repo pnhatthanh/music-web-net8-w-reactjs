@@ -39,11 +39,12 @@ namespace MusicApi.Infracstructure.Services.SongService
             return song;
         }
 
-        public async Task<IEnumerable<SongResponse>> GetAllSongs(int page, int pageSize)
+        public async Task<IEnumerable<SongResponse>> GetAllSongs(int? page, int? pageSize)
         {
             if (page < 1) page = 1;
             return _mapper.Map<IEnumerable<SongResponse>>
-                    (await _songRepository.GetAllPaged(page,pageSize,s => s.artist!));
+                    (await _songRepository.GetAllPaged(page,pageSize,s => s.artist!))
+                    .OrderByDescending(s=>s.ListenCount);
         }
 
         public async Task<IEnumerable<SongResponse>> GetRecentLyPlay(Guid[] idSongs)
@@ -55,9 +56,20 @@ namespace MusicApi.Infracstructure.Services.SongService
 
         public async Task<SongResponse> GetSongById(Guid id)
         {
-            return _mapper.Map<SongResponse>(await _songRepository.FirstOrDefaultWithIncludes(s => s.SongId == id, s => s.artist!))
-                ?? throw new ArgumentException("Not found song");
+            Song? song = await _songRepository.FirstOrDefaultWithIncludes(s => s.SongId == id, s => s.artist!)
+                                ?? throw new ArgumentException("Not found song");
+            song.ListenCount++;
+            await _songRepository.UpdateAsynch(song);
+            return _mapper.Map<SongResponse>(song);
         }
+
+        public async Task<IEnumerable<SongResponse>> GetSongByTitle(string title)
+        {
+            return _mapper.Map<IEnumerable<SongResponse>>
+                        (await _songRepository.GetManyWithIncludes
+                        ( s =>EF.Functions.Like(s.SongName,$"{title}%"),s=>s.artist!));
+        }
+
         public async Task<Song> UpdateSong(Guid id, SongDTO songDTO)
         {
             Song song = await _songRepository.GetByIdAsynch(id) 

@@ -24,12 +24,16 @@ namespace MusicApi.Infracstructure.Repositories
         {
             return await _dbSet.ToListAsync();
         }
-        public async Task<IEnumerable<T>> GetAllPaged(int page, int pageSize,params Expression<Func<T, object>>[] includes)
+        public async Task<IEnumerable<T>> GetAllPaged(int? page, int? pageSize,params Expression<Func<T, object>>[] includes)
         {
             var query = _dbSet.AsQueryable().ApplyIncludes(includes);
-            return await query.Skip((page-1)*pageSize)
-                        .Take(pageSize)
-                        .ToListAsync();
+            if(page.HasValue && pageSize.HasValue)
+            {
+                return await query.Skip((page.Value - 1) * pageSize.Value)
+                           .Take(pageSize.Value)
+                            .ToListAsync();
+            }
+            return await query.ToListAsync();
         }
         public virtual async Task AddAsynch(T entity)
         {

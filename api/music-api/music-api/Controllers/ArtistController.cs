@@ -41,7 +41,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpGet("paged")]
-        public async Task<IActionResult> GetArtistsWithPaged([FromQuery]int page,[FromQuery]int pageSize)
+        public async Task<IActionResult> GetArtistsWithPaged([FromQuery]int? page,[FromQuery]int? pageSize)
         {
             try
             {
@@ -74,6 +74,23 @@ namespace MusicApi.Controllers
             {
                 return StatusCode(StatusCodes.Status404NotFound, 
                     new { status = false,message = ex.Message});
+            }
+        }
+
+        [HttpGet("{id}/songs/paged")]
+        public async Task<IActionResult> GetAllSong(int page, int pageSize, Guid id)
+        {
+            try
+            {
+                var songs = await _artistService.GetAllSongs(page, pageSize, id);
+                return songs.Any() ?
+                        Ok(new { status = true, message = "Get data succesfully", data = songs })
+                        : NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { status = false, message = ex.Message });
             }
         }
         /// <summary>

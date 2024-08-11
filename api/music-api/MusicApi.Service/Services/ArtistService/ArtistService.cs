@@ -13,11 +13,13 @@ namespace MusicApi.Infracstructure.Services.ArtistService
     public class ArtistService : IArtistService
     {
         private readonly IArtistRepository _artistRepository;
+        private readonly ISongRepository _songRepository;
         private readonly FileHelper _fileHelper;
         private readonly IMapper _mapper;
         public ArtistService(ApplicationDbContext context, FileHelper fileHelper, IMapper mapper)
         {
             _artistRepository=new ArtistRepository(context);
+            _songRepository=new SongRepository(context);
             _fileHelper = fileHelper;
             _mapper = mapper;
         }
@@ -41,17 +43,34 @@ namespace MusicApi.Infracstructure.Services.ArtistService
         {
             return _mapper.Map<IEnumerable<ArtistResponse>>(await _artistRepository.GetAll());
         }
-        public async Task<IEnumerable<ArtistResponse>> GetAllArtistsWithPaged(int page, int pageSize)
+        public async Task<IEnumerable<ArtistResponse>> GetAllArtistsWithPaged(int? page, int? pageSize)
         {
             if(page <1) page = 1;
             return _mapper.Map<IEnumerable<ArtistResponse>>
                 (await _artistRepository.GetAllPaged(page,pageSize));
         }
+
+        public async Task<IEnumerable<SongResponse>> GetAllSongs(int page, int pageSize ,Guid id)
+        {
+            if(page <1) page = 1;
+            return _mapper.Map<IEnumerable<SongResponse>>
+                (await _songRepository.GetManyWithIncludes(s=>s.ArtistId==id,s=>s.artist!))
+                .OrderBy(s=>s.ListenCount)
+                .Skip((page-1)*pageSize)
+                .Take(pageSize);
+        }
+
         public async Task<Artist> GetArtistById(Guid id)
         {
             Artist artist = await _artistRepository.FirstOrDefaultWithIncludes(a=>a.ArtistId==id,a=>a.Songs!)
                ?? throw new ArgumentException("Not found artist");
             return artist;
+        }
+
+        public async Task<IEnumerable<ArtistResponse>> GetArtistByName(string name)
+        {
+            return _mapper.Map<IEnumerable<ArtistResponse>>
+                (await _artistRepository.GetMany(a => EF.Functions.Like(a.ArtistName,$"{name}%")));
         }
 
         public async Task<Artist> UpdateArtist(Guid id, ArtistDTO artistDTO)
