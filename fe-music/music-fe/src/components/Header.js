@@ -1,14 +1,15 @@
-import React from 'react'
-import { IoNotifications } from "react-icons/io5";
-import { IoChevronBack } from "react-icons/io5";
-import { IoChevronForwardSharp } from "react-icons/io5";
+import React, { useContext } from 'react'
+import { IoNotifications, IoLogInOutline, IoChevronBack, IoChevronForwardSharp, IoLogOutOutline, IoPerson } from "react-icons/io5";
+import { GrUpgrade } from "react-icons/gr";
 import Search from './Search';
 import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../store/UserContext';
 
 export default function Header() {
+  const {user, logout}= useContext(UserContext)
+  const navigate=useNavigate()
   const history=useNavigate();
   const {artist}=useParams();
-  console.log(history.length)
   const handleGoback=() => history(-1)
   const handleGoforward=() => history(+1)
   return (
@@ -19,10 +20,32 @@ export default function Header() {
         </div>
         <Search />
         <div className='flex text-amber-100 gap-3 items-center'>
-            <IoNotifications size={24}/>
-            <div className='w-10 h-10 rounded-full overflow-hidden'>
-              <img className='w-full h-full object-cover' src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474088uQO/hinh-anh-nhung-con-cho-de-thuong_092948873.jpg' alt='User' />
-            </div>
+            {
+              user && user.auth ? (
+                <>
+                <IoNotifications size={24}/>
+                <div className='relative group pb-1'>
+                  <div className='w-10 h-10 rounded-full overflow-hidden relative cursor-pointer'>
+                    <img className='w-full h-full object-cover' src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474088uQO/hinh-anh-nhung-con-cho-de-thuong_092948873.jpg' alt='User'/>
+                  </div>
+                  <div className='absolute  right-0 top-full invisible group-hover:visible rounded-sm bg-slate-100 w-[170px] z-10 text-slate-900 text-base px-1 py-1 flex flex-col gap-1'>
+                    <button className='flex justify-start items-center gap-1 px-2 py-1 hover:bg-white'>My account <IoPerson size={18}/></button>
+                    <button className='flex justify-start items-center gap-1 px-2 py-1 hover:bg-white'>Upgrade account <GrUpgrade size={18}/></button>
+                    <button className='flex justify-start items-center gap-1  px-2 py-1 hover:bg-white'
+                      onClick={()=>logout()}
+                    >Logout <IoLogOutOutline size={18}/></button>
+                  </div>
+                </div>
+                
+                </>
+              ) : (
+                <button className='px-4 py-1 text-lg rounded-lg bg-teal-900 font-medium hover:bg-teal-800 flex items-center gap-1 justify-center'
+                  onClick={()=>navigate('/login')}
+                >
+                  Login <IoLogInOutline size={20}/>
+                  </button>
+              )
+            }
         </div>
     </div>
   )

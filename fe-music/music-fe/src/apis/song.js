@@ -16,4 +16,7 @@ export const getRecentlyPlay=(songIds)=>{
     return axios.post('/song/recently-play',{songIds})
 }
 
+export const getSongOrArtistByTitle=(title)=>{
+    return axios.get('/song/search',{params:{title}});
+}
 

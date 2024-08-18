@@ -9,7 +9,7 @@ export default function SideBarLeft() {
   const activeStyle='flex py-2 px-[15px] mx-3 items-center gap-4 my-3 rounded-xl font-bold text-white bg-teal-800'
 
   return (
-    <div className='h-full box-border flex flex-col  ml-3 bg-teal-900 py-5 rounded-2xl'>
+    <div className='h-full box-border flex flex-col  ml-1 bg-teal-900 py-5 rounded-2xl'>
       <div className='w-full h-[70px] pb-[10px] px-[25px] flex justify-start items-center mb-5'>
           <img src={logo} alt="logo" className='h-[60px] object-cover '/>
       </div>

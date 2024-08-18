@@ -17,7 +17,7 @@ export default function Public() {
       </Scrollbars>
     </div>
     <div className="w-[300px] mt-2 flex-none mb-[90px]">
-      <SideBarRight />
+        <SideBarRight />
     </div>
   </div>
   <div className="fixed bottom-0 left-0 right-0 h-[100px]">

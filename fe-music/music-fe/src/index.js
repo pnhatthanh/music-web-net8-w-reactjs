@@ -6,12 +6,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
+import { UserProvider } from './store/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
       <Provider store={store}>
+        <UserProvider>
           <App/>
+        </UserProvider>
       </Provider>
     </Router>
 );
