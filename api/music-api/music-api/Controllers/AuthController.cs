@@ -36,10 +36,7 @@ namespace music_api.Controllers
                 });
             }catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new
-                {
-                    status=false, message=ex.Message
-                });
+                return StatusCode(StatusCodes.Status400BadRequest,ex.Message);
             } 
         }
 
