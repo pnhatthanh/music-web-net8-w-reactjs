@@ -1,45 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as apis from '../apis';
-import { isAuthenticated } from "../store/tokenStore";
-import { UserContext} from "../store/UserContext";
-import { toast } from 'react-toastify';
-export default function Login() {
-  const {setAuth} =useContext(UserContext)
-  const navigate=useNavigate()
-  const [username, setUsername]=useState('');
-  const [password, setPassword]=useState('');
-  useEffect(()=>{
-    if(isAuthenticated()){
-      navigate('/')
-    }
-  },[navigate])
-  const handleLogin=async ()=>{
-    if(!username || !password){
-      toast.error("Email and password is required!");
-      return;
-    }
-    const response=await apis.login(username, password)
-    if(response.status===400){
-      toast.error(response.errorMessage)
-    }else{
-      const token=response.data?.data
-      setAuth(token)
-      navigate('/');
-    }
-  }
+import React, { useState } from "react";
+import { Link} from "react-router-dom";
+export default function Register() {
+    const [username, setUsername]=useState('');
+    const [password, setPassword]=useState('');
+    const [retypePassword, setRetypePassword]=useState('');
   return (
     <section className="h-screen flex justify-center items-center bg-teal-900">
-      <div className="flex w-1/2 h-auto gap-3 rounded-md overflow-hidden justify-center items-stretch  border-2">
-      <div className="md:w-1/2 max-w-sm">
-        <img
-          className="rounded-md object-cover w-full h-full"
-          src="https://png.pngtree.com/element_our/png_detail/20181022/music-and-live-music-logo-with-neon-light-effect-vector-png_199406.jpg"
-          alt="Logo"
-        />
-      </div>
-      <div className="md:w-1/2 max-w-sm py-4 px-3">
-      <h2 className="text-center text-slate-200 text-xl mb-2 font-semiboldbold">Login to your account </h2>
+      <div className="flex w-2/5 h-auto gap-3 rounded-md overflow-hidden justify-center items-stretch  border-2">
+      <div className=" max-w-sm py-4 px-3">
+      <h2 className="text-center text-slate-200 text-2xl mb-2 font-semiboldbold">Register a new account </h2>
         <input className="text-sm w-full px-4 py-2 border border-solid border-gray-500 rounded" type="text"
           placeholder="Email Address"
           value={username}
@@ -50,22 +19,17 @@ export default function Login() {
           value={password}
           onChange={(e)=>setPassword(e.target.value)}
         />
-        <div className="mt-4 flex justify-between font-semibold text-sm">
-          <label className="flex text-slate-300 hover:text-slate-200 cursor-pointer">
-            <input className="mr-1" type="checkbox" />
-            <span>Remember Me</span>
-          </label>
-          <Link className="text-slate-300 hover:text-slate-200 hover:underline hover:underline-offset-4">
-            Forgot Password?
-          </Link>
-        </div>
+        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-500 rounded mt-4" type="password"
+          placeholder="Retype-password"
+          value={retypePassword}
+          onChange={(e)=>setRetypePassword(e.target.value)}
+        />
         <div className="text-center md:text-left">
           <button
-            className="mt-4 font-medium bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs w-full tracking-wider"
+            className="mt-4 font-medium bg-green-700 hover:bg-green-600 px-4 py-2 text-white uppercase rounded text-xs w-full tracking-wider"
             type="submit"
-            onClick={handleLogin}
           >
-            Login
+            Register
           </button>
         </div>
         <div className="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -92,11 +56,11 @@ export default function Login() {
             </button>
         </div>
         <div className="text-center">
-          <p className="text-slate-300 text-base">Don't have any account yet? <Link to={'/register'} className="hover:text-slate-200 underline underline-offset-2">Register now</Link> </p>
+          <p className="text-slate-300 text-base">Do you have a account? <Link to={'/login'} className="hover:text-slate-200 underline underline-offset-2">Login now</Link> </p>
         </div>
       </div>
       </div>
 
     </section>
-  );
+  )
 }

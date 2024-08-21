@@ -7,6 +7,7 @@ const paths={
     ARTIST_NAME_ID: `artists/:artist/:id`,
     FAVOURITE: "my-favourite",
     PLAYLIST: "my-playlist",
-    LOGIN: "login"
+    LOGIN: "login",
+    REGISTER:"register"
 }
 export default paths

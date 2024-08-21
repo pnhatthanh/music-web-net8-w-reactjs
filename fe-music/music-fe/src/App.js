@@ -2,6 +2,7 @@ import React from 'react';
 import {Home, AlbumDetail, Public, Album, Artist, ArtistDetail, Login} from './pages/';
 import {Routes, Route} from 'react-router-dom';
 import paths from './ultis/path';
+import Register from './pages/Register';
 export default function App() {
   return (
     <div>
@@ -14,6 +15,7 @@ export default function App() {
           <Route path={paths.ARTIST_NAME_ID} element={<ArtistDetail/>}/>
         </Route>
         <Route path={paths.LOGIN} element={<Login/>}/>
+        <Route path={paths.REGISTER} element={<Register/>}/>
       </Routes>
     </div>
   )

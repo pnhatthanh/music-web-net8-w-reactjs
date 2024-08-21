@@ -5,11 +5,11 @@ import { removeToken, addToken, isAuthenticated, getAccessToken, getRefereshToke
 const UserContext=createContext()
 const UserProvider=({children})=>{
     const [user, setUser]=useState(isAuthenticated() ? {auth: true} : {auth: false})
-    const login=(token)=>{
+    const setAuth=(token)=>{
         addToken(token.accessToken, token.refereshToken)
         setUser({auth: true})
     }
-    const logout=async ()=>{
+    const setNotAuth=async ()=>{
         const token={
             AccessToken: getAccessToken(),
             RefereshToken: getRefereshToken()
@@ -24,7 +24,7 @@ const UserProvider=({children})=>{
         
     }
     return(
-        <UserContext.Provider value={{user, login, logout}}>
+        <UserContext.Provider value={{user, setAuth, setNotAuth}}>
             {children}
         </UserContext.Provider>
     )

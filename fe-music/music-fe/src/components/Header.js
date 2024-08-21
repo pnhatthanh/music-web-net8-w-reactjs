@@ -6,8 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../store/UserContext';
 
 export default function Header() {
-  const {user, logout}= useContext(UserContext)
-  const navigate=useNavigate()
+  const {user, setNotAuth}= useContext(UserContext)
   const history=useNavigate();
   const {artist}=useParams();
   const handleGoback=() => history(-1)
@@ -32,7 +31,7 @@ export default function Header() {
                     <button className='flex justify-start items-center gap-1 px-2 py-1 hover:bg-white'>My account <IoPerson size={18}/></button>
                     <button className='flex justify-start items-center gap-1 px-2 py-1 hover:bg-white'>Upgrade account <GrUpgrade size={18}/></button>
                     <button className='flex justify-start items-center gap-1  px-2 py-1 hover:bg-white'
-                      onClick={()=>logout()}
+                      onClick={()=>setNotAuth()}
                     >Logout <IoLogOutOutline size={18}/></button>
                   </div>
                 </div>
@@ -40,7 +39,7 @@ export default function Header() {
                 </>
               ) : (
                 <button className='px-4 py-1 text-lg rounded-lg bg-teal-900 font-medium hover:bg-teal-800 flex items-center gap-1 justify-center'
-                  onClick={()=>navigate('/login')}
+                  onClick={()=>window.location.href='/login'}
                 >
                   Login <IoLogInOutline size={20}/>
                   </button>

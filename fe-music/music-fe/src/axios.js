@@ -3,23 +3,28 @@ const instance = axios.create({
     baseURL: "http://localhost:5292/api/v1"
 })
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
+instance.interceptors.request.use(function (config) {
     return config;
   }, function (error) {
-    // Do something with request error
     return Promise.reject(error);
-  });
+});
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
+instance.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    return Promise.reject(error);
-  });
+    const errorResponse={}
+    if (error.response) {
+      errorResponse.headers=error.response.headers;
+      errorResponse.status=error.response.status;
+      errorResponse.errorMessage=error.response.data;
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log('Error', error.message);
+    }
+    return errorResponse;
+  }
+);
 
 export default instance
