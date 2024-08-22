@@ -10,3 +10,11 @@ export const login=(username, password)=>{
 export const logout=(token)=>{
     return axios.post('/auth/logout', token)
 }
+export const register=(username, password, retypePassword)=>{
+    const data={
+        UserName: username,
+        Password: password,
+        ConfirmPassword: retypePassword
+    }
+    return axios.post('/user/register',data)
+}

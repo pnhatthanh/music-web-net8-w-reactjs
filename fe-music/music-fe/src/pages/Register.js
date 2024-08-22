@@ -1,15 +1,37 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { toast } from "react-toastify";
+import * as apis from '../apis';
 export default function Register() {
     const [username, setUsername]=useState('');
     const [password, setPassword]=useState('');
     const [retypePassword, setRetypePassword]=useState('');
+    const navigate=useNavigate()
+    const handleSumbmit= async ()=>{
+      if(!username || !password || !retypePassword){
+        !username && toast.error("Email address is required!");
+        !password && toast.error("Password is required!");
+        !retypePassword && toast.error("Retype-password is required!")
+        return;
+      }
+      if(password!==retypePassword){
+        toast.error("Password dose not match")
+        return;
+      }
+      const response=await apis.register(username,password,retypePassword);
+      if(response.status!==200){
+        toast.error(response.errorMessage)
+      }else{
+        toast.success("Registration successfully")
+        navigate('/login')
+      }
+    }
   return (
     <section className="h-screen flex justify-center items-center bg-teal-900">
       <div className="flex w-2/5 h-auto gap-3 rounded-md overflow-hidden justify-center items-stretch  border-2">
       <div className=" max-w-sm py-4 px-3">
       <h2 className="text-center text-slate-200 text-2xl mb-2 font-semiboldbold">Register a new account </h2>
-        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-500 rounded" type="text"
+        <input className="text-sm w-full px-4 py-2 border border-solid border-gray-500 rounded" type="email"
           placeholder="Email Address"
           value={username}
           onChange={(e)=>setUsername(e.target.value)}
@@ -28,6 +50,7 @@ export default function Register() {
           <button
             className="mt-4 font-medium bg-green-700 hover:bg-green-600 px-4 py-2 text-white uppercase rounded text-xs w-full tracking-wider"
             type="submit"
+            onClick={handleSumbmit}
           >
             Register
           </button>
