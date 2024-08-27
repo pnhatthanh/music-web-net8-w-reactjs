@@ -6,7 +6,7 @@ export const getAccessToken=()=>{
     return localStorage.getItem('accessToken') || null
 }
 export const getRefereshToken=()=>{
-    return localStorage.getItem('refereshToken')
+    return localStorage.getItem('refereshToken') || null
 }
 export const removeToken=()=>{
     localStorage.removeItem('accessToken')
