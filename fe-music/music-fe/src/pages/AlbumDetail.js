@@ -28,9 +28,10 @@ export default function AlbumDetail() {
         </div>
         <div className='flex-2 w-2/3 px-2'>
           <div className='flex justify-between gap-2 text-lg text-slate-100'>
-            <span className='w-1/2'>#Name of the song</span>
-            <span className='w-1/3 flex items-center gap-2'><FaHeadphones size={18}/>Plays</span>
-            <span className='w-1/5 flex items-center gap-2'><IoTimeOutline size={18}/>Duration</span>
+            <span className='w-2/5'>#Name of the song</span>
+            <span className='w-1/3 flex justify-center items-center gap-2'><FaHeadphones size={18}/>Plays</span>
+            <span className='w-1/5 flex justify-center items-center gap-2'><IoTimeOutline size={18}/>Duration</span>
+            <span className='w-1/12'></span>
           </div>
           <div className='py-2'>
             {

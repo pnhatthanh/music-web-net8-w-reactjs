@@ -47,6 +47,9 @@ export default function Player() {
         fetchSong(curSongId);
     },[curSongId]);
 
+    const addToFavourite= async ()=>{
+        await apis.addSongToFavourite(curSongId);
+    }
     const handelPlay = ()=>{
         isPlaying ? audio.current.pause() : audio.current.play()
         dispatch(setPlay(!isPlaying));
@@ -60,7 +63,7 @@ export default function Player() {
                 <h3 className='font-medium text-base'>{song.current ? song.current.songName : "Music life"}</h3>
                 <span className='text-slate-400'>{song.current ? song.current.artist.artistName : "PNT"}</span>
             </div>
-            <FaHeart size={18}/>
+            <FaHeart size={18} className='cursor-pointer' onClick={addToFavourite}/>
         </div>
         <div className='w-[50%] h-full flex-auto flex flex-col justify-center gap-2'>
             <div className='flex justify-center items-center gap-2 text-slate-300'>

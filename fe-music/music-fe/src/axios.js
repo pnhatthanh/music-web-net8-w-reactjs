@@ -25,7 +25,7 @@ instance.interceptors.response.use(function (response) {
       originalRequest._retry=true;
       try{
         const refreshToken = getRefereshToken()
-        const response = await axios.post('/auth/referesh', { RefreshToken:refreshToken });
+        const response = await axios.post('http://localhost:5292/api/v1/auth/referesh', { refereshToken: refreshToken });
         const { AccessToken, RefreshToken } = response.data;
         addToken(AccessToken,RefreshToken);
         originalRequest.headers.Authorization = `Bearer ${AccessToken}`;

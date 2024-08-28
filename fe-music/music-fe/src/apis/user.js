@@ -18,3 +18,9 @@ export const register=(username, password, retypePassword)=>{
     }
     return axios.post('/user/register',data)
 }
+export const addSongToFavourite=(idSong)=>{
+    return axios.put(`/user/favourite/add/song/${idSong}`);
+}
+export const getFavouriteSongs=()=>{
+    return axios.get('/user/favourite/songs');
+}
