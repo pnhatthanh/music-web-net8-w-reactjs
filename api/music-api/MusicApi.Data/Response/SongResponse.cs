@@ -15,6 +15,6 @@ namespace MusicApi.Data.Response
         public int ListenCount { get; set; }
         public int Duration { get; set; }
         public ArtistResponse? artist { get; set; }
-
+        public bool IsFavourite { get; set; }
     }
 }

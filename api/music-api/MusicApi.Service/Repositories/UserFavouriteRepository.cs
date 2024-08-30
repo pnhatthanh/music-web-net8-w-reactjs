@@ -19,5 +19,10 @@ namespace MusicApi.Infracstructure.Repositories
                 .Where(u=>u.UserId== userId).Select(u=>u.Song).ToListAsync();
             return songs;
         }
+
+        public async Task<bool> IsSongFavourite(Guid? userId, Guid songId)
+        {
+            return await _dbSet.AnyAsync(u => u.UserId == userId && u.SongId == songId);
+        }
     }
 }

@@ -36,10 +36,7 @@ namespace MusicApi.Controllers
                 });
             }catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    status=false, message=ex.Message    
-                });
+                return StatusCode(400, ex.Message);
             }
         }
 

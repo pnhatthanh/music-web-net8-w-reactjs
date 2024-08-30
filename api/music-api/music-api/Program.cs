@@ -30,12 +30,13 @@ var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuer = true,
     ValidateAudience = true,
-    ValidateLifetime = false,
-    ValidateIssuerSigningKey =true,
-    ValidAudience=builder.Configuration.GetSection("Jwt:Audience").Value,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
     ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-    IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-        builder.Configuration.GetSection("Jwt:Key").Value ?? throw new InvalidOperationException()))
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+        builder.Configuration.GetSection("Jwt:Key").Value ?? throw new InvalidOperationException())),
+    ClockSkew = TimeSpan.Zero
 };
 builder.Services.AddAuthentication(options =>
     {

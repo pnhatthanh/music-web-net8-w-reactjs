@@ -9,7 +9,7 @@ namespace MusicApi.Infracstructure.Services.SongService
     {
         Task<IEnumerable<SongResponse>> GetAllSongs(int? page, int? pageSize);
         Task<IEnumerable<SongResponse>> GetRecentLyPlay(Guid[] idSongs);
-        Task<SongResponse> GetSongById(Guid id);
+        Task<SongResponse> GetSongById(Guid id, Guid? userId=null);
         Task<Song> CreatSong(SongDTO songDTO);
         Task<Song> DeleteSong(Guid id);
         Task<Song> UpdateSong(Guid id, SongDTO song);

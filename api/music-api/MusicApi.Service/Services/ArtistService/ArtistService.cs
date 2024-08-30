@@ -36,6 +36,7 @@ namespace MusicApi.Infracstructure.Services.ArtistService
         {
             Artist? artist =await _artistRepository.GetByIdAsynch(id)
                 ?? throw new ArgumentException("Not found artist");
+            await _fileHelper.DeleteImageFile(artist.ImagePath);
             await _artistRepository.Delete(artist);
             return artist;
         }

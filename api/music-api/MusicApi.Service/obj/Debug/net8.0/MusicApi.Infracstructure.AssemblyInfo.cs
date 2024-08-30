@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MusicApi.Infracstructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4edaa947a50dcd58c73a64987e5b5eb155b065d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c396f84147d71a17aa2a6ceb171efce6da9bebc")]
 [assembly: System.Reflection.AssemblyProductAttribute("MusicApi.Infracstructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MusicApi.Infracstructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

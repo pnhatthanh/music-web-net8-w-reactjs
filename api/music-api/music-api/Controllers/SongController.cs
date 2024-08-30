@@ -7,6 +7,7 @@ using MusicApi.Data.Response;
 using MusicApi.Helper.Helpers;
 using MusicApi.Infracstructure.Services.ArtistService;
 using MusicApi.Infracstructure.Services.SongService;
+using System.Security.Claims;
 namespace MusicApi.Controllers
 {
     [Route("api/v1/[controller]")]
@@ -44,7 +45,11 @@ namespace MusicApi.Controllers
         {
             try
             {
-                var song = await _songService.GetSongById(id);
+                var userId= User.Identity!.IsAuthenticated
+                    ? User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value
+                    : null;
+                var song= userId!=null ? await _songService.GetSongById(id, Guid.Parse(userId))
+                                        : await _songService.GetSongById(id);     
                 return Ok(new { staus = true, message = "Get data successfully", data = song });
             } catch (Exception ex)
             {

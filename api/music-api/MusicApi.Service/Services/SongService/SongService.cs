@@ -13,11 +13,13 @@ namespace MusicApi.Infracstructure.Services.SongService
     public class SongService : ISongService
     {
         private readonly ISongRepository _songRepository;
+        private readonly IUserFavouriteRepository _userFavouriteRepository;
         private readonly IMapper _mapper;
         private readonly FileHelper _fileHelper;
         public SongService(ApplicationDbContext context, FileHelper fileHelper, IMapper mapper)
         {
             _songRepository=new SongRepository(context);
+            _userFavouriteRepository=new UserFavouriteRepository(context);
             _mapper = mapper;
             _fileHelper = fileHelper;
         }
@@ -54,13 +56,18 @@ namespace MusicApi.Infracstructure.Services.SongService
             return _mapper.Map<IEnumerable<SongResponse>>(sortedSong);
         }
 
-        public async Task<SongResponse> GetSongById(Guid id)
+        public async Task<SongResponse> GetSongById(Guid id, Guid? userId=null)
         {
             Song? song = await _songRepository.FirstOrDefaultWithIncludes(s => s.SongId == id, s => s.artist!)
                                 ?? throw new ArgumentException("Not found song");
             song.ListenCount++;
             await _songRepository.UpdateAsynch(song);
-            return _mapper.Map<SongResponse>(song);
+            var songResponse = _mapper.Map<SongResponse>(song);
+            if (userId != null)
+            {
+                songResponse.IsFavourite = await _userFavouriteRepository.IsSongFavourite(userId, id);
+            }
+            return songResponse;
         }
 
         public async Task<IEnumerable<SongResponse>> GetSongByTitle(string title)

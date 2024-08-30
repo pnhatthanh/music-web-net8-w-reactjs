@@ -36,7 +36,7 @@ namespace MusicApi.Helper.Helpers
                     issuer: _config.GetSection("Jwt:Issuer").Value,
                     audience: _config.GetSection("Jwt:Audience").Value,
                     claims: claims,
-                    expires: DateTime.UtcNow.AddDays(Double.Parse(_config.GetSection("Jwt:ExpiredDayTime").Value 
+                    expires: DateTime.UtcNow.AddMinutes(Double.Parse(_config.GetSection("Jwt:ExpiredMinuteTime").Value 
                             ?? throw new InvalidOperationException("Occur error internal"))),
                     signingCredentials: credential
                 );
@@ -49,7 +49,7 @@ namespace MusicApi.Helper.Helpers
             {
                 RefereshToken = Guid.NewGuid().ToString(),
                 CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                ExpirationTime = DateTimeOffset.Now.AddDays(30).ToUnixTimeSeconds(),
+                ExpirationTime = DateTimeOffset.Now.AddDays(3).ToUnixTimeSeconds(),
                 IsRevoked = false,
                 userId = userId,
             };
