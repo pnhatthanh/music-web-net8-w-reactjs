@@ -44,6 +44,7 @@ export default function AlbumDetail() {
                   duration={song.duration}
                   listenCount={song.listenCount}
                   artist={song.artist.artistName}
+                  isPlaylist={true}
                 />
               ))
             }

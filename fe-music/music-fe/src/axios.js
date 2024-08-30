@@ -24,11 +24,11 @@ instance.interceptors.response.use(function (response) {
     if(error.response.status===401&& !originalRequest._retry){
       originalRequest._retry=true;
       try{
-        const refreshToken = getRefereshToken()
-        const response = await axios.post('http://localhost:5292/api/v1/auth/referesh', { refereshToken: refreshToken });
-        const { AccessToken, RefreshToken } = response.data;
-        addToken(AccessToken,RefreshToken);
-        originalRequest.headers.Authorization = `Bearer ${AccessToken}`;
+        const _refereshToken = getRefereshToken()
+        const response = await axios.post('http://localhost:5292/api/v1/auth/referesh', { refereshToken: _refereshToken });
+        const { accessToken, refereshToken } = response.data?.data;
+        addToken(accessToken,refereshToken);
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return axios(originalRequest)
       }catch(error){
         redirect('/login');

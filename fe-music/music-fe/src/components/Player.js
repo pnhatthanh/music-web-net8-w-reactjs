@@ -15,6 +15,7 @@ export default function Player() {
     const audio=useRef(new Audio())
     const song=useRef(null);
     const [duration, setDuration]=useState(1)
+    const [isFavourite, setFavourite]=useState(false)
     const [currentTime, setCurrentTime]=useState(0);
     useEffect(()=>{
         const fetchSong=async(id)=>{
@@ -23,12 +24,14 @@ export default function Player() {
             }else{
                 const response=await apis.getSongById(id);
                 song.current=response.data?.data
+                console.log(song.current);
                 const recentSong={
                  songId: song.current.songId,
                  songName: song.current.songName,
                  songImagePath: song.current.songImagePath,
                  artistName: song.current.artist.artistName
                 }
+                setFavourite(song.current.isFavourite)
                 addMusic(recentSong);
                 dispatch(setRecentSong())
                 audio.current.src=song.current.songPath; 
@@ -63,7 +66,9 @@ export default function Player() {
                 <h3 className='font-medium text-base'>{song.current ? song.current.songName : "Music life"}</h3>
                 <span className='text-slate-400'>{song.current ? song.current.artist.artistName : "PNT"}</span>
             </div>
-            <FaHeart size={18} className='cursor-pointer' onClick={addToFavourite}/>
+            {
+                isFavourite ? <FaHeart color="#EE2C2C" size={18} className='cursor-pointer' onClick={addToFavourite}/> : <FaHeart size={18} className='cursor-pointer' onClick={addToFavourite}/>
+            }  
         </div>
         <div className='w-[50%] h-full flex-auto flex flex-col justify-center gap-2'>
             <div className='flex justify-center items-center gap-2 text-slate-300'>

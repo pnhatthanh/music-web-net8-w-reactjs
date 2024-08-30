@@ -24,3 +24,6 @@ export const addSongToFavourite=(idSong)=>{
 export const getFavouriteSongs=()=>{
     return axios.get('/user/favourite/songs');
 }
+export const removeFavouriteSong=(idSong)=>{
+    return axios.put(`/user/favourite/remove/song/${idSong}`)
+}

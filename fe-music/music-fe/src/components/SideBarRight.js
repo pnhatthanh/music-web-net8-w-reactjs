@@ -20,7 +20,7 @@ export default function SideBarRight() {
              onClick={()=>setRecent(prev=>!prev)}><span>Recently played</span></div>
       </div>
     <Scrollbars>
-      <div className='flex flex-col w-full'>
+      <div className='flex flex-col w-full ml-1 mr-1'>
       {
         recent ? 
           <SongItem 

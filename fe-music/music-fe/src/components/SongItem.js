@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
     dispatch(setCurSongId(songId))
   }
   return (
-    <div className={`flex items-center px-2 gap-3 h-full w-full cursor-pointer hover:bg-teal-800  ${props.isSearch ? 'rounded-md py-1 group' : 'rounded-xl py-2'}`}
+    <div className={`flex items-center px-1 gap-3 h-full w-full cursor-pointer mb-1 hover:bg-teal-800 py-1 ${props.isSearch ? 'rounded-md py-1 group' : 'rounded-lg'}`}
         onClick={()=>handelClickSongItem(props.songId)}
         >
         <img className='h-[60px] w-[60px] object-cover rounded-lg' src={props.thumbnail} alt="Imgae Song"/>
