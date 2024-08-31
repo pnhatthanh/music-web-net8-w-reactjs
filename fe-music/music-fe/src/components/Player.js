@@ -24,7 +24,6 @@ export default function Player() {
             }else{
                 const response=await apis.getSongById(id);
                 song.current=response.data?.data
-                console.log(song.current);
                 const recentSong={
                  songId: song.current.songId,
                  songName: song.current.songName,
