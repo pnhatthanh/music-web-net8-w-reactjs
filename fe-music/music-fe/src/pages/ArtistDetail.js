@@ -50,7 +50,7 @@ export default function ArtistDetail() {
           </div>
         </div>
       </div>
-      <div className="px-3 my-3">
+      <div className="px-3 mt-3">
         <h3 className="text-2xl text-white font-medium mb-3">Featured songs</h3>
         <div className="grid grid-cols-2 gap-x-2 px-1">
         {
@@ -67,7 +67,10 @@ export default function ArtistDetail() {
         }
         </div>
       </div>
-      <div className="px-3 mt-8">
+      <div className="px-3 text-right">
+        <button className='mr-3 text-base text-slate-200 font-medium cursor-pointer underline-offset-2 underline'>Expand</button>
+      </div>
+      <div className="px-3 mt-3">
         <h3 className="text-2xl text-white font-medium mb-3">About</h3>
         <div className="flex gap-x-5">
           <img className="h-[300px] w-2/5 object-top rounded-md" src={artist.imagePath} alt="Artist"/>

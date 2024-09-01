@@ -22,16 +22,15 @@ export default function AlbumDetail() {
     <div className='flex gap-4 w-full items-start px-3'>
         <div className='flex-1 w-1/3 flex flex-col justify-center text-center text-slate-400'>
             <img className='w-full object-contain rounded-xl' src={album.imagePath} alt={album.albumName}/>
-            <h3 className='text-slate-100 text-2xl font-semibold leading-loose'>{album.albumName}</h3>
+            <h3 className='text-slate-100 text-2xl font-semibold mt-2'>{album.albumName}</h3>
             <p className='text-sm'>{album.description}</p>
             <span className='text-sm'>{album.numberOfSong} songs</span>
         </div>
         <div className='flex-2 w-2/3 px-2'>
           <div className='flex justify-between gap-2 text-lg text-slate-100'>
-            <span className='w-2/5'>#Name of the song</span>
-            <span className='w-1/3 flex justify-center items-center gap-2'><FaHeadphones size={18}/>Plays</span>
-            <span className='w-1/5 flex justify-center items-center gap-2'><IoTimeOutline size={18}/>Duration</span>
-            <span className='w-1/12'></span>
+            <span className='w-1/2'>#Name of the song</span>
+            <span className='w-1/4 flex justify-center items-center gap-2'><FaHeadphones size={18}/>Plays</span>
+            <span className='w-1/4 flex justify-center items-center gap-2'><IoTimeOutline size={18}/>Duration</span>
           </div>
           <div className='py-2'>
             {

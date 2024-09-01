@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 import actionTypes from "./actionType";
 
 export const setCurSongId=(songId)=>({
@@ -12,4 +11,11 @@ export const setPlay=(flag)=>({
 })
  export const setRecentSong=()=>({
     type: actionTypes.SET_RECENT_SONGS,
+ })
+ export const setFavouriteSongs=()=>({
+    type: actionTypes.SET_FAVOURITE_SONGS
+ })
+ export const setIsFavourite=(isFavourite)=>({
+    type: actionTypes.SET_IS_FAVOURITE,
+    isFavourite
  })

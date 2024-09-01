@@ -4,18 +4,24 @@ import { FaHeadphones } from "react-icons/fa6";
 import ListSongItem from '../components/ListSongItem';
 import { toast } from 'react-toastify';
 import * as apis from '../apis'
+import { useDispatch, useSelector } from "react-redux";
+import { setFavouriteSongs, setIsFavourite} from "../actions/musicAction";
 export default function Favourite() {
     const [songs,setSongs]=useState([])
+    const {favouriteSongs, curSongId}=useSelector(state=>state.musicReducer)
+    const dispatch=useDispatch();
     useEffect(()=>{
-        const fetchData= async ()=>{
-            const songResponse=await apis.getFavouriteSongs();
-            setSongs(songResponse.data?.data);
-        }
-        fetchData();
-    },[])
+      const fetchData= async ()=>{
+        const songResponse=await apis.getFavouriteSongs();
+        setSongs(songResponse.data?.data);
+      }
+      fetchData();
+    },[favouriteSongs])
+
     const removeFromFavourite = async (idSong) => {
       await apis.removeFavouriteSong(idSong)
-      setSongs(prevSongs => prevSongs.filter(song => song.songId !== idSong)); 
+      dispatch(setFavouriteSongs())
+      idSong === curSongId && dispatch(setIsFavourite(false))
       toast.success("Delete successfully",{
         position: "bottom-center",
         autoClose: 800
@@ -26,10 +32,9 @@ export default function Favourite() {
       <h2 className="text-2xl font-bold text-white pt-2">My favourite songs</h2>
       <div className='w-full px-2 mt-3'>
           <div className='flex justify-between gap-2 text-lg text-slate-100'>
-            <span className='w-2/5'>#Name of the song</span>
-            <span className='w-1/3 flex items-center gap-2 justify-center'><FaHeadphones size={18}/>Plays</span>
-            <span className='w-1/5 flex items-center gap-2 justify-center'><IoTimeOutline size={18}/>Duration</span>
-            <div className="w-1/12"></div>
+            <span className='w-1/2'>#Name of the song</span>
+            <span className='w-1/4 flex items-center gap-2 justify-center'><FaHeadphones size={18}/>Plays</span>
+            <span className='w-1/4 flex items-center gap-2 justify-center'><IoTimeOutline size={18}/>Duration</span>
           </div>
           <div className='py-2'>
             {

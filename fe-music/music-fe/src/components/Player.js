@@ -4,19 +4,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import icons from '../ultis/icon'
 import * as apis from '../apis'
 import { addMusic } from '../store/musicStore'
-import { setPlay, setRecentSong } from '../actions/musicAction'
-
-
+import { setFavouriteSongs, setPlay, setRecentSong } from '../actions/musicAction'
+import { toast } from 'react-toastify'
 const { FaHeart, IoPlaySkipForward, IoPlay, IoPlaySkipBack, IoMdPause, LiaRandomSolid, FaVolumeHigh, IoRepeat }=icons
 
 export default function Player() {
-    const {curSongId,isPlaying }=useSelector(state=>state.musicReducer)
+    const {curSongId,isPlaying, isFavourite }=useSelector(state=>state.musicReducer)
     const dispatch=useDispatch();
     const audio=useRef(new Audio())
     const song=useRef(null);
     const [duration, setDuration]=useState(1)
-    const [isFavourite, setFavourite]=useState(false)
+    const [_isFavourite, setFavourite]=useState(false)
     const [currentTime, setCurrentTime]=useState(0);
+
+    useEffect(()=>{
+        setFavourite(isFavourite)
+    },[isFavourite])
+    
     useEffect(()=>{
         const fetchSong=async(id)=>{
             if(id==null){
@@ -25,10 +29,10 @@ export default function Player() {
                 const response=await apis.getSongById(id);
                 song.current=response.data?.data
                 const recentSong={
-                 songId: song.current.songId,
-                 songName: song.current.songName,
-                 songImagePath: song.current.songImagePath,
-                 artistName: song.current.artist.artistName
+                    songId: song.current.songId,
+                    songName: song.current.songName,
+                    songImagePath: song.current.songImagePath,
+                    artistName: song.current.artist.artistName
                 }
                 setFavourite(song.current.isFavourite)
                 addMusic(recentSong);
@@ -49,8 +53,19 @@ export default function Player() {
         fetchSong(curSongId);
     },[curSongId]);
 
-    const addToFavourite= async ()=>{
-        await apis.addSongToFavourite(curSongId);
+    const handleFavourite= async ()=>{
+        if(_isFavourite){
+            await apis.removeFavouriteSong(curSongId)
+            dispatch(setFavouriteSongs())
+            toast.success("Delete successfully",{
+                position: "bottom-center",
+                autoClose: 800
+              })
+        }else{
+            await apis.addSongToFavourite(curSongId)
+            dispatch(setFavouriteSongs())
+        }
+        setFavourite(prev=>!prev);
     }
     const handelPlay = ()=>{
         isPlaying ? audio.current.pause() : audio.current.play()
@@ -66,7 +81,7 @@ export default function Player() {
                 <span className='text-slate-400'>{song.current ? song.current.artist.artistName : "PNT"}</span>
             </div>
             {
-                isFavourite ? <FaHeart color="#EE2C2C" size={18} className='cursor-pointer' onClick={addToFavourite}/> : <FaHeart size={18} className='cursor-pointer' onClick={addToFavourite}/>
+                _isFavourite ? <FaHeart color="#EE2C2C" size={18} className='cursor-pointer' onClick={handleFavourite}/> : <FaHeart size={18} className='cursor-pointer' onClick={handleFavourite}/>
             }  
         </div>
         <div className='w-[50%] h-full flex-auto flex flex-col justify-center gap-2'>

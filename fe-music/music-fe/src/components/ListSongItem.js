@@ -8,7 +8,7 @@ import { IoEllipsisHorizontalSharp, IoCaretForwardOutline } from "react-icons/io
 //import { toast } from 'react-toastify';
 import { FiTrash } from "react-icons/fi";
 import { IoIosAddCircleOutline } from "react-icons/io";
-//import * as apis from '../apis'
+import * as apis from '../apis'
 
 
 export default function ListSongItem(props) {
@@ -35,11 +35,14 @@ export default function ListSongItem(props) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  const handleSaveLikedSong=async (idSong)=>{
+    await apis.addSongToFavourite(idSong);
+  }
   return (
     <div className="flex justify-between items-center text-base py-2 border-b-[1px] border-b-slate-500 text-slate-100 mb-1 rounded-sm transition-all hover:bg-teal-900 cursor-pointer"
       onClick={()=>handelClickSongItem(props.songId)}>
-      <div className="h-[45px] w-2/5 flex justify-between items-center rounded-xl px-2 ">
-          <div className="h-[45px] flex items-center rounded-xl px-2 gap-3">
+      <div className="h-[45px] w-1/2 flex justify-between items-center rounded-xl px-2 ">
+          <div className=" flex items-center rounded-xl px-2 gap-3">
             <img className="h-[45px] w-[45px] object-cover rounded-lg" src={props.thumbnail} alt="Imgae Song"/>
             <div>
               <h3 className="font-medium text-base text-slate-300 ">{props.title}</h3>
@@ -48,9 +51,12 @@ export default function ListSongItem(props) {
           </div>
            {props.isFavourite && <FaHeart color="#EE2C2C" size={18}/>} 
       </div>
-      <span className={`w-1/3 ${props.listenCount ? 'flex': 'hi'} items-center justify-center`}>{props.listenCount?.toLocaleString('en-US')}</span>
-      <span className="w-1/5 flex justify-center text-sm items-center">{moment.utc(props.duration*1000).format('mm:ss')}</span>
-      <span className="w-1/12 relative flex justify-center text-sm items-center px-1 py-1 z-10" title="More options" onClick={(e)=>handlePopupDiffer(e)}>
+      {
+        props.listenCount && <span className='w-1/4 flex items-center justify-center'>{props.listenCount?.toLocaleString('en-US')}</span>
+      }
+      <div className="w-1/4 flex justify-end gap-[20%] items-center">
+        <span className="flex justify-center text-sm items-center">{moment.utc(props.duration*1000).format('mm:ss')}</span>
+        <span className="relative flex  justify-center text-sm items-center px-1 py-1 z-10" title="More options" onClick={(e)=>handlePopupDiffer(e)}>
           <IoEllipsisHorizontalSharp size={20}/>
           {isPopupVisible && (
           <div ref={dropdownRef} className="absolute right-0 top-full w-max rounded-sm bg-slate-100 z-100 text-slate-900 text-sm px-1 py-1 flex flex-col gap-1">
@@ -73,18 +79,23 @@ export default function ListSongItem(props) {
                   <div className="flex justify-start items-center gap-1 hover:bg-white"><IoIosAddCircleOutline size={18}/> Add to playlist </div>
                   <IoCaretForwardOutline size={18}/>
                 </button>
-                <button className='flex justify-start items-center gap-1 px-1 py-1 hover:bg-white'><FaRegHeart size={18}/> Save to your liked songs</button> 
+                <button className='flex justify-start items-center gap-1 px-1 py-1 hover:bg-white'
+                  onClick={()=>handleSaveLikedSong(props.songId)}
+                ><FaRegHeart size={18}/> Save to your liked songs</button> 
               </>
             )}
             {props.isMyPlaylist && (
               <>
                 <button className='flex justify-start items-center gap-1 px-1 py-1 hover:bg-white'><FiTrash size={18}/> Remove from this playlist</button> 
-                <button className='flex justify-start items-center gap-1 px-1 py-1 hover:bg-white'><FaRegHeart size={18}/> Save to your liked songs</button> 
+                <button className='flex justify-start items-center gap-1 px-1 py-1 hover:bg-white'
+                  onClick={()=>handleSaveLikedSong(props.songId)}
+                ><FaRegHeart size={18}/> Save to your liked songs</button> 
               </>
             )}
           </div>
           )}
-      </span>
-    </div>
+        </span>
+      </div>
+      </div>
   );
 }

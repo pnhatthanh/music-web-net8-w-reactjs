@@ -3,7 +3,9 @@ import { getFirtSong, getSongRecent } from "../store/musicStore";
 const initState={
     curSongId: getFirtSong()?.songId,
     isPlaying: false,
-    recentSongs: getSongRecent()
+    recentSongs: getSongRecent(),
+    isFavourite: true,
+    favouriteSongs: false
 };
 const musicReducer=(state=initState, action)=>{
     switch (action.type){
@@ -11,6 +13,7 @@ const musicReducer=(state=initState, action)=>{
             return {
                 ...state,
                 isPlaying: true,
+                isFavourite: true,
                 curSongId: action.songId || null
             };
         case actionTypes.PLAY:
@@ -22,6 +25,16 @@ const musicReducer=(state=initState, action)=>{
             return {
                 ...state,
                 recentSongs: getSongRecent()
+            }
+        case actionTypes.SET_FAVOURITE_SONGS:
+            return {
+                ...state,
+                favouriteSongs: !state.favouriteSongs
+            }
+        case actionTypes.SET_IS_FAVOURITE:
+            return {
+                ...state,
+                isFavourite: action.isFavourite
             }
         default:
             return state
