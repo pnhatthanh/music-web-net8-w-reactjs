@@ -12,5 +12,6 @@ namespace MusicApi.Data.Models
         public User? User { get; set; }
         public Guid SongId { get; set; }
         public Song? Song { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

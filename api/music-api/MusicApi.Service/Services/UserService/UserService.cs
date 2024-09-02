@@ -61,9 +61,10 @@ namespace MusicApi.Infracstructure.Services.UserService
             return song;
         }
 
-        public async Task<IEnumerable<SongResponse>> GetFavouriteSongs(Guid userId)
+        public async Task<IEnumerable<SongResponse>> GetFavouriteSongs(Guid userId, int page, int pageSize)
         {
-            return _mapper.Map<IEnumerable<SongResponse>>(await _userFavouriteRepository.GetSongs(userId));
+            if (page < 1) page = 1;
+            return _mapper.Map<IEnumerable<SongResponse>>(await _userFavouriteRepository.GetSongs(userId, page, pageSize));
         }
 
         public async Task RemoveSongFromFavourite(Guid idSong, Guid userId)

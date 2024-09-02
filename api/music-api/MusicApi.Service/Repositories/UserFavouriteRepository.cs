@@ -13,10 +13,13 @@ namespace MusicApi.Infracstructure.Repositories
     public class UserFavouriteRepository(ApplicationDbContext context)
         : BaseRepository<UserFavourite>(context), IUserFavouriteRepository
     {
-        public async Task<IEnumerable<Song?>> GetSongs(Guid userId)
+        public async Task<IEnumerable<Song?>> GetSongs(Guid userId, int page, int pageSize)
         {
             var songs=await _dbSet.Include(u=>u.Song).ThenInclude(s=>s!.artist)
-                .Where(u=>u.UserId== userId).Select(u=>u.Song).ToListAsync();
+                .Where(u=>u.UserId== userId).OrderByDescending(u=>u.CreatedAt)
+                .Skip((page-1)*pageSize)
+                .Take(pageSize)
+                .Select(u=>u.Song).ToListAsync();
             return songs;
         }
 

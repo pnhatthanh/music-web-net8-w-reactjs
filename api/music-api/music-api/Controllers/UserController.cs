@@ -42,7 +42,7 @@ namespace MusicApi.Controllers
 
         [HttpGet("favourite/songs")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> GetFavourites()
+        public async Task<IActionResult> GetFavourites([FromQuery] int page,[FromQuery] int pageSize)
         {
             var userId=User.Claims.First(c=>c.Type==ClaimTypes.NameIdentifier).Value;
             if (userId == null)
@@ -51,7 +51,7 @@ namespace MusicApi.Controllers
             }
             try
             {
-                var favourites =await _userService.GetFavouriteSongs(Guid.Parse(userId));
+                var favourites =await _userService.GetFavouriteSongs(Guid.Parse(userId), page, pageSize);
                 return Ok(new
                 {
                     status=true, message="Get data successfully", data=favourites

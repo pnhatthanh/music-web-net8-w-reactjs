@@ -8,7 +8,7 @@ namespace MusicApi.Infracstructure.Services.UserService
     {
         Task CreateAccount(RegisterDTO registerDTO);
         Task<Song> AddSongToFavourites(Guid idSong, Guid userId);
-        Task<IEnumerable<SongResponse>> GetFavouriteSongs(Guid userId);
+        Task<IEnumerable<SongResponse>> GetFavouriteSongs(Guid userId, int page, int pageSize);
         Task RemoveSongFromFavourite(Guid idSong, Guid userId);
     }
 }
