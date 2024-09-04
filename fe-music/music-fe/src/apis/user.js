@@ -21,8 +21,12 @@ export const register=(username, password, retypePassword)=>{
 export const addSongToFavourite=(idSong)=>{
     return axios.put(`/user/favourite/add/song/${idSong}`);
 }
-export const getFavouriteSongs=()=>{
-    return axios.get('/user/favourite/songs');
+export const getFavouriteSongs=(page, pageSize)=>{
+    const params={
+        page: page,
+        pageSize: pageSize
+    }
+    return axios.get('/user/favourite/songs',{params: params});
 }
 export const removeFavouriteSong=(idSong)=>{
     return axios.put(`/user/favourite/remove/song/${idSong}`)

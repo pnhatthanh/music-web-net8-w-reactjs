@@ -5,11 +5,15 @@ import Scrollbars from 'react-custom-scrollbars-2';
 
 export default function SideBarRight() {
   const [recent, setRecent] =useState(true);
-  const {recentSongs} = useSelector(state=>state.musicReducer)
+  const [queuePlay, setQueuePlay]=useState([])
+  const {recentSongs, queueSong} = useSelector(state=>state.musicReducer)
   const [recentPlays, setRecentPlays]= useState([])
   useEffect(()=>{
     setRecentPlays(recentSongs)
   },[recentSongs])
+  useEffect(()=>{
+    setQueuePlay(queueSong)
+  })
 
   return (
     <div className='flex flex-col mr-1 h-full bg-teal-900 rounded-2xl' >
@@ -22,12 +26,17 @@ export default function SideBarRight() {
     <Scrollbars>
       <div className='flex flex-col w-full ml-1 mr-1'>
       {
-        recent ? 
-          <SongItem 
-            thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-            title="Shape of you"
-            artist="Sheeran"
-          />
+        recent ? (
+          queuePlay.map(song=>{
+            <SongItem
+                key={song.songId}
+                songId={song.songId}
+                thumbnail={song.songImagePath}
+                title={song.songName}
+                artist={song.artistName}
+            />
+          })
+        )
         : (
             recentPlays.map(song=>(
               <SongItem

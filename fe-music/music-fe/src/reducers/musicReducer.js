@@ -1,9 +1,10 @@
 import actionTypes from "../actions/actionType";
-import { getFirtSong, getSongRecent } from "../store/musicStore";
+import { getFirtSong, getSongRecent, getQueueSong } from "../store/musicStore";
 const initState={
     curSongId: getFirtSong()?.songId,
     isPlaying: false,
     recentSongs: getSongRecent(),
+    queueSongs: getQueueSong(),
     isFavourite: true,
     favouriteSongs: false
 };
@@ -25,6 +26,11 @@ const musicReducer=(state=initState, action)=>{
             return {
                 ...state,
                 recentSongs: getSongRecent()
+            }
+        case actionTypes.SET_QUEUE_SONGS:
+            return {
+                ...state,
+                queueSongs: getQueueSong()
             }
         case actionTypes.SET_FAVOURITE_SONGS:
             return {

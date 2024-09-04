@@ -12,6 +12,9 @@ export const setPlay=(flag)=>({
  export const setRecentSong=()=>({
     type: actionTypes.SET_RECENT_SONGS,
  })
+ export const setQueueSong=()=>({
+   type: actionTypes.SET_QUEUE_SONGS
+ })
  export const setFavouriteSongs=()=>({
     type: actionTypes.SET_FAVOURITE_SONGS
  })

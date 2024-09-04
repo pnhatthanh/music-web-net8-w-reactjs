@@ -22,7 +22,7 @@ export default function ArtistDetail() {
       const artistsResponse=await apis.getAllArtist();
       setArtist(artistResponse.data?.data)
       setSongs(songsResponse.data?.data)
-      setArtists(artistsResponse.data?.data)
+      setArtists(artistsResponse.data?.data.filter(a => a.artistId !== artistId))
     }
     fetchData(id)
   },[id])

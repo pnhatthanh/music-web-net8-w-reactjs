@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Carousel from '../components/Carousel'
 import SongItem from '../components/SongItem'
 import AlbumItem from '../components/AlbumItem'
 import ArtistItem from '../components/ArtistItem'
 import { Link } from 'react-router-dom'
 import * as apis from '../apis'
+import { UserContext } from '../store/UserContext'
 export default function Home() {
 
+  const {user}=useContext(UserContext);
   const [songs,setSongs]=useState([])
   const [albums,setAlbums]=useState([])
   const [artists,setArtists]=useState([])
-
+  const [favouriteSongs, setFavouriteSongs]=useState([])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,6 +22,10 @@ export default function Home() {
         setSongs(songResponse.data?.data);
         setAlbums(albumResponse.data?.data); 
         setArtists(artistResponse.data?.data)
+        if(user && user.auth){
+          const favouriteResponse=await apis.getFavouriteSongs(1,4);
+          setFavouriteSongs(favouriteResponse.data?.data)
+        } 
       } catch (error) {
         console.error('Error fetching songs:', error);
       }
@@ -80,28 +86,28 @@ export default function Home() {
         <h3 className='text-xl font-bold text-white pt-2'>My favourite</h3>
         <Link to='/my-favourite' className='mr-3 text-base text-slate-200 font-medium  hover:underline'>Show all</Link>
       </div>
-      <div className='grid grid-cols-4 grid-rows-1 mt-1 mb-4'>
-        <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
-        <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
-        <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
-        <SongItem 
-          thumbnail="https://i.pinimg.com/originals/9a/e1/2b/9ae12b78327ed72e5ca9c255d394c78c.jpg"
-          title="Shape of you"
-          artist="Sheeran"
-        />
-      </div>
+      
+      {
+        user && user.auth ? (
+          <div className='grid grid-cols-4 grid-rows-1 mt-1 mb-4'>
+            {favouriteSongs.map(song=>(
+              <SongItem
+                key={song.songId}
+                songId={song.songId}
+                thumbnail={song.songImagePath}
+                title={song.songName}
+                artist={song.artist.artistName}
+              />
+              ))
+            }
+          </div>
+        ):(
+          <p className='text-center text-base text-slate-400 mt-5 pb-4 font-medium'>Sign in for a better experience.&nbsp;
+             <button className='hover:text-slate-200 underline underline-offset-2'
+              onClick={()=>window.location.href='/login'}
+              >Sign in</button></p>
+        )
+      }
     </div>
   )
 }

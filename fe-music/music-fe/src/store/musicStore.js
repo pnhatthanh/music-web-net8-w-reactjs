@@ -1,7 +1,15 @@
 const SONG_RECENT="song_recent";
+const QUEUE_SONG="queue_song";
 const getSongRecent=()=>{
     const songs=window.localStorage.getItem(SONG_RECENT);
     return songs ? JSON.parse(songs) : [] 
+}
+const getQueueSong=()=>{
+    const songs=window.localStorage.getItem(QUEUE_SONG)
+    return songs ?  JSON.parse(songs) : []
+}
+const setQueueSong=(songs)=>{
+    window.localStorage.setItem(QUEUE_SONG,JSON.stringify(songs))
 }
 const addMusic=(song)=>{
     const songs=getSongRecent();
@@ -24,5 +32,7 @@ const saveMusic=(songs)=>{
 }
 
 export {getSongRecent}
+export {setQueueSong}
+export {getQueueSong}
 export {getFirtSong}
 export {addMusic}

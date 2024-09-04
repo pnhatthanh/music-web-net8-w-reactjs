@@ -21,7 +21,6 @@ const UserProvider=({children})=>{
         }catch(error){
             console.log(error)
         }
-        
     }
     return(
         <UserContext.Provider value={{user, setAuth, setNotAuth}}>

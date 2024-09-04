@@ -12,8 +12,8 @@ import { useDispatch } from 'react-redux'
         onClick={()=>handelClickSongItem(props.songId)}
         >
         <img className='h-[60px] w-[60px] object-cover rounded-lg' src={props.thumbnail} alt="Imgae Song"/>
-        <div>
-            <h3 className={`font-medium text-base ${props.isSearch ?'text-slate-800 group-hover:text-slate-300': 'text-slate-300'}`}>{props.title}</h3>
+        <div className='overflow-hidden'>
+            <h3 className={`font-medium text-base line-clamp-1 ${props.isSearch ?'text-slate-800 group-hover:text-slate-300': 'text-slate-300'}`}>{props.title}</h3>
             <span className='text-slate-400'>{props.artist}</span>
         </div>
     </div>

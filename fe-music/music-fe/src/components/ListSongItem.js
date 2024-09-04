@@ -45,7 +45,7 @@ export default function ListSongItem(props) {
           <div className=" flex items-center rounded-xl px-2 gap-3">
             <img className="h-[45px] w-[45px] object-cover rounded-lg" src={props.thumbnail} alt="Imgae Song"/>
             <div>
-              <h3 className="font-medium text-base text-slate-300 ">{props.title}</h3>
+              <h3 className="font-medium text-base text-slate-300 line-clamp-1">{props.title}</h3>
               <span className="text-slate-400">{props.artist}</span>
             </div>
           </div>
