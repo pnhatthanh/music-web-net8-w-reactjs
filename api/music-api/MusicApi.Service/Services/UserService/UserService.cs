@@ -61,10 +61,15 @@ namespace MusicApi.Infracstructure.Services.UserService
             return song;
         }
 
-        public async Task<IEnumerable<SongResponse>> GetFavouriteSongs(Guid userId, int page, int pageSize)
+        public async Task<PaginatedData> GetFavouriteSongs(Guid userId, int page, int pageSize)
         {
             if (page < 1) page = 1;
-            return _mapper.Map<IEnumerable<SongResponse>>(await _userFavouriteRepository.GetSongs(userId, page, pageSize));
+            return new PaginatedData
+            {
+                Data = _mapper.Map<IEnumerable<SongResponse>>(await _userFavouriteRepository.GetSongs(userId, page, pageSize)),
+                PageIndex = page,
+                ToltalItem= await _userFavouriteRepository.QuantityFavouriteSong(userId),
+            };
         }
 
         public async Task RemoveSongFromFavourite(Guid idSong, Guid userId)

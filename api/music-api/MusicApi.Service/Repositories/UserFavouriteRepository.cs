@@ -22,7 +22,10 @@ namespace MusicApi.Infracstructure.Repositories
                 .Select(u=>u.Song).ToListAsync();
             return songs;
         }
-
+        public async Task<int> QuantityFavouriteSong(Guid userId)
+        {
+            return await _dbSet.Where(u=>u.UserId==userId).CountAsync();
+        }
         public async Task<bool> IsSongFavourite(Guid? userId, Guid songId)
         {
             return await _dbSet.AnyAsync(u => u.UserId == userId && u.SongId == songId);

@@ -11,5 +11,6 @@ namespace MusicApi.Infracstructure.Repositories.IRepository
     {
         Task<IEnumerable<Song?>> GetSongs(Guid userId, int page, int pageSize);
         Task<bool> IsSongFavourite(Guid? userId, Guid songId);
+        Task<int> QuantityFavouriteSong(Guid userId);
     }
 }

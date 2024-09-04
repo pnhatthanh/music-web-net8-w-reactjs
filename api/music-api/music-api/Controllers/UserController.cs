@@ -52,10 +52,7 @@ namespace MusicApi.Controllers
             try
             {
                 var favourites =await _userService.GetFavouriteSongs(Guid.Parse(userId), page, pageSize);
-                return Ok(new
-                {
-                    status=true, message="Get data successfully", data=favourites
-                });
+                return Ok(favourites);
             }catch(Exception ex)
             {
                 return StatusCode(500, new
