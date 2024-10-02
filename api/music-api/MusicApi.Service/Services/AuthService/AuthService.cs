@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.Configuration;
 using MusicApi.Data.Data;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Migrations;
@@ -43,6 +44,12 @@ namespace MusicApi.Infracstructure.Services.AuthService
                 RefereshToken=refereshToken.RefereshToken
             };
         }
+
+        //public Task<TokenDTO> LoginViaGoogle(string idToken)
+        //{
+        //    //var setting =new GoogleJ
+        //}
+
         public async Task Logout(TokenDTO token)
         {
             var refereshToken =await _tokenRepository.FirstOrDefaultAsynch(t => t.RefereshToken == token.RefereshToken);
