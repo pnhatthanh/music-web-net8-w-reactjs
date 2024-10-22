@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using CloudinaryDotNet;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +68,15 @@ Account account = new Account (
 );
 var cloudinary = new Cloudinary(account);
 builder.Services.AddSingleton(cloudinary);
+#endregion
+
+#region Redis
+if (builder.Configuration.GetValue<bool>("RedisConfiguration:Enabled"))
+{
+    var connection = builder.Configuration.GetSection("RedisConfiguration:ConnectionString").Value;
+    builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(connection!));
+    builder.Services.AddStackExchangeRedisCache(options => options.Configuration = connection);
+}
 #endregion
 
 #region CORS

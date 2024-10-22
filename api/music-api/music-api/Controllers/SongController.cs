@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using music_api.Attributes;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Data.Response;
@@ -24,6 +25,7 @@ namespace MusicApi.Controllers
             //_fileHelper = fileHelper;  
         }
         [HttpGet]
+        [Cache(100)]
         public async Task<IActionResult> GetAllSongs([FromQuery] int? page,[FromQuery] int? pageSize)
         {
             try
@@ -41,6 +43,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpGet("{id}")]
+        [Cache(100)]
         public async Task<IActionResult> GetSong(Guid id)
         {
             try
@@ -78,6 +81,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpGet("search")]
+        [Cache(100)]
         public async Task<IActionResult> SearchSongOrArtist([FromQuery(Name ="title")] string title)
         {
             try

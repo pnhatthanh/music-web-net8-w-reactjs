@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using music_api.Attributes;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
 using MusicApi.Infracstructure.Services.ArtistService;
@@ -25,6 +26,7 @@ namespace MusicApi.Controllers
         /// <returns></returns>
         /// Sample request: Get api/v1/artist
         [HttpGet]
+        [Cache(100)]
         public async Task<IActionResult> GetArtists()
         {
             try
@@ -41,6 +43,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpGet("paged")]
+        [Cache(100)]
         public async Task<IActionResult> GetArtistsWithPaged([FromQuery]int? page,[FromQuery]int? pageSize)
         {
             try
@@ -64,6 +67,7 @@ namespace MusicApi.Controllers
         /// Sample request: Get api/v1/artist/string
 
         [HttpGet("{id}")]
+        [Cache(100)]
         public async Task<IActionResult> GetArtistById([FromRoute] Guid id)
         {
             try
@@ -78,6 +82,7 @@ namespace MusicApi.Controllers
         }
 
         [HttpGet("{id}/songs/paged")]
+        [Cache(100)]
         public async Task<IActionResult> GetAllSong(int page, int pageSize, Guid id)
         {
             try
