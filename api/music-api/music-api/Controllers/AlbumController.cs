@@ -33,11 +33,13 @@ namespace MusicApi.Controllers
                 return alnums.Any() ?
                     Ok(new { status = true, message = "Get Data successfully", data = alnums })
                     : NoContent();
-            }catch (Exception ex) { 
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, new
                 {
-                    status=false,
-                    message=ex.Message,
+                    status = false,
+                    message = ex.Message,
                 });
             }
         }
@@ -46,7 +48,7 @@ namespace MusicApi.Controllers
         {
             try
             {
-                var alnums = await _albumService.GetAllAlbumWithPaged(page,pageSize);
+                var alnums = await _albumService.GetAllAlbumWithPaged(page, pageSize);
                 return alnums.Any() ?
                     Ok(new { status = true, message = "Get Data successfully", data = alnums })
                     : NoContent();
@@ -71,10 +73,10 @@ namespace MusicApi.Controllers
         ///     
         /// }
         [HttpPost("add")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreatAlbum([FromForm] AlbumDTO albumDTO)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(new
                 {
@@ -84,9 +86,10 @@ namespace MusicApi.Controllers
             }
             try
             {
-                var album=await _albumService.CreatAlbum(albumDTO);
+                var album = await _albumService.CreatAlbum(albumDTO);
                 return Ok(new { status = true, message = "Create data successfully", data = album });
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
@@ -106,8 +109,8 @@ namespace MusicApi.Controllers
         {
             try
             {
-                var album =await _albumService.GetAlbumById(id);
-                return Ok(new {status=true, message="Get data successfully", data=album});
+                var album = await _albumService.GetAlbumById(id);
+                return Ok(new { status = true, message = "Get data successfully", data = album });
             }
             catch (Exception ex)
             {
@@ -142,7 +145,7 @@ namespace MusicApi.Controllers
         /// <returns></returns>
 
         [HttpDelete("{id}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAlbum(Guid id)
         {
             try
@@ -150,17 +153,17 @@ namespace MusicApi.Controllers
                 await _albumService.DeleteAlbum(id);
                 return Ok(new { status = true, message = "Delete data successfully" });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Ok(new { status = false, message = ex.Message });
             }
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAlbum([FromRoute] Guid id, [FromBody] AlbumDTO albumDTO)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(new
                 {
@@ -173,11 +176,12 @@ namespace MusicApi.Controllers
                 var album = await _albumService.UpdateAlbum(id, albumDTO);
                 return Ok(new
                 {
-                    status=true,
-                    message="Update successfully",
-                    data=album
+                    status = true,
+                    message = "Update successfully",
+                    data = album
                 });
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, new
                 {
@@ -187,14 +191,15 @@ namespace MusicApi.Controllers
             }
         }
         [HttpPut("{albumId}/{songId}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddSongToAlbum([FromRoute] Guid albumId, [FromRoute] Guid songId)
         {
             try
             {
-                await _albumService.AddSongToAlbum(albumId,songId);
+                await _albumService.AddSongToAlbum(albumId, songId);
                 return Ok(new { status = true, message = "Add song to album successfully" });
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, new
                 {

@@ -48,14 +48,7 @@ builder.Services.AddAuthentication(options =>
             o.SaveToken = true;
             o.RequireHttpsMetadata = false;
             o.TokenValidationParameters = tokenValidationParameters;
-        })
-    .AddGoogle(option =>
-    {
-        option.ClientId = builder.Configuration.GetSection("Authentication:Google:ClientId").Value
-                           ?? throw new InvalidOperationException();
-        option.ClientSecret = builder.Configuration.GetSection("Authentication:Google:ClientSecret").Value
-                            ?? throw new InvalidOperationException();
-    });
+        });
 #endregion
 
 #region AddAuthorization

@@ -39,16 +39,28 @@ namespace music_api.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest,ex.Message);
             } 
         }
-        //[HttpPost("login/via-google")]
-        //public async Task<IActionResult> LoginViaGoogle([FromBody] string idToken)
-        //{
-        //    try
-        //    {
-
-        //    }catch(Exception ex) {
-        //        return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
-        //    }
-        //}
+        [HttpPost("login/via-google")]
+        public async Task<IActionResult> LoginViaGoogle([FromBody] TokenRequest tokenRequest)
+        {
+            if (string.IsNullOrEmpty(tokenRequest?.Token))
+            {
+                return BadRequest(new { status = false, message = "Invalid token request" });
+            }
+            try
+            {
+                var tokenResponse=await _authService.LoginViaGoogle(tokenRequest.Token);
+                return Ok(new
+                {
+                    status = true,
+                    message = "Login successfully",
+                    data = tokenResponse
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+        }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout(TokenDTO tokenDTO)
