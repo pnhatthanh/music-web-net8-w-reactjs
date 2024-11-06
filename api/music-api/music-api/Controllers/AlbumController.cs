@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using music_api.Caches;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
 using MusicApi.Infracstructure.Services.AlbumService;
@@ -25,6 +26,7 @@ namespace MusicApi.Controllers
         /// <returns></returns>
         /// Get api/v1/album
         [HttpGet]
+        [Cache(100)]
         public async Task<IActionResult> GetAllAlbums()
         {
             try
@@ -44,6 +46,7 @@ namespace MusicApi.Controllers
             }
         }
         [HttpGet("paged")]
+        [Cache(100)]
         public async Task<IActionResult> GetAllAlbumWithPaged([FromQuery] int? page, [FromQuery] int? pageSize)
         {
             try

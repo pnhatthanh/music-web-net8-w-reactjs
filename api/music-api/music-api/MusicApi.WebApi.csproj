@@ -26,4 +26,8 @@
     <ProjectReference Include="..\MusicApi.Service\MusicApi.Infracstructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+
 </Project>

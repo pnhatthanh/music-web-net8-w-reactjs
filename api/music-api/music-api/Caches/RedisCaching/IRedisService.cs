@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApi.Infracstructure.Services.CacheService
+namespace music_api.Caches.RedisCaching
 {
-    public interface ICacheService
+    public interface IRedisService
     {
         public Task<string?> GetCacheAsync(string key);
         public Task SetCacheAsync(string key, object data, TimeSpan timeOut);

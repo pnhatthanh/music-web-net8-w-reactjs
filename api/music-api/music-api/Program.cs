@@ -6,10 +6,9 @@ using MusicApi.Helper.Helpers;
 using MusicApi.Helper;
 using MusicApi.Service;
 using System.Text;
-using System.Text.Json.Serialization;
 using CloudinaryDotNet;
-using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
+using music_api.Caches.RedisCaching;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +75,7 @@ if (builder.Configuration.GetValue<bool>("RedisConfiguration:Enabled"))
     var connection = builder.Configuration.GetSection("RedisConfiguration:ConnectionString").Value;
     builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(connection!));
     builder.Services.AddStackExchangeRedisCache(options => options.Configuration = connection);
+    builder.Services.AddScoped<IRedisService, RedisService>();
 }
 #endregion
 

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using music_api.Attributes;
+using music_api.Caches;
+using music_api.Caches.RedisCaching;
 using MusicApi.Data.DTOs;
 using MusicApi.Data.Models;
 using MusicApi.Data.Response;
@@ -17,11 +18,13 @@ namespace MusicApi.Controllers
     {
         private readonly ISongService _songService;
         private readonly IArtistService _artistService;
+        private readonly IRedisService _redisService;
         //private readonly FileHelper _fileHelper;
-        public SongController(ISongService songService, IArtistService artistService/*, FileHelper fileHelper*/)
+        public SongController(ISongService songService, IArtistService artistService,IRedisService redisService /*, FileHelper fileHelper*/)
         {
             _songService = songService;
             _artistService = artistService;
+            _redisService = redisService;
             //_fileHelper = fileHelper;  
         }
         [HttpGet]
@@ -43,7 +46,6 @@ namespace MusicApi.Controllers
             }
         }
         [HttpGet("{id}")]
-        [Cache(100)]
         public async Task<IActionResult> GetSong(Guid id)
         {
             try
@@ -113,6 +115,7 @@ namespace MusicApi.Controllers
             try
             {
                 var song = await _songService.CreatSong(songDTO);
+                await _redisService.RemoveCacheAsync("/song/*");
                 return Ok(new { status = true, message = "Creat data successfully", data = song });
             } catch (Exception ex)
             {
@@ -127,6 +130,7 @@ namespace MusicApi.Controllers
             try
             {
                 await _songService.DeleteSong(id);
+                await _redisService.RemoveCacheAsync("/song/*");
                 return Ok(new { status = true, message = "Delete data successfully" });
             } catch (Exception ex)
             {
@@ -152,6 +156,7 @@ namespace MusicApi.Controllers
             try
             {
                 var song = await _songService.UpdateSong(id, songDTO);
+                await _redisService.RemoveCacheAsync("/song/*");
                 return Ok(new {status=true, message="Update data successfully",data=song});
             }catch (Exception ex) {
                 return StatusCode(StatusCodes.Status404NotFound, new

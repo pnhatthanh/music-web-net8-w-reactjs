@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using music_api.Attributes;
 using MusicApi.Data.DTOs;
 using MusicApi.Infracstructure.Services.PlayListService;
 using System.Security.Claims;

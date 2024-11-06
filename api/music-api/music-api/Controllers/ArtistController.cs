@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using music_api.Attributes;
+using music_api.Caches;
+using music_api.Caches.RedisCaching;
 using MusicApi.Data.DTOs;
 using MusicApi.Helper.Helpers;
 using MusicApi.Infracstructure.Services.ArtistService;
@@ -14,9 +15,11 @@ namespace MusicApi.Controllers
     public class ArtistController : ControllerBase
     {
         private readonly IArtistService _artistService;
+        private readonly IRedisService _redisService;
         //private readonly FileHelper _fileHelper;
-        public ArtistController(IArtistService artistService/*, FileHelper fileHelper*/) {
+        public ArtistController(IArtistService artistService/*, FileHelper fileHelper*/, IRedisService redisService) {
             _artistService = artistService;
+            _redisService = redisService;
             //_fileHelper = fileHelper;
         }
 
@@ -123,6 +126,7 @@ namespace MusicApi.Controllers
             try
             {
                 var artist =await _artistService.AddArtist(request);
+                await _redisService.RemoveCacheAsync("/artist/*");
                 return Ok(new { status = true, message = "Create successfully", data = artist });
             }catch(Exception ex)
             {
@@ -145,6 +149,7 @@ namespace MusicApi.Controllers
             try
             {
                 await _artistService.DeleteArtist(id);
+                await _redisService.RemoveCacheAsync("/artist/*");
                 return Ok(new { status = true, message = "Delete data successfully" });
             }
             catch(Exception ex)
@@ -169,6 +174,7 @@ namespace MusicApi.Controllers
             try
             {
                 var artist = await _artistService.UpdateArtist(id, request);
+                await _redisService.RemoveCacheAsync("/artist/*");
                 return Ok(new { status = true, message = "Update data sucsessfully", data = artist });
             }catch(Exception ex)
             {
